@@ -2,9 +2,10 @@
 
 import React from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"; // Removed TabsContent as it's not directly used here
-import { Home, PlusCircle, Book, BarChart3 } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Home, PlusCircle, Book, BarChart3, UserCircle } from "lucide-react"; // Import UserCircle
 import { MadeWithDyad } from "./made-with-dyad";
+import { Button } from "@/components/ui/button"; // Import Button for the profile link
 
 const Layout = () => {
   const location = useLocation();
@@ -21,12 +22,17 @@ const Layout = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <header className="bg-primary text-primary-foreground p-4 shadow-md">
-        <h1 className="text-2xl font-bold text-center">Today I Learned</h1>
+      <header className="bg-primary text-primary-foreground p-4 shadow-md flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-center flex-grow">Today I Learned</h1>
+        <Link to="/profile" className="ml-auto"> {/* Link to profile page */}
+          <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10">
+            <UserCircle className="h-6 w-6" />
+          </Button>
+        </Link>
       </header>
 
-      <div className="flex-grow container mx-auto p-4 pb-[80px]"> {/* Added padding-bottom to prevent content from being hidden by the fixed bottom nav */}
-        <Outlet /> {/* This is where the routed components will render */}
+      <div className="flex-grow container mx-auto p-4 pb-[80px]">
+        <Outlet />
       </div>
 
       <MadeWithDyad />
@@ -34,7 +40,7 @@ const Layout = () => {
       {/* Bottom Navigation Bar */}
       <nav className="fixed bottom-0 left-0 right-0 bg-primary text-primary-foreground shadow-lg z-50">
         <Tabs value={getActiveTab()} className="w-full">
-          <TabsList className="grid w-full grid-cols-4 h-16"> {/* Increased height for better touch targets on mobile */}
+          <TabsList className="grid w-full grid-cols-4 h-16">
             <TabsTrigger value="home" asChild>
               <Link to="/" className="flex flex-col items-center justify-center text-xs sm:text-sm">
                 <Home className="h-5 w-5 mb-1" /> Accueil
