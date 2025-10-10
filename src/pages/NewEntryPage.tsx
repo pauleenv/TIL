@@ -15,11 +15,12 @@ const NewEntryPage = () => {
   };
 
   // If the dialog is closed (e.g., by pressing escape or clicking outside),
-  // we no longer force navigation to home. The user can choose to stay or navigate manually.
+  // we now navigate back to the home page.
   const handleOpenChange = (open: boolean) => {
     setIsFormOpen(open);
-    // Removed navigate("/") here. The user can now close the dialog and stay on this page.
-    // If they want to go back, they can use the browser's back button or the app's navigation.
+    if (!open) {
+      navigate("/"); // Redirect to home page when dialog is closed
+    }
   };
 
   return (
