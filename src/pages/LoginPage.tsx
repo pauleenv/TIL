@@ -13,7 +13,7 @@ const LoginPage = () => {
         <h1 className="text-3xl font-bold text-center mb-6 text-foreground">Connectez-vous</h1>
         <Auth
           supabaseClient={supabase}
-          providers={[]} // No third-party providers by default
+          providers={['google', 'github', 'facebook']} // Ajout des fournisseurs Google, GitHub et Facebook
           appearance={{
             theme: ThemeSupa,
             variables: {
@@ -25,8 +25,8 @@ const LoginPage = () => {
               },
             },
           }}
-          theme="light" // Use light theme
-          redirectTo={window.location.origin} // Redirect to home after login
+          theme="light"
+          redirectTo={window.location.origin}
         />
       </div>
       <MadeWithDyad />
