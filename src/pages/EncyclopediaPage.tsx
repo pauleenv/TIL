@@ -116,7 +116,7 @@ const EncyclopediaPage = () => {
                 </CardHeader>
                 <CollapsibleContent>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground mb-2">{entry.note}</p>
+                    <p className="text-sm text-muted-foreground mb-2 whitespace-pre-wrap">{entry.note}</p>
                     {entry.link && <LinkPreview url={entry.link} />} {/* Link preview will go here */}
                   </CardContent>
                 </CollapsibleContent>

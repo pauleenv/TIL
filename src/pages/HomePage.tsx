@@ -144,7 +144,7 @@ const HomePage = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground mb-2">{entry.note}</p>
+                  <p className="text-sm text-muted-foreground mb-2 whitespace-pre-wrap">{entry.note}</p>
                   {entry.link && <LinkPreview url={entry.link} />} {/* Display LinkPreview */}
                   <div className="flex flex-wrap gap-2 mt-2">
                     <span
