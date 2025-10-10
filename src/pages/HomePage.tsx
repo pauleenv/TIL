@@ -20,24 +20,29 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useSession } from '@/components/SessionContextProvider'; // Import useSession
 
 const HomePage = () => {
+  const { user, loading } = useSession(); // Get the current user from session
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(new Date());
   const [entriesForSelectedDate, setEntriesForSelectedDate] = React.useState<LearnedEntry[]>([]);
   const [isFormDialogOpen, setIsFormDialogOpen] = React.useState(false);
   const [editingEntry, setEditingEntry] = React.useState<LearnedEntry | undefined>(undefined);
 
-  const fetchEntries = React.useCallback(() => {
-    if (selectedDate) {
-      setEntriesForSelectedDate(getEntriesByDate(selectedDate));
+  const fetchEntries = React.useCallback(async () => {
+    if (selectedDate && user) {
+      const entries = await getEntriesByDate(selectedDate, user.id);
+      setEntriesForSelectedDate(entries);
     } else {
       setEntriesForSelectedDate([]);
     }
-  }, [selectedDate]);
+  }, [selectedDate, user]);
 
   React.useEffect(() => {
-    fetchEntries();
-  }, [selectedDate, fetchEntries]);
+    if (!loading && user) { // Fetch entries only when user is loaded
+      fetchEntries();
+    }
+  }, [selectedDate, user, loading, fetchEntries]);
 
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDate(date);
@@ -53,8 +58,12 @@ const HomePage = () => {
     setIsFormDialogOpen(true);
   };
 
-  const handleDeleteEntry = (id: string) => {
-    const success = deleteEntry(id);
+  const handleDeleteEntry = async (id: string) => {
+    if (!user) {
+      showError("Vous devez être connecté pour supprimer une entrée.");
+      return;
+    }
+    const success = await deleteEntry(id, user.id);
     if (success) {
       showSuccess("Entrée supprimée avec succès !");
       fetchEntries(); // Refresh entries
@@ -62,6 +71,14 @@ const HomePage = () => {
       showError("Erreur lors de la suppression de l'entrée.");
     }
   };
+
+  if (loading) {
+    return <div className="flex items-center justify-center min-h-[calc(100vh-180px)]">Chargement des données...</div>;
+  }
+
+  if (!user) {
+    return <div className="flex items-center justify-center min-h-[calc(100vh-180px)] text-muted-foreground">Veuillez vous connecter pour voir vos entrées.</div>;
+  }
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 items-start justify-center min-h-[calc(100vh-180px)]">
@@ -100,7 +117,7 @@ const HomePage = () => {
               <Card key={entry.id} className="relative">
                 <CardHeader>
                   <CardTitle className="flex justify-between items-center">
-                    <span>{entry.title}</span> {/* Afficher le titre */}
+                    <span>{entry.title}</span>
                     <div className="flex space-x-2">
                       <Button variant="outline" size="sm" onClick={() => handleEditEntryClick(entry)}>
                         Modifier
@@ -138,7 +155,7 @@ const HomePage = () => {
                     <span
                       className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"
                     >
-                      {entry.subject} {/* Afficher la matière comme un tag */}
+                      {entry.subject}
                     </span>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">

@@ -6,32 +6,54 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { Tag } from "lucide-react"; // Keep Tag icon for visual consistency
+import { Tag } from "lucide-react";
+import { useSession } from '@/components/SessionContextProvider'; // Import useSession
 
 const EncyclopediaPage = () => {
+  const { user, loading } = useSession(); // Get the current user from session
   const [allEntries, setAllEntries] = React.useState<LearnedEntry[]>([]);
   const [filteredEntries, setFilteredEntries] = React.useState<LearnedEntry[]>([]);
   const [selectedSubject, setSelectedSubject] = React.useState<string>("all");
   const [subjects, setSubjects] = React.useState<string[]>([]);
 
-  const fetchEntries = React.useCallback(() => {
-    const entries = getEntries();
+  const fetchEntries = React.useCallback(async () => {
+    if (!user) {
+      setAllEntries([]);
+      setSubjects([]);
+      setFilteredEntries([]);
+      return;
+    }
+
+    const entries = await getEntries(user.id);
     setAllEntries(entries);
-    setSubjects(getAllSubjects());
+    const allUniqueSubjects = await getAllSubjects(user.id);
+    setSubjects(allUniqueSubjects);
+
     if (selectedSubject === "all") {
       setFilteredEntries(entries);
     } else {
-      setFilteredEntries(getEntriesBySubject(selectedSubject));
+      const subjectEntries = await getEntriesBySubject(selectedSubject, user.id);
+      setFilteredEntries(subjectEntries);
     }
-  }, [selectedSubject]);
+  }, [selectedSubject, user]);
 
   React.useEffect(() => {
-    fetchEntries();
-  }, [fetchEntries]);
+    if (!loading && user) { // Fetch entries only when user is loaded
+      fetchEntries();
+    }
+  }, [fetchEntries, loading, user]);
 
   const handleSubjectChange = (subject: string) => {
     setSelectedSubject(subject);
   };
+
+  if (loading) {
+    return <div className="flex items-center justify-center min-h-[calc(100vh-180px)]">Chargement des données...</div>;
+  }
+
+  if (!user) {
+    return <div className="flex items-center justify-center min-h-[calc(100vh-180px)] text-muted-foreground">Veuillez vous connecter pour voir votre encyclopédie.</div>;
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-4">

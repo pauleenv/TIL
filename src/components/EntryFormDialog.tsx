@@ -37,6 +37,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { LearnedEntry, addEntry, updateEntry } from "@/lib/data-store";
 import { showSuccess, showError } from "@/utils/toast";
+import { useSession } from '@/components/SessionContextProvider'; // Import useSession
 
 // Define the form schema using Zod
 const formSchema = z.object({
@@ -80,6 +81,8 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
   onSave,
   defaultDate,
 }) => {
+  const { user } = useSession(); // Get the current user from session
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -105,8 +108,14 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
     }
   }, [open, initialEntry, defaultDate, form]);
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    if (!user) {
+      showError("Vous devez être connecté pour sauvegarder une entrée.");
+      return;
+    }
+
     const entryData = {
+      user_id: user.id, // Add user_id
       date: format(values.date, "yyyy-MM-dd"),
       title: values.title,
       note: values.note,
@@ -117,7 +126,7 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
 
     if (initialEntry) {
       // Update existing entry
-      const updated = updateEntry({ ...initialEntry, ...entryData });
+      const updated = await updateEntry({ ...initialEntry, ...entryData, id: initialEntry.id, created_at: initialEntry.created_at, updated_at: new Date().toISOString() });
       if (updated) {
         showSuccess("Entrée mise à jour avec succès !");
         onSave();
@@ -127,10 +136,14 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
       }
     } else {
       // Add new entry
-      addEntry(entryData);
-      showSuccess("Nouvelle entrée ajoutée avec succès !");
-      onSave();
-      onOpenChange(false);
+      const added = await addEntry(entryData);
+      if (added) {
+        showSuccess("Nouvelle entrée ajoutée avec succès !");
+        onSave();
+        onOpenChange(false);
+      } else {
+        showError("Erreur lors de l'ajout de l'entrée.");
+      }
     }
   };
 
