@@ -36,7 +36,8 @@ serve(async (req) => {
     };
 
     const getDescription = (htmlString: string) => {
-      const regex = /<meta[^>]*name=["']description["'][^>]*content=["']([^"']*)["']/, 'i';
+      // Correction: suppression de la virgule après la regex
+      const regex = /<meta[^>]*name=["']description["'][^>]*content=["']([^"']*)["']/i;
       const match = htmlString.match(regex);
       return match ? match[1] : null;
     };
