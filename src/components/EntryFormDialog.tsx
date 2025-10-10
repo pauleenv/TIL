@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useForm, useFieldArray } from "react-hook-form"; // Import useFieldArray
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { format } from "date-fns";
@@ -31,13 +31,13 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Calendar as CalendarIcon, PlusCircle, XCircle, ArrowUp, ArrowDown } from "lucide-react"; // Import ArrowUp and ArrowDown
+import { Calendar as CalendarIcon, PlusCircle, XCircle, GripVertical } from "lucide-react"; // Import GripVertical
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { LearnedEntry, addEntry, updateEntry } from "@/lib/data-store";
 import { showSuccess, showError } from "@/utils/toast";
-import { useSession } from '@/components/SessionContextProvider'; // Import useSession
+import { useSession } from '@/components/SessionContextProvider';
 
 // Define the form schema using Zod
 const formSchema = z.object({
@@ -46,7 +46,7 @@ const formSchema = z.object({
   }),
   title: z.string().min(3, "Le titre doit contenir au moins 3 caractères.").max(100, "Le titre ne peut pas dépasser 100 caractères."),
   note: z.string().min(10, "La note doit contenir au moins 10 caractères.").max(500, "La note ne peut pas dépasser 500 caractères."),
-  link: z.array(z.object({ value: z.string().url("Le lien doit être une URL valide.").optional().or(z.literal("")) })).optional(), // Changed to array of objects with value
+  link: z.array(z.object({ value: z.string().url("Le lien doit être une URL valide.").optional().or(z.literal("")) })).optional(),
   subject: z.string().min(1, "Veuillez sélectionner une matière."),
   chokbarometer: z.enum(["Intéressant", "Surprenant", "Incroyable", "Chokbar"], {
     required_error: "Veuillez sélectionner une intensité pour le chokbaromètre.",
@@ -69,9 +69,9 @@ const chokbarometerOptions = ["Intéressant", "Surprenant", "Incroyable", "Chokb
 interface EntryFormDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  initialEntry?: LearnedEntry; // Optional, for editing
-  onSave: () => void; // Callback to refresh entries after save
-  defaultDate?: Date; // Optional, for pre-setting date when adding from calendar
+  initialEntry?: LearnedEntry;
+  onSave: () => void;
+  defaultDate?: Date;
 }
 
 const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
@@ -81,7 +81,7 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
   onSave,
   defaultDate,
 }) => {
-  const { user } = useSession(); // Get the current user from session
+  const { user } = useSession();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -89,16 +89,18 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
       date: initialEntry ? new Date(initialEntry.date) : defaultDate || new Date(),
       title: initialEntry?.title || "",
       note: initialEntry?.note || "",
-      link: initialEntry?.link?.map(l => ({ value: l })) || [{ value: "" }], // Initialize with an empty link field if no initial links
+      link: initialEntry?.link?.map(l => ({ value: l })) || [{ value: "" }],
       subject: initialEntry?.subject || "",
       chokbarometer: initialEntry?.chokbarometer || "Intéressant",
     },
   });
 
-  const { fields, append, remove, move } = useFieldArray({ // Added 'move'
+  const { fields, append, remove, move } = useFieldArray({
     control: form.control,
     name: "link",
   });
+
+  const [draggedItemIndex, setDraggedItemIndex] = React.useState<number | null>(null);
 
   React.useEffect(() => {
     if (open) {
@@ -119,23 +121,21 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
       return;
     }
 
-    // Filter out empty link strings
     const validLinks = values.link
       ?.map(l => l.value)
       .filter((link): link is string => !!link);
 
     const entryData = {
-      user_id: user.id, // Add user_id
+      user_id: user.id,
       date: format(values.date, "yyyy-MM-dd"),
       title: values.title,
       note: values.note,
-      link: validLinks && validLinks.length > 0 ? validLinks : undefined, // Pass array or undefined
+      link: validLinks && validLinks.length > 0 ? validLinks : undefined,
       subject: values.subject,
       chokbarometer: values.chokbarometer,
     };
 
     if (initialEntry) {
-      // Update existing entry
       const updated = await updateEntry({ ...initialEntry, ...entryData, id: initialEntry.id, created_at: initialEntry.created_at, updated_at: new Date().toISOString() });
       if (updated) {
         showSuccess("Entrée mise à jour avec succès !");
@@ -145,7 +145,6 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
         showError("Erreur lors de la mise à jour de l'entrée.");
       }
     } else {
-      // Add new entry
       const added = await addEntry(entryData);
       if (added) {
         showSuccess("Nouvelle entrée ajoutée avec succès !");
@@ -155,6 +154,28 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
         showError("Erreur lors de l'ajout de l'entrée.");
       }
     }
+  };
+
+  const handleDragStart = (event: React.DragEvent<HTMLDivElement>, index: number) => {
+    setDraggedItemIndex(index);
+    event.dataTransfer.effectAllowed = "move";
+  };
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault(); // Essentiel pour permettre le dépôt
+    event.dataTransfer.dropEffect = "move";
+  };
+
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>, dropIndex: number) => {
+    event.preventDefault();
+    if (draggedItemIndex !== null && draggedItemIndex !== dropIndex) {
+      move(draggedItemIndex, dropIndex);
+    }
+    setDraggedItemIndex(null); // Réinitialiser l'index de l'élément glissé
+  };
+
+  const handleDragEnd = () => {
+    setDraggedItemIndex(null); // S'assurer de la réinitialisation même si le dépôt n'a pas eu lieu sur une cible valide
   };
 
   return (
@@ -180,7 +201,7 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
                         <Button
                           variant={"outline"}
                           className={cn(
-                            "w-full sm:w-[240px] pl-3 text-left font-normal", // Make it full width on small screens
+                            "w-full sm:w-[240px] pl-3 text-left font-normal",
                             !field.value && "text-muted-foreground"
                           )}
                         >
@@ -239,32 +260,26 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
               )}
             />
 
-            {/* Multiple Links Section */}
+            {/* Multiple Links Section with Drag and Drop */}
             <FormItem>
               <FormLabel>Liens (optionnel)</FormLabel>
               <div className="space-y-2">
                 {fields.map((item, index) => (
-                  <div key={item.id} className="flex items-center space-x-2">
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => move(index, index - 1)}
-                      disabled={index === 0}
-                      className="text-muted-foreground hover:text-primary"
-                    >
-                      <ArrowUp className="h-5 w-5" />
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      onClick={() => move(index, index + 1)}
-                      disabled={index === fields.length - 1}
-                      className="text-muted-foreground hover:text-primary"
-                    >
-                      <ArrowDown className="h-5 w-5" />
-                    </Button>
+                  <div
+                    key={item.id}
+                    className={cn(
+                      "flex items-center space-x-2 p-2 border rounded-md bg-background",
+                      draggedItemIndex === index ? "opacity-50 border-dashed border-primary" : ""
+                    )}
+                    draggable="true"
+                    onDragStart={(e) => handleDragStart(e, index)}
+                    onDragOver={handleDragOver}
+                    onDrop={(e) => handleDrop(e, index)}
+                    onDragEnd={handleDragEnd}
+                  >
+                    <span className="cursor-grab text-muted-foreground hover:text-primary">
+                      <GripVertical className="h-5 w-5" />
+                    </span>
                     <FormField
                       control={form.control}
                       name={`link.${index}.value`}
