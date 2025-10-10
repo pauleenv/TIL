@@ -9,7 +9,7 @@ export interface LearnedEntry {
   note: string;
   link?: string;
   subject: string;
-  chokbarometer: "Intéressant" | "Surprenant" | "Incroyable"; // Nouvelles options
+  chokbarometer: "Intéressant" | "Surprenant" | "Incroyable" | "Chokbar"; // Nouvelles options
   createdAt: string; // ISO string
   updatedAt: string; // ISO string
 }

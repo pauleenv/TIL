@@ -47,7 +47,7 @@ const formSchema = z.object({
   note: z.string().min(10, "La note doit contenir au moins 10 caractères.").max(500, "La note ne peut pas dépasser 500 caractères."),
   link: z.string().url("Le lien doit être une URL valide.").optional().or(z.literal("")),
   subject: z.string().min(1, "Veuillez sélectionner une matière."),
-  chokbarometer: z.enum(["Intéressant", "Surprenant", "Incroyable"], {
+  chokbarometer: z.enum(["Intéressant", "Surprenant", "Incroyable", "Chokbar"], {
     required_error: "Veuillez sélectionner une intensité pour le chokbaromètre.",
   }),
 });
@@ -63,7 +63,7 @@ const predefinedSubjects = [
   "Autre",
 ];
 
-const chokbarometerOptions = ["Intéressant", "Surprenant", "Incroyable"];
+const chokbarometerOptions = ["Intéressant", "Surprenant", "Incroyable", "Chokbar"];
 
 interface EntryFormDialogProps {
   open: boolean;
