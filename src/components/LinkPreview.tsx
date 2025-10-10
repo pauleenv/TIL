@@ -49,15 +49,13 @@ const fetchLinkPreview = async (linkUrl: string): Promise<LinkMetadata | null> =
 };
 
 const LinkPreview: React.FC<LinkPreviewProps> = ({ url }) => {
-  const { data: preview, isLoading, isError } = useQuery<LinkMetadata | null, Error>(
-    ['linkPreview', url],
-    () => fetchLinkPreview(url),
-    {
-      enabled: !!url, // Only run query if URL is provided
-      staleTime: 1000 * 60 * 60, // Cache for 1 hour
-      cacheTime: 1000 * 60 * 60 * 24, // Keep in cache for 24 hours
-    }
-  );
+  const { data: preview, isLoading, isError } = useQuery<LinkMetadata | null, Error>({
+    queryKey: ['linkPreview', url],
+    queryFn: () => fetchLinkPreview(url),
+    enabled: !!url, // Only run query if URL is provided
+    staleTime: 1000 * 60 * 60, // Cache for 1 hour
+    cacheTime: 1000 * 60 * 60 * 24, // Keep in cache for 24 hours
+  });
 
   if (!url) return null;
 
