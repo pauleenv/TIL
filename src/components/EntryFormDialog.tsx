@@ -136,7 +136,7 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px]">
+      <DialogContent className="w-full max-w-[90vw] sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>{initialEntry ? "Modifier l'entrée" : "Nouvelle Entrée"}</DialogTitle>
           <DialogDescription>
@@ -157,7 +157,7 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
                         <Button
                           variant={"outline"}
                           className={cn(
-                            "w-[240px] pl-3 text-left font-normal",
+                            "w-full sm:w-[240px] pl-3 text-left font-normal", // Make it full width on small screens
                             !field.value && "text-muted-foreground"
                           )}
                         >
