@@ -18,6 +18,8 @@ interface LinkMetadata {
 }
 
 const fetchLinkPreview = async (linkUrl: string): Promise<LinkMetadata | null> => {
+  console.log('Client: Attempting to fetch link preview for URL:', linkUrl); // NEW LOG
+
   if (!linkUrl) return null;
 
   // Replace with your actual Supabase Project ID and Edge Function name
@@ -36,14 +38,15 @@ const fetchLinkPreview = async (linkUrl: string): Promise<LinkMetadata | null> =
     });
 
     if (!response.ok) {
-      console.error(`Error fetching link preview: ${response.statusText}`);
+      console.error(`Client: Error fetching link preview: ${response.statusText}`); // NEW LOG
       return null;
     }
 
     const data = await response.json();
+    console.log('Client: Received link preview data:', data); // NEW LOG
     return data;
   } catch (error) {
-    console.error("Failed to fetch link preview:", error);
+    console.error("Client: Failed to fetch link preview:", error); // NEW LOG
     return null;
   }
 };
