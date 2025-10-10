@@ -31,7 +31,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Calendar as CalendarIcon, PlusCircle, XCircle } from "lucide-react"; // Import PlusCircle and XCircle
+import { Calendar as CalendarIcon, PlusCircle, XCircle, ArrowUp, ArrowDown } from "lucide-react"; // Import ArrowUp and ArrowDown
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
@@ -95,7 +95,7 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
     },
   });
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, remove, move } = useFieldArray({ // Added 'move'
     control: form.control,
     name: "link",
   });
@@ -245,6 +245,26 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
               <div className="space-y-2">
                 {fields.map((item, index) => (
                   <div key={item.id} className="flex items-center space-x-2">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => move(index, index - 1)}
+                      disabled={index === 0}
+                      className="text-muted-foreground hover:text-primary"
+                    >
+                      <ArrowUp className="h-5 w-5" />
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => move(index, index + 1)}
+                      disabled={index === fields.length - 1}
+                      className="text-muted-foreground hover:text-primary"
+                    >
+                      <ArrowDown className="h-5 w-5" />
+                    </Button>
                     <FormField
                       control={form.control}
                       name={`link.${index}.value`}
