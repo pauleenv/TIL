@@ -5,11 +5,11 @@ import { format } from "date-fns";
 export interface LearnedEntry {
   id: string;
   date: string; // YYYY-MM-DD
+  title: string; // Nouveau champ pour le titre
   note: string;
   link?: string;
   subject: string;
-  tags: string[];
-  chokbarometer: number; // 0-100
+  chokbarometer: "Intéressant" | "Surprenant" | "Incroyable"; // Nouvelles options
   createdAt: string; // ISO string
   updatedAt: string; // ISO string
 }
@@ -65,4 +65,16 @@ export const getEntriesByDate = (date: Date): LearnedEntry[] => {
   const formattedDate = format(date, "yyyy-MM-dd");
   const entries = getEntries();
   return entries.filter(entry => entry.date === formattedDate);
+};
+
+export const getAllSubjects = (): string[] => {
+  const entries = getEntries();
+  const subjects = new Set<string>();
+  entries.forEach(entry => subjects.add(entry.subject));
+  return Array.from(subjects).sort();
+};
+
+export const getEntriesBySubject = (subject: string): LearnedEntry[] => {
+  const entries = getEntries();
+  return entries.filter(entry => entry.subject === subject);
 };

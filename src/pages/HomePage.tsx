@@ -4,7 +4,6 @@ import React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tag } from "lucide-react";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { LearnedEntry, getEntriesByDate, deleteEntry } from "@/lib/data-store";
@@ -101,7 +100,7 @@ const HomePage = () => {
               <Card key={entry.id} className="relative">
                 <CardHeader>
                   <CardTitle className="flex justify-between items-center">
-                    <span>{entry.subject}</span>
+                    <span>{entry.title}</span> {/* Afficher le titre */}
                     <div className="flex space-x-2">
                       <Button variant="outline" size="sm" onClick={() => handleEditEntryClick(entry)}>
                         Modifier
@@ -136,17 +135,14 @@ const HomePage = () => {
                     </p>
                   )}
                   <div className="flex flex-wrap gap-2 mt-2">
-                    {entry.tags.map((tag, index) => (
-                      <span
-                        key={index}
-                        className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"
-                      >
-                        <Tag className="h-3 w-3 mr-1" /> {tag}
-                      </span>
-                    ))}
+                    <span
+                      className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"
+                    >
+                      {entry.subject} {/* Afficher la matière comme un tag */}
+                    </span>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">
-                    Chokbaromètre: {entry.chokbarometer}%
+                    Chokbaromètre: {entry.chokbarometer}
                   </p>
                 </CardContent>
               </Card>

@@ -23,7 +23,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
 import {
   Dialog,
   DialogContent,
@@ -44,11 +43,13 @@ const formSchema = z.object({
   date: z.date({
     required_error: "Veuillez sélectionner une date.",
   }),
+  title: z.string().min(3, "Le titre doit contenir au moins 3 caractères.").max(100, "Le titre ne peut pas dépasser 100 caractères."),
   note: z.string().min(10, "La note doit contenir au moins 10 caractères.").max(500, "La note ne peut pas dépasser 500 caractères."),
   link: z.string().url("Le lien doit être une URL valide.").optional().or(z.literal("")),
   subject: z.string().min(1, "Veuillez sélectionner une matière."),
-  tags: z.string().optional(),
-  chokbarometer: z.number().min(0).max(100),
+  chokbarometer: z.enum(["Intéressant", "Surprenant", "Incroyable"], {
+    required_error: "Veuillez sélectionner une intensité pour le chokbaromètre.",
+  }),
 });
 
 const predefinedSubjects = [
@@ -61,6 +62,8 @@ const predefinedSubjects = [
   "Philosophie",
   "Autre",
 ];
+
+const chokbarometerOptions = ["Intéressant", "Surprenant", "Incroyable"];
 
 interface EntryFormDialogProps {
   open: boolean;
@@ -81,11 +84,11 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       date: initialEntry ? new Date(initialEntry.date) : defaultDate || new Date(),
+      title: initialEntry?.title || "",
       note: initialEntry?.note || "",
       link: initialEntry?.link || "",
       subject: initialEntry?.subject || "",
-      tags: initialEntry?.tags.join(", ") || "",
-      chokbarometer: initialEntry?.chokbarometer || 50,
+      chokbarometer: initialEntry?.chokbarometer || "Intéressant",
     },
   });
 
@@ -93,11 +96,11 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
     if (open) {
       form.reset({
         date: initialEntry ? new Date(initialEntry.date) : defaultDate || new Date(),
+        title: initialEntry?.title || "",
         note: initialEntry?.note || "",
         link: initialEntry?.link || "",
         subject: initialEntry?.subject || "",
-        tags: initialEntry?.tags.join(", ") || "",
-        chokbarometer: initialEntry?.chokbarometer || 50,
+        chokbarometer: initialEntry?.chokbarometer || "Intéressant",
       });
     }
   }, [open, initialEntry, defaultDate, form]);
@@ -105,10 +108,10 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     const entryData = {
       date: format(values.date, "yyyy-MM-dd"),
+      title: values.title,
       note: values.note,
       link: values.link || undefined,
       subject: values.subject,
-      tags: values.tags ? values.tags.split(",").map((tag) => tag.trim()) : [],
       chokbarometer: values.chokbarometer,
     };
 
@@ -183,6 +186,20 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
 
             <FormField
               control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Titre</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Un titre concis pour ce que vous avez appris" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="note"
               render={({ field }) => (
                 <FormItem>
@@ -240,34 +257,24 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
 
             <FormField
               control={form.control}
-              name="tags"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Tags (séparés par des virgules, ex: "React, Frontend")</FormLabel>
-                  <FormControl>
-                    <Input placeholder="React, JavaScript, CSS" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
               name="chokbarometer"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Chokbaromètre : {field.value}%</FormLabel>
-                  <FormControl>
-                    <Slider
-                      min={0}
-                      max={100}
-                      step={1}
-                      value={[field.value]}
-                      onValueChange={(val) => field.onChange(val[0])}
-                      className="w-full"
-                    />
-                  </FormControl>
+                  <FormLabel>Chokbaromètre</FormLabel>
+                  <Select onValueChange={field.onChange} value={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Sélectionnez l'intensité de la surprise" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {chokbarometerOptions.map((option) => (
+                        <SelectItem key={option} value={option}>
+                          {option}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
