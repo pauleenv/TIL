@@ -1,14 +1,15 @@
 "use client";
 
 import React from "react";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom"; // Import useNavigate
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Home, PlusCircle, Book, BarChart3, UserCircle } from "lucide-react"; // Import UserCircle
+import { Home, PlusCircle, Book, BarChart3, UserCircle } from "lucide-react";
 import { MadeWithDyad } from "./made-with-dyad";
-import { Button } from "@/components/ui/button"; // Import Button for the profile link
+import { Button } from "@/components/ui/button";
 
 const Layout = () => {
   const location = useLocation();
+  const navigate = useNavigate(); // Initialize useNavigate
   const currentPath = location.pathname;
 
   // Determine the active tab based on the current path
@@ -20,15 +21,21 @@ const Layout = () => {
     return "home"; // Default to home
   };
 
+  const handleProfileClick = () => {
+    if (currentPath === "/profile") {
+      navigate(-1); // Go back to the previous page
+    } else {
+      navigate("/profile"); // Go to the profile page
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-primary text-primary-foreground p-4 shadow-md flex justify-between items-center">
         <h1 className="text-2xl font-bold text-center flex-grow">Today I Learned</h1>
-        <Link to="/profile" className="ml-auto"> {/* Link to profile page */}
-          <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10">
-            <UserCircle className="h-6 w-6" />
-          </Button>
-        </Link>
+        <Button variant="ghost" size="icon" className="text-primary-foreground hover:bg-primary-foreground/10" onClick={handleProfileClick}> {/* Use Button with onClick */}
+          <UserCircle className="h-6 w-6" />
+        </Button>
       </header>
 
       <div className="flex-grow container mx-auto p-4 pb-[80px]">

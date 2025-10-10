@@ -20,10 +20,11 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useSession } from '@/components/SessionContextProvider'; // Import useSession
+import { useSession } from '@/components/SessionContextProvider';
+import LinkPreview from "@/components/LinkPreview"; // Import LinkPreview
 
 const HomePage = () => {
-  const { user, loading } = useSession(); // Get the current user from session
+  const { user, loading } = useSession();
   const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(new Date());
   const [entriesForSelectedDate, setEntriesForSelectedDate] = React.useState<LearnedEntry[]>([]);
   const [isFormDialogOpen, setIsFormDialogOpen] = React.useState(false);
@@ -39,7 +40,7 @@ const HomePage = () => {
   }, [selectedDate, user]);
 
   React.useEffect(() => {
-    if (!loading && user) { // Fetch entries only when user is loaded
+    if (!loading && user) {
       fetchEntries();
     }
   }, [selectedDate, user, loading, fetchEntries]);
@@ -49,7 +50,7 @@ const HomePage = () => {
   };
 
   const handleAddEntryClick = () => {
-    setEditingEntry(undefined); // Ensure we're adding, not editing
+    setEditingEntry(undefined);
     setIsFormDialogOpen(true);
   };
 
@@ -66,7 +67,7 @@ const HomePage = () => {
     const success = await deleteEntry(id, user.id);
     if (success) {
       showSuccess("Entrée supprimée avec succès !");
-      fetchEntries(); // Refresh entries
+      fetchEntries();
     } else {
       showError("Erreur lors de la suppression de l'entrée.");
     }
@@ -144,13 +145,7 @@ const HomePage = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground mb-2">{entry.note}</p>
-                  {entry.link && (
-                    <p className="text-xs text-blue-600 hover:underline mb-2">
-                      <a href={entry.link} target="_blank" rel="noopener noreferrer">
-                        Lien source
-                      </a>
-                    </p>
-                  )}
+                  {entry.link && <LinkPreview url={entry.link} />} {/* Display LinkPreview */}
                   <div className="flex flex-wrap gap-2 mt-2">
                     <span
                       className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"

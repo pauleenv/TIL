@@ -6,11 +6,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { Tag } from "lucide-react";
-import { useSession } from '@/components/SessionContextProvider'; // Import useSession
+import { Tag, ChevronDown, ChevronUp } from "lucide-react"; // Import ChevronDown and ChevronUp
+import { useSession } from '@/components/SessionContextProvider';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"; // Import Collapsible components
+import { Button } from "@/components/ui/button";
+import LinkPreview from "@/components/LinkPreview"; // Will be created next
 
 const EncyclopediaPage = () => {
-  const { user, loading } = useSession(); // Get the current user from session
+  const { user, loading } = useSession();
   const [allEntries, setAllEntries] = React.useState<LearnedEntry[]>([]);
   const [filteredEntries, setFilteredEntries] = React.useState<LearnedEntry[]>([]);
   const [selectedSubject, setSelectedSubject] = React.useState<string>("all");
@@ -38,7 +41,7 @@ const EncyclopediaPage = () => {
   }, [selectedSubject, user]);
 
   React.useEffect(() => {
-    if (!loading && user) { // Fetch entries only when user is loaded
+    if (!loading && user) {
       fetchEntries();
     }
   }, [fetchEntries, loading, user]);
@@ -86,34 +89,38 @@ const EncyclopediaPage = () => {
         <div className="space-y-4">
           {filteredEntries.map((entry) => (
             <Card key={entry.id}>
-              <CardHeader>
-                <CardTitle className="flex justify-between items-center">
-                  <span>{entry.title}</span>
-                  <span className="text-sm text-muted-foreground">
-                    {format(new Date(entry.date), "PPP", { locale: fr })}
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-sm text-muted-foreground mb-2">{entry.note}</p>
-                {entry.link && (
-                  <p className="text-xs text-blue-600 hover:underline mb-2">
-                    <a href={entry.link} target="_blank" rel="noopener noreferrer">
-                      Lien source
-                    </a>
-                  </p>
-                )}
-                <div className="flex flex-wrap gap-2 mt-2">
-                  <span
-                    className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"
-                  >
-                    <Tag className="h-3 w-3 mr-1" /> {entry.subject}
-                  </span>
-                </div>
-                <p className="text-xs text-muted-foreground mt-2">
-                  Chokbaromètre: {entry.chokbarometer}
-                </p>
-              </CardContent>
+              <Collapsible> {/* Wrap card content in Collapsible */}
+                <CardHeader>
+                  <div className="flex justify-between items-center">
+                    <CardTitle>{entry.title}</CardTitle>
+                    <CollapsibleTrigger asChild>
+                      <Button variant="ghost" size="sm">
+                        <ChevronDown className="h-4 w-4 collapsible-icon data-[state=open]:rotate-180 transition-transform" />
+                        <span className="sr-only">Toggle details</span>
+                      </Button>
+                    </CollapsibleTrigger>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2 mt-2">
+                    <span className="text-sm text-muted-foreground">
+                      {format(new Date(entry.date), "PPP", { locale: fr })}
+                    </span>
+                    <span
+                      className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"
+                    >
+                      <Tag className="h-3 w-3 mr-1" /> {entry.subject}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      Chokbaromètre: {entry.chokbarometer}
+                    </span>
+                  </div>
+                </CardHeader>
+                <CollapsibleContent>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-2">{entry.note}</p>
+                    {entry.link && <LinkPreview url={entry.link} />} {/* Link preview will go here */}
+                  </CardContent>
+                </CollapsibleContent>
+              </Collapsible>
             </Card>
           ))}
         </div>
