@@ -18,35 +18,38 @@ interface LinkMetadata {
 }
 
 const fetchLinkPreview = async (linkUrl: string): Promise<LinkMetadata | null> => {
-  console.log('Client: Attempting to fetch link preview for URL:', linkUrl); // NEW LOG
+  console.log('Client: Attempting to fetch link preview for URL:', linkUrl);
 
   if (!linkUrl) return null;
 
-  // Replace with your actual Supabase Project ID and Edge Function name
   const SUPABASE_PROJECT_ID = 'hpjtfckzrdvyizwbkbqc'; 
   const EDGE_FUNCTION_NAME = 'get-link-preview';
   const EDGE_FUNCTION_URL = `https://${SUPABASE_PROJECT_ID}.supabase.co/functions/v1/${EDGE_FUNCTION_NAME}`;
 
   try {
+    // Correctly get the session and its access token
+    const { data: { session } } = await supabase.auth.getSession();
+    const accessToken = session?.access_token || '';
+
     const response = await fetch(EDGE_FUNCTION_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${supabase.auth.session()?.access_token || ''}`, // Include auth token if needed by your function
+        'Authorization': `Bearer ${accessToken}`, // Use the corrected access token
       },
       body: JSON.stringify({ url: linkUrl }),
     });
 
     if (!response.ok) {
-      console.error(`Client: Error fetching link preview: ${response.statusText}`); // NEW LOG
+      console.error(`Client: Error fetching link preview: ${response.statusText}`);
       return null;
     }
 
     const data = await response.json();
-    console.log('Client: Received link preview data:', data); // NEW LOG
+    console.log('Client: Received link preview data:', data);
     return data;
   } catch (error) {
-    console.error("Client: Failed to fetch link preview:", error); // NEW LOG
+    console.error("Client: Failed to fetch link preview:", error);
     return null;
   }
 };
