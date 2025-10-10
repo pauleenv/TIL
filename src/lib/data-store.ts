@@ -9,7 +9,7 @@ export interface LearnedEntry {
   date: string; // YYYY-MM-DD
   title: string;
   note: string;
-  link?: string;
+  link?: string[]; // Changed to array of strings
   subject: string;
   chokbarometer: "Intéressant" | "Surprenant" | "Incroyable" | "Chokbar";
   created_at: string; // ISO string
@@ -53,7 +53,7 @@ export const updateEntry = async (updatedEntry: LearnedEntry): Promise<LearnedEn
       date: updatedEntry.date,
       title: updatedEntry.title,
       note: updatedEntry.note,
-      link: updatedEntry.link,
+      link: updatedEntry.link, // This will now be an array
       subject: updatedEntry.subject,
       chokbarometer: updatedEntry.chokbarometer,
       updated_at: new Date().toISOString(),

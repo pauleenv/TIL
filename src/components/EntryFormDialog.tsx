@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form"; // Import useFieldArray
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { format } from "date-fns";
@@ -31,7 +31,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Calendar as CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon, PlusCircle, XCircle } from "lucide-react"; // Import PlusCircle and XCircle
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
@@ -46,7 +46,7 @@ const formSchema = z.object({
   }),
   title: z.string().min(3, "Le titre doit contenir au moins 3 caractères.").max(100, "Le titre ne peut pas dépasser 100 caractères."),
   note: z.string().min(10, "La note doit contenir au moins 10 caractères.").max(500, "La note ne peut pas dépasser 500 caractères."),
-  link: z.string().url("Le lien doit être une URL valide.").optional().or(z.literal("")),
+  link: z.array(z.object({ value: z.string().url("Le lien doit être une URL valide.").optional().or(z.literal("")) })).optional(), // Changed to array of objects with value
   subject: z.string().min(1, "Veuillez sélectionner une matière."),
   chokbarometer: z.enum(["Intéressant", "Surprenant", "Incroyable", "Chokbar"], {
     required_error: "Veuillez sélectionner une intensité pour le chokbaromètre.",
@@ -89,10 +89,15 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
       date: initialEntry ? new Date(initialEntry.date) : defaultDate || new Date(),
       title: initialEntry?.title || "",
       note: initialEntry?.note || "",
-      link: initialEntry?.link || "",
+      link: initialEntry?.link?.map(l => ({ value: l })) || [{ value: "" }], // Initialize with an empty link field if no initial links
       subject: initialEntry?.subject || "",
       chokbarometer: initialEntry?.chokbarometer || "Intéressant",
     },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "link",
   });
 
   React.useEffect(() => {
@@ -101,7 +106,7 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
         date: initialEntry ? new Date(initialEntry.date) : defaultDate || new Date(),
         title: initialEntry?.title || "",
         note: initialEntry?.note || "",
-        link: initialEntry?.link || "",
+        link: initialEntry?.link?.map(l => ({ value: l })) || [{ value: "" }],
         subject: initialEntry?.subject || "",
         chokbarometer: initialEntry?.chokbarometer || "Intéressant",
       });
@@ -114,12 +119,17 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
       return;
     }
 
+    // Filter out empty link strings
+    const validLinks = values.link
+      ?.map(l => l.value)
+      .filter((link): link is string => !!link);
+
     const entryData = {
       user_id: user.id, // Add user_id
       date: format(values.date, "yyyy-MM-dd"),
       title: values.title,
       note: values.note,
-      link: values.link || undefined,
+      link: validLinks && validLinks.length > 0 ? validLinks : undefined, // Pass array or undefined
       subject: values.subject,
       chokbarometer: values.chokbarometer,
     };
@@ -229,19 +239,44 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="link"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Lien (optionnel)</FormLabel>
-                  <FormControl>
-                    <Input placeholder="https://exemple.com" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {/* Multiple Links Section */}
+            <FormItem>
+              <FormLabel>Liens (optionnel)</FormLabel>
+              <div className="space-y-2">
+                {fields.map((item, index) => (
+                  <div key={item.id} className="flex items-center space-x-2">
+                    <FormField
+                      control={form.control}
+                      name={`link.${index}.value`}
+                      render={({ field }) => (
+                        <FormControl>
+                          <Input placeholder="https://exemple.com" {...field} />
+                        </FormControl>
+                      )}
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => remove(index)}
+                      className="text-destructive hover:text-destructive/80"
+                    >
+                      <XCircle className="h-5 w-5" />
+                    </Button>
+                  </div>
+                ))}
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => append({ value: "" })}
+                  className="w-full"
+                >
+                  <PlusCircle className="mr-2 h-4 w-4" /> Ajouter un lien
+                </Button>
+              </div>
+              <FormMessage>{form.formState.errors.link?.message}</FormMessage>
+            </FormItem>
 
             <FormField
               control={form.control}

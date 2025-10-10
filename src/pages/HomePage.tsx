@@ -145,7 +145,9 @@ const HomePage = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground mb-2 whitespace-pre-wrap">{entry.note}</p>
-                  {entry.link && <LinkPreview url={entry.link} />} {/* Display LinkPreview */}
+                  {entry.link && entry.link.map((linkItem, index) => (
+                    <LinkPreview key={index} url={linkItem} />
+                  ))}
                   <div className="flex flex-wrap gap-2 mt-2">
                     <span
                       className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"
