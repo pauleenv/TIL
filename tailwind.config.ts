@@ -65,16 +65,6 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // Ajout des couleurs de matière ici pour que Tailwind les reconnaisse
-        subject: {
-          tech: "var(--subject-tech-bg)",
-          histoire: "var(--subject-histoire-bg)",
-          sports: "var(--subject-sports-bg)",
-          langues: "var(--subject-langues-bg)",
-          sciences: "var(--subject-sciences-bg)",
-          "nature-geographie": "var(--subject-nature-geographie-bg)",
-          "arts-pop-culture": "var(--subject-arts-pop-culture-bg)",
-        },
       },
       borderRadius: {
         lg: "var(--radius)",

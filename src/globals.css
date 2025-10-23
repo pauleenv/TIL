@@ -49,15 +49,6 @@
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
-
-    /* Subject Colors */
-    --subject-tech-bg: #FF7A5C;
-    --subject-histoire-bg: #F4D738;
-    --subject-sports-bg: #FF3057;
-    --subject-langues-bg: #5168FF;
-    --subject-sciences-bg: #A7DBD8;
-    --subject-nature-geographie-bg: #48C748;
-    --subject-arts-pop-culture-bg: #FF66B7;
   }
 
   .dark {
@@ -96,15 +87,6 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-
-    /* Subject Colors for dark mode (assuming same for now) */
-    --subject-tech-bg: #FF7A5C;
-    --subject-histoire-bg: #F4D738;
-    --subject-sports-bg: #FF3057;
-    --subject-langues-bg: #5168FF;
-    --subject-sciences-bg: #A7DBD8;
-    --subject-nature-geographie-bg: #48C748;
-    --subject-arts-pop-culture-bg: #FF66B7;
   }
 }
 

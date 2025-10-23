@@ -116,53 +116,57 @@ const HomePage = () => {
           </p>
         ) : (
           <div className="space-y-4">
-            {entriesForSelectedDate.map((entry) => (
-              <Card key={entry.id} className="relative">
-                <CardHeader>
-                  <CardTitle className="flex justify-between items-center">
-                    <span>{entry.title}</span>
-                    <div className="flex space-x-2">
-                      <Button variant="outline" size="sm" onClick={() => handleEditEntryClick(entry)}>
-                        Modifier
-                      </Button>
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button variant="destructive" size="sm">Supprimer</Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>Êtes-vous absolument sûr(e) ?</AlertDialogTitle>
-                            <AlertDialogDescription>
-                              Cette action ne peut pas être annulée. Cela supprimera définitivement votre entrée.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Annuler</AlertDialogCancel>
-                            <AlertDialogAction onClick={() => handleDeleteEntry(entry.id)}>Supprimer</AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
+            {entriesForSelectedDate.map((entry) => {
+              const { className: tagClassName, style: tagStyle } = getSubjectTagClasses(entry.subject);
+              return (
+                <Card key={entry.id} className="relative">
+                  <CardHeader>
+                    <CardTitle className="flex justify-between items-center">
+                      <span>{entry.title}</span>
+                      <div className="flex space-x-2">
+                        <Button variant="outline" size="sm" onClick={() => handleEditEntryClick(entry)}>
+                          Modifier
+                        </Button>
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button variant="destructive" size="sm">Supprimer</Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Êtes-vous absolument sûr(e) ?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                Cette action ne peut pas être annulée. Cela supprimera définitivement votre entrée.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Annuler</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => handleDeleteEntry(entry.id)}>Supprimer</AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground mb-2 whitespace-pre-wrap">{entry.note}</p>
+                    {entry.link && entry.link.map((linkItem, index) => (
+                      <LinkPreview key={index} url={linkItem} />
+                    ))}
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      <span
+                        className={tagClassName}
+                        style={tagStyle}
+                      >
+                        {entry.subject}
+                      </span>
                     </div>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-2 whitespace-pre-wrap">{entry.note}</p>
-                  {entry.link && entry.link.map((linkItem, index) => (
-                    <LinkPreview key={index} url={linkItem} />
-                  ))}
-                  <div className="flex flex-wrap gap-2 mt-2">
-                    <span
-                      className={getSubjectTagClasses(entry.subject)}
-                    >
-                      {entry.subject}
-                    </span>
-                  </div>
-                  <p className="text-xs text-muted-foreground mt-2">
-                    Chokbaromètre: {entry.chokbarometer}
-                  </p>
-                </CardContent>
-              </Card>
-            ))}
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Chokbaromètre: {entry.chokbarometer}
+                    </p>
+                  </CardContent>
+                </Card>
+              );
+            })}
           </div>
         )}
       </div>

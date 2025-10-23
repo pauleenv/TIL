@@ -50,7 +50,7 @@ const formSchema = z.object({
   link: z.array(z.object({ value: z.string().url("Le lien doit être une URL valide.").optional().or(z.literal("")) })).optional(),
   subject: z.string().min(1, "Veuillez sélectionner une matière."),
   chokbarometer: z.enum(["Intéressant", "Surprenant", "Incroyable", "Chokbar"], {
-    required_error: "Veuillez sélectionner une intensité pour le chokbaromètre.",
+    required_error: "Veuillez sélectionner l'intensité pour le chokbaromètre.",
   }),
 });
 
@@ -326,11 +326,14 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {predefinedSubjects.map((subject) => (
-                        <SelectItem key={subject} value={subject} className={getSubjectDropdownItemClasses(subject)}>
-                          {subject}
-                        </SelectItem>
-                      ))}
+                      {predefinedSubjects.map((subject) => {
+                        const { style: dropdownItemStyle } = getSubjectDropdownItemClasses(subject);
+                        return (
+                          <SelectItem key={subject} value={subject} style={dropdownItemStyle}>
+                            {subject}
+                          </SelectItem>
+                        );
+                      })}
                     </SelectContent>
                   </Select>
                   <FormMessage />

@@ -6,13 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { ChevronDown } from "lucide-react"; // Removed Tag icon import
+import { ChevronDown } from "lucide-react";
 import { useSession } from '@/components/SessionContextProvider';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
 import LinkPreview from "@/components/LinkPreview";
-import { getSubjectTagClasses, getSubjectDropdownItemClasses } from "@/lib/subject-colors"; // Import both utilities
-import { cn } from "@/lib/utils"; // Import the cn utility
+import { getSubjectTagClasses, getSubjectDropdownItemClasses } from "@/lib/subject-colors";
+import { cn } from "@/lib/utils";
 
 const predefinedSubjects = [
   "Tech",
@@ -86,11 +86,14 @@ const EncyclopediaPage = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Toutes les matières</SelectItem>
-            {predefinedSubjects.map((subject) => ( // Use predefinedSubjects here
-              <SelectItem key={subject} value={subject} className={getSubjectDropdownItemClasses(subject)}>
-                {subject}
-              </SelectItem>
-            ))}
+            {predefinedSubjects.map((subject) => {
+              const { style: dropdownItemStyle } = getSubjectDropdownItemClasses(subject);
+              return (
+                <SelectItem key={subject} value={subject} style={dropdownItemStyle}>
+                  {subject}
+                </SelectItem>
+              );
+            })}
           </SelectContent>
         </Select>
       </div>
@@ -101,44 +104,48 @@ const EncyclopediaPage = () => {
         </p>
       ) : (
         <div className="space-y-4">
-          {filteredEntries.map((entry) => (
-            <Card key={entry.id}>
-              <Collapsible>
-                <CardHeader>
-                  <div className="flex justify-between items-center">
-                    <CardTitle>{entry.title}</CardTitle>
-                    <CollapsibleTrigger asChild>
-                      <Button variant="ghost" size="sm">
-                        <ChevronDown className="h-4 w-4 collapsible-icon data-[state=open]:rotate-180 transition-transform" />
-                        <span className="sr-only">Toggle details</span>
-                      </Button>
-                    </CollapsibleTrigger>
-                  </div>
-                  <div className="flex flex-wrap items-center gap-2 mt-2">
-                    <span className="text-sm text-muted-foreground">
-                      {format(new Date(entry.date), "PPP", { locale: fr })}
-                    </span>
-                    <span
-                      className={getSubjectTagClasses(entry.subject)}
-                    >
-                      {entry.subject}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      Chokbaromètre: {entry.chokbarometer}
-                    </span>
-                  </div>
-                </CardHeader>
-                <CollapsibleContent>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground mb-2 whitespace-pre-wrap">{entry.note}</p>
-                    {entry.link && entry.link.map((linkItem, index) => (
-                      <LinkPreview key={index} url={linkItem} />
-                    ))}
-                  </CardContent>
-                </CollapsibleContent>
-              </Collapsible>
-            </Card>
-          ))}
+          {filteredEntries.map((entry) => {
+            const { className: tagClassName, style: tagStyle } = getSubjectTagClasses(entry.subject);
+            return (
+              <Card key={entry.id}>
+                <Collapsible>
+                  <CardHeader>
+                    <div className="flex justify-between items-center">
+                      <CardTitle>{entry.title}</CardTitle>
+                      <CollapsibleTrigger asChild>
+                        <Button variant="ghost" size="sm">
+                          <ChevronDown className="h-4 w-4 collapsible-icon data-[state=open]:rotate-180 transition-transform" />
+                          <span className="sr-only">Toggle details</span>
+                        </Button>
+                      </CollapsibleTrigger>
+                    </div>
+                    <div className="flex flex-wrap items-center gap-2 mt-2">
+                      <span className="text-sm text-muted-foreground">
+                        {format(new Date(entry.date), "PPP", { locale: fr })}
+                      </span>
+                      <span
+                        className={tagClassName}
+                        style={tagStyle}
+                      >
+                        {entry.subject}
+                      </span>
+                      <span className="text-xs text-muted-foreground">
+                        Chokbaromètre: {entry.chokbarometer}
+                      </span>
+                    </div>
+                  </CardHeader>
+                  <CollapsibleContent>
+                    <CardContent>
+                      <p className="text-sm text-muted-foreground mb-2 whitespace-pre-wrap">{entry.note}</p>
+                      {entry.link && entry.link.map((linkItem, index) => (
+                        <LinkPreview key={index} url={linkItem} />
+                      ))}
+                    </CardContent>
+                  </CollapsibleContent>
+                </Collapsible>
+              </Card>
+            );
+          })}
         </div>
       )}
     </div>

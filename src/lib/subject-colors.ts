@@ -11,9 +11,11 @@ export const subjectColors: { [key: string]: { background: string; text: string 
 };
 
 export const getSubjectTagClasses = (subject: string) => {
-  // Classes de base pour le tag affiché (style pilule)
-  // Suppression de la largeur fixe (w-[70px]) et ajout de padding horizontal (px-2)
-  let baseClasses = "flex items-center justify-center h-[20px] px-2 border-2 border-black shadow-[3px_2px_0px_rgb(0,0,0)] rounded-[16px] font-normal text-black whitespace-nowrap";
+  const colors = subjectColors[subject];
+  const backgroundColor = colors ? colors.background : "#FFFFFF"; // Default to white if not found
+  const textColor = colors ? colors.text : "#000000"; // Default to black if not found
+
+  let baseClasses = "flex items-center justify-center px-2 border-2 border-black shadow-[3px_2px_0px_rgb(0,0,0)] rounded-[16px] font-normal whitespace-nowrap";
 
   // Ajustements spécifiques pour la taille de la police et la hauteur de ligne
   if (subject === "Nature/Géographie") {
@@ -24,25 +26,18 @@ export const getSubjectTagClasses = (subject: string) => {
     baseClasses += " text-xs leading-[18px]"; // Taille par défaut pour les autres
   }
 
-  // Convertir le nom du sujet en kebab-case pour correspondre aux noms de classes Tailwind
-  let tailwindColorName = subject
-    .toLowerCase()
-    .replace(/é/g, 'e') // Remplacer 'é' par 'e'
-    .replace(/\//g, '-') // Remplacer '/' par '-'
-    .replace(/[^a-z0-9-]/g, ''); // Supprimer tout autre caractère non alphanumérique ou non-tiret
-
-  // Utiliser la classe Tailwind générée
-  return `${baseClasses} bg-subject-${tailwindColorName}`;
+  return {
+    className: baseClasses,
+    style: { backgroundColor, color: textColor }
+  };
 };
 
 export const getSubjectDropdownItemClasses = (subject: string) => {
-  // Convertir le nom du sujet en kebab-case pour correspondre aux noms de classes Tailwind
-  let tailwindColorName = subject
-    .toLowerCase()
-    .replace(/é/g, 'e')
-    .replace(/\//g, '-')
-    .replace(/[^a-z0-9-]/g, '');
+  const colors = subjectColors[subject];
+  const backgroundColor = colors ? colors.background : "#FFFFFF";
+  const textColor = colors ? colors.text : "#000000";
 
-  // Utiliser la classe Tailwind générée pour le fond et s'assurer que le texte est noir
-  return `bg-subject-${tailwindColorName} text-black`;
+  return {
+    style: { backgroundColor, color: textColor }
+  };
 };
