@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">TIL App</string>
+    <string name="title_activity_main">TIL App</string>
+    <string name="package_name">com.example.tilapp</string>
+    <string name="custom_url_scheme">com.example.tilapp</string>
+</resources>
