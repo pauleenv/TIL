@@ -132,24 +132,29 @@
   border-radius: 9999px; /* full rounded */
   border: 2px solid black; /* Added border */
   box-shadow: 3px 2px 0px rgb(0,0,0); /* Added drop shadow */
-  background-color: var(--dot-background-color, #000); /* Fallback color */
+  background-color: var(--dot-color, #000); /* Use a CSS variable for the dot color */
   z-index: 1; /* Added z-index to ensure visibility */
   display: block; /* Ensure it renders */
 }
 
-/* Specific subject colors for the dots */
-.rdp-day.rdp-day_has-note-Tech::after { background-color: var(--subject-tech-bg) !important; }
-.rdp-day.rdp-day_has-note-Histoire::after { background-color: var(--subject-histoire-bg) !important; }
-.rdp-day.rdp-day_has-note-Sports::after { background-color: var(--subject-sports-bg) !important; }
-.rdp-day.rdp-day_has-note-Langues::after { background-color: var(--subject-langues-bg) !important; }
-.rdp-day.rdp-day_has-note-Sciences::after { background-color: var(--subject-sciences-bg) !important; }
-.rdp-day.rdp-day_has-note-Nature\/Géographie::after { background-color: var(--subject-nature-geographie-bg) !important; }
-.rdp-day.rdp-day_has-note-Arts\/Pop-Culture::after { background-color: var(--subject-arts-pop-culture-bg) !important; }
+/* Specific subject colors for the dots - these will set the --dot-color variable */
+.rdp-day.rdp-day_has-note-Tech { --dot-color: var(--subject-tech-bg); }
+.rdp-day.rdp-day_has-note-Histoire { --dot-color: var(--subject-histoire-bg); }
+.rdp-day.rdp-day_has-note-Sports { --dot-color: var(--subject-sports-bg); }
+.rdp-day.rdp-day_has-note-Langues { --dot-color: var(--subject-langues-bg); }
+.rdp-day.rdp-day_has-note-Sciences { --dot-color: var(--subject-sciences-bg); }
+.rdp-day.rdp-day_has-note-Nature\/Géographie { --dot-color: var(--subject-nature-geographie-bg); }
+.rdp-day.rdp-day_has-note-Arts\/Pop-Culture { --dot-color: var(--subject-arts-pop-culture-bg); }
 
-/* Force current day number to be black */
+/* Force current day to be yellow with black text and border */
 .rdp-day_today {
-  color: black !important; /* Target the day button itself */
+  background-color: #FFDD00 !important;
+  color: black !important;
+  border: 2px solid black !important;
+  box-shadow: 3px 2px 0px rgb(0,0,0) !important;
 }
+
+/* Ensure current day number is black */
 .rdp-day_today .rdp-day_selection_grid__day_label {
-  color: black !important; /* Keep this as a fallback/additional target */
+  color: black !important;
 }
