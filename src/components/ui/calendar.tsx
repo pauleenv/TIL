@@ -72,8 +72,10 @@ function Calendar({
           const { style: dotStyle } = subject ? getSubjectTagClasses(subject) : { style: {} };
 
           return (
-            <div className="relative w-full h-full flex items-center justify-center">
-              {children} {/* Render the default day content (e.g., day number) */}
+            <div className="relative h-full w-full">
+              <span className="absolute inset-0 flex items-center justify-center">
+                {children} {/* This renders the day number */}
+              </span>
               {subject && (
                 <div
                   className="absolute bottom-1 right-1 w-2 h-2 rounded-full"
