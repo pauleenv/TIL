@@ -7,7 +7,7 @@ import { fr } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { getSubjectTagClasses } from "@/lib/subject-colors";
-import { format } from "date-fns";
+import { format, isValid } from "date-fns"; // Import isValid
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   datesWithNotes?: Map<string, string>; // Add prop for dates with notes
@@ -22,6 +22,13 @@ function Calendar({
 }: CalendarProps) {
   const CustomDay = (dayProps: any) => {
     const day = dayProps.day;
+    
+    // Add a check here to ensure 'day' is a valid Date object
+    if (!isValid(day)) {
+      // If the day is invalid, render the default DayPicker.Day without custom logic
+      return <DayPicker.Day {...dayProps} />;
+    }
+
     const formattedDay = format(day, "yyyy-MM-dd");
     const subject = datesWithNotes?.get(formattedDay);
     const { style: dotStyle } = subject ? getSubjectTagClasses(subject) : { style: {} };
