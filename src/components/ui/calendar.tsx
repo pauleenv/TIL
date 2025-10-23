@@ -21,6 +21,8 @@ function Calendar({
 }: CalendarProps) {
   const modifiers = {
     hasNote: (day: Date) => {
+      // Ajout d'une vérification pour s'assurer que 'day' est un objet Date valide
+      if (!day || !(day instanceof Date)) return false;
       const dateString = day.toISOString().split('T')[0];
       return datesWithNotes.has(dateString);
     },
@@ -32,6 +34,11 @@ function Calendar({
 
   // Dynamically add subject-specific classes for dots
   const customDayContent = (day: Date) => {
+    // Ajout d'une vérification pour s'assurer que 'day' est un objet Date valide
+    if (!day || !(day instanceof Date)) {
+      return <span></span>; // Retourne un span vide si 'day' n'est pas une date valide
+    }
+
     const dateString = day.toISOString().split('T')[0];
     const subject = datesWithNotes.get(dateString);
     const dayClasses = ["rdp-day_selection_grid__day_label"];
@@ -61,7 +68,7 @@ function Calendar({
         nav: "space-x-1 flex items-center",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
-          "h-7 w-7 bg-transparent p-0 text-black" // Removed opacity-50
+          "h-7 w-7 bg-transparent p-0 text-black"
         ),
         nav_button_previous: "absolute left-1",
         nav_button_next: "absolute right-1",
@@ -88,8 +95,8 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4 text-black" strokeWidth={3} />, // Added strokeWidth
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4 text-black" strokeWidth={3} />, // Added strokeWidth
+        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4 text-black" strokeWidth={3} />,
+        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4 text-black" strokeWidth={3} />,
         DayContent: customDayContent,
       }}
       modifiers={modifiers}
