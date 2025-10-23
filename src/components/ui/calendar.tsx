@@ -62,9 +62,9 @@ function Calendar({
         IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
         IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
         DayContent: ({ day, children }) => {
-          // Ensure 'day' is a valid Date object before formatting
           if (!isValid(day)) {
-            return <>{children}</>; // Render default content if day is invalid
+            // Fallback for invalid day, ensure visibility
+            return <span className="text-muted-foreground">{children}</span>;
           }
 
           const formattedDay = format(day, "yyyy-MM-dd");
@@ -72,8 +72,10 @@ function Calendar({
           const { style: dotStyle } = subject ? getSubjectTagClasses(subject) : { style: {} };
 
           return (
-            <>
-              {children} {/* This renders the day number directly */}
+            <div className="relative h-full w-full flex items-center justify-center">
+              <span className="text-foreground dark:text-primary-foreground">
+                {day.getDate()} {/* Explicitement rendre le numéro du jour */}
+              </span>
               {subject && (
                 <div
                   className="absolute bottom-1 right-1 w-2 h-2 rounded-full"
@@ -81,7 +83,7 @@ function Calendar({
                   title={`Note sur: ${subject}`}
                 />
               )}
-            </>
+            </div>
           );
         },
       }}
