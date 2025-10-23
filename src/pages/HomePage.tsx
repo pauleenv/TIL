@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { LearnedEntry, getEntriesByDate, deleteEntry } from "@/lib/data-store";
+import { LearnedEntry, getEntriesByDate, deleteEntry, getDatesWithFirstEntrySubject } from "@/lib/data-store";
 import EntryFormDialog from "@/components/EntryFormDialog";
 import { showSuccess, showError } from "@/utils/toast";
 import {
@@ -31,6 +31,7 @@ const HomePage = () => {
   const [entriesForSelectedDate, setEntriesForSelectedDate] = React.useState<LearnedEntry[]>([]);
   const [isFormDialogOpen, setIsFormDialogOpen] = React.useState(false);
   const [editingEntry, setEditingEntry] = React.useState<LearnedEntry | undefined>(undefined);
+  const [datesWithNotes, setDatesWithNotes] = React.useState<Map<string, string>>(new Map());
 
   const fetchEntries = React.useCallback(async () => {
     if (selectedDate && user) {
@@ -41,11 +42,21 @@ const HomePage = () => {
     }
   }, [selectedDate, user]);
 
+  const fetchDatesWithNotes = React.useCallback(async () => {
+    if (user) {
+      const datesMap = await getDatesWithFirstEntrySubject(user.id);
+      setDatesWithNotes(datesMap);
+    } else {
+      setDatesWithNotes(new Map());
+    }
+  }, [user]);
+
   React.useEffect(() => {
     if (!loading && user) {
       fetchEntries();
+      fetchDatesWithNotes();
     }
-  }, [selectedDate, user, loading, fetchEntries]);
+  }, [selectedDate, user, loading, fetchEntries, fetchDatesWithNotes]);
 
   const handleDateSelect = (date: Date | undefined) => {
     setSelectedDate(date);
@@ -70,9 +81,15 @@ const HomePage = () => {
     if (success) {
       showSuccess("Entrée supprimée avec succès !");
       fetchEntries();
+      fetchDatesWithNotes(); // Refresh dates with notes after deletion
     } else {
       showError("Erreur lors de la suppression de l'entrée.");
     }
+  };
+
+  const handleEntrySave = () => {
+    fetchEntries();
+    fetchDatesWithNotes(); // Refresh dates with notes after save
   };
 
   if (loading) {
@@ -94,6 +111,7 @@ const HomePage = () => {
             onSelect={handleDateSelect}
             className="rounded-md border"
             locale={fr}
+            datesWithNotes={datesWithNotes} // Pass the datesWithNotes map
           />
         </div>
         <p className="text-lg text-muted-foreground mt-4 text-center">
@@ -175,7 +193,7 @@ const HomePage = () => {
         open={isFormDialogOpen}
         onOpenChange={setIsFormDialogOpen}
         initialEntry={editingEntry}
-        onSave={fetchEntries}
+        onSave={handleEntrySave} // Use the new handler
         defaultDate={selectedDate}
       />
     </div>

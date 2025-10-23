@@ -129,3 +129,25 @@ export const getEntriesBySubject = async (subject: string, userId: string): Prom
   }
   return data as LearnedEntry[];
 };
+
+export const getDatesWithFirstEntrySubject = async (userId: string): Promise<Map<string, string>> => {
+  const { data, error } = await supabase
+    .from('learned_entries')
+    .select('date, subject, created_at')
+    .eq('user_id', userId)
+    .order('date', { ascending: false })
+    .order('created_at', { ascending: true }); // Order by creation time to get the 'first' entry
+
+  if (error) {
+    console.error("Error fetching dates with first entry subject:", error);
+    return new Map();
+  }
+
+  const datesMap = new Map<string, string>();
+  data.forEach(entry => {
+    if (!datesMap.has(entry.date)) {
+      datesMap.set(entry.date, entry.subject);
+    }
+  });
+  return datesMap;
+};
