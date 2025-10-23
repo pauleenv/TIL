@@ -72,7 +72,7 @@ function Calendar({
           const { style: dotStyle } = subject ? getSubjectTagClasses(subject) : { style: {} };
 
           return (
-            <>
+            <div className="relative w-full h-full flex items-center justify-center">
               {children} {/* Render the default day content (e.g., day number) */}
               {subject && (
                 <div
@@ -81,7 +81,7 @@ function Calendar({
                   title={`Note sur: ${subject}`}
                 />
               )}
-            </>
+            </div>
           );
         },
       }}
