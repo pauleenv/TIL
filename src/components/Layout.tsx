@@ -40,7 +40,7 @@ const Layout = () => {
     <div className="min-h-screen flex flex-col">
       <header className="bg-transparent p-4 flex justify-between items-center">
         <h1 className="text-black text-4xl font-bold text-center flex-grow">AJA</h1>
-        <Button variant="ghost" size="icon" className="bg-white border-2 border-black shadow-custom-black rounded-full w-10 h-10 flex items-center justify-center text-black hover:bg-gray-100">
+        <Button variant="ghost" size="icon" className="bg-white border-2 border-black shadow-custom-black rounded-full w-10 h-10 flex items-center justify-center text-black hover:bg-gray-100" onClick={handleProfileClick}>
           <UserCircle className="h-6 w-6" />
         </Button>
       </header>
