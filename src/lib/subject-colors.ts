@@ -23,16 +23,15 @@ export const getSubjectTagClasses = (subject: string) => {
     baseClasses += " text-xs leading-[18px]"; // Taille par défaut pour les autres
   }
 
-  // Convertir le nom du sujet en kebab-case pour correspondre aux variables CSS
-  // Gérer spécifiquement les caractères français et les barres obliques
-  let cssVarName = subject
+  // Convertir le nom du sujet en kebab-case pour correspondre aux noms de classes Tailwind
+  let tailwindColorName = subject
     .toLowerCase()
     .replace(/é/g, 'e') // Remplacer 'é' par 'e'
     .replace(/\//g, '-') // Remplacer '/' par '-'
     .replace(/[^a-z0-9-]/g, ''); // Supprimer tout autre caractère non alphanumérique ou non-tiret
 
-  // Utiliser la variable CSS pour la couleur de fond
-  return `${baseClasses} bg-[var(--subject-${cssVarName}-bg)]`;
+  // Utiliser la classe Tailwind générée
+  return `${baseClasses} bg-subject-${tailwindColorName}`;
 };
 
 export const getSubjectDropdownItemClasses = (subject: string) => {
