@@ -103,7 +103,7 @@ const HomePage = () => {
   return (
     <div className="flex flex-col items-center justify-start min-h-[calc(100vh-180px)] pt-8">
       <h2 className="text-black text-3xl font-bold mb-6 text-center">Mon calendrier des découvertes</h2>
-      <Card className="bg-card p-6 rounded-[16px] border-2 border-black shadow-custom-black"> {/* Confirmed Card wrapper with styling */}
+      <Card className="bg-card p-6 rounded-[16px] border-2 border-black shadow-custom-black-lg"> {/* Changed to shadow-custom-black-lg */}
         <Calendar
           mode="single"
           selected={selectedDate}

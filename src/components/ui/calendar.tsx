@@ -59,7 +59,7 @@ function Calendar({
         nav: "space-x-1 flex items-center",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
-          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100"
+          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 border-2 border-black shadow-custom-black" // Added border and shadow
         ),
         nav_button_previous: "absolute left-1",
         nav_button_next: "absolute right-1",
@@ -83,7 +83,7 @@ function Calendar({
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
         // IMPORTANT: day_today is placed after day_selected to ensure it takes precedence if both apply
-        day_today: "bg-[#FFDD00] text-black", // Corrected to #FFDD00 for today's date
+        day_today: "bg-[#FFDD00] text-black border-2 border-black shadow-custom-black", // Corrected to #FFDD00, text-black, border, and shadow
         ...classNames,
       }}
       components={{
