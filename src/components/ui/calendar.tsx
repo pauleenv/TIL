@@ -3,53 +3,55 @@
 import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { DayPicker } from "react-day-picker";
-import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
-  datesWithNotes?: Map<string, string>; // Add this prop
+  datesWithNotes?: Map<string, string>; // Map<dateString, subject>
 };
 
 function Calendar({
   className,
   classNames,
-  showOutsideDays = true,
-  datesWithNotes, // Destructure datesWithNotes
+  showHead = true,
+  datesWithNotes = new Map(),
   ...props
 }: CalendarProps) {
+  const modifiers = {
+    hasNote: (day: Date) => {
+      const dateString = day.toISOString().split('T')[0];
+      return datesWithNotes.has(dateString);
+    },
+  };
 
-  const customModifiers: Record<string, Date[]> = {};
-  const datesWithAnyNote: Date[] = [];
-  const modifierClassNamesMap: Record<string, string> = {};
+  const modifiersClassNames = {
+    hasNote: "rdp-day_hasNote",
+  };
 
-  if (datesWithNotes) {
-    datesWithNotes.forEach((subject, dateString) => {
-      const date = new Date(dateString);
-      
-      // The modifier name used internally by react-day-picker (no escaped slashes, just spaces replaced)
-      const modifierKey = `has-note-${subject.replace(/\s/g, '-')}`; 
-      
-      // The actual CSS class name, with slashes escaped for CSS selector
-      // This needs to match exactly what's in globals.css
-      const cssClassName = `rdp-day_has-note-${subject.replace(/\s/g, '-').replace(/\//g, '\\/')}`;
+  // Dynamically add subject-specific classes for dots
+  const customDayContent = (day: Date) => {
+    const dateString = day.toISOString().split('T')[0];
+    const subject = datesWithNotes.get(dateString);
+    const dayClasses = ["rdp-day_selection_grid__day_label"];
+    if (subject) {
+      // Sanitize subject for CSS class name (replace '/' with '-')
+      const sanitizedSubject = subject.replace(/\//g, '-');
+      dayClasses.push(`rdp-day_has-note-${sanitizedSubject}`);
+    }
 
-      if (!customModifiers[modifierKey]) {
-        customModifiers[modifierKey] = [];
-      }
-      customModifiers[modifierKey].push(date);
-      modifierClassNamesMap[modifierKey] = cssClassName;
-      datesWithAnyNote.push(date);
-    });
-  }
-
-  customModifiers.hasNote = datesWithAnyNote;
-  modifierClassNamesMap.hasNote = "rdp-day_hasNote";
+    return (
+      <span className={cn(...dayClasses)}>
+        {day.getDate()}
+      </span>
+    );
+  };
 
   return (
     <DayPicker
-      showOutsideDays={showOutsideDays}
+      showHead={showHead}
+      locale={fr}
       className={cn("p-3", className)}
       classNames={{
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
@@ -59,7 +61,7 @@ function Calendar({
         nav: "space-x-1 flex items-center",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
-          "h-7 w-7 bg-transparent p-0 border-2 border-black shadow-custom-black !text-black"
+          "h-7 w-7 bg-transparent p-0 text-black" // Removed opacity-50
         ),
         nav_button_previous: "absolute left-1",
         nav_button_next: "absolute right-1",
@@ -71,26 +73,27 @@ function Calendar({
         cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
         day: cn(
           buttonVariants({ variant: "ghost" }),
-          "h-9 w-9 p-0 font-normal aria-selected:opacity-100 relative" // Keep relative here
+          "h-9 w-9 p-0 font-normal aria-selected:opacity-100"
         ),
         day_range_end: "day-range-end",
         day_selected:
-          "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+          "rounded-md bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+        day_today: "bg-accent text-accent-foreground",
         day_outside:
           "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
         day_disabled: "text-muted-foreground opacity-50",
         day_range_middle:
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
-        day_today: "!bg-[#FFDD00] !text-black border-2 border-black shadow-custom-black", // Ensure text is black and background is yellow
         ...classNames,
       }}
       components={{
-        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4 text-black" />, // Added text-black
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4 text-black" />, // Added text-black
+        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4 text-black" strokeWidth={3} />, // Added strokeWidth
+        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4 text-black" strokeWidth={3} />, // Added strokeWidth
+        DayContent: customDayContent,
       }}
-      modifiers={customModifiers}
-      modifierClassNames={modifierClassNamesMap}
+      modifiers={modifiers}
+      modifiersClassNames={modifiersClassNames}
       {...props}
     />
   );
