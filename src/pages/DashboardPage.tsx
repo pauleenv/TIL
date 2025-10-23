@@ -18,6 +18,7 @@ import {
   Cell,
 } from "recharts";
 import { BarChart3 } from "lucide-react";
+import { subjectColors } from "@/lib/subject-colors"; // Import subjectColors
 
 interface SubjectData {
   name: string;
@@ -29,7 +30,7 @@ interface ChokbarometerData {
   count: number;
 }
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658'];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']; // Keep for chokbarometer
 
 const DashboardPage = () => {
   const { user, loading } = useSession();
@@ -109,7 +110,11 @@ const DashboardPage = () => {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="count" fill="#8884d8" name="Nombre d'entrées" />
+                  <Bar dataKey="count" name="Nombre d'entrées">
+                    {subjectsData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={subjectColors[entry.name]?.background || COLORS[index % COLORS.length]} />
+                    ))}
+                  </Bar>
                 </BarChart>
               </ResponsiveContainer>
             ) : (

@@ -87,7 +87,7 @@ const EncyclopediaPage = () => {
           <SelectContent>
             <SelectItem value="all">Toutes les matières</SelectItem>
             {predefinedSubjects.map((subject) => ( // Use predefinedSubjects here
-              <SelectItem key={subject} value={subject}>
+              <SelectItem key={subject} value={subject} className={cn(getSubjectTagClasses(subject))}>
                 {subject}
               </SelectItem>
             ))}
