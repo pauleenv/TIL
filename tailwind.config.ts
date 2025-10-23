@@ -94,7 +94,7 @@ export default {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       backgroundImage: {
-        'gradient-orange-yellow': 'linear-gradient(180deg, #FF7A5C 0%, #F4D738 100%)',
+        'gradient-orange-yellow': 'radial-gradient(100% 67.72% at 100% 32.28%, #FFDD00 0%, #FFA07A 100%)',
       },
       boxShadow: {
         'custom-black': '3px 2px 0px rgb(0,0,0)',

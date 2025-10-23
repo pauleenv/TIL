@@ -103,16 +103,15 @@ const HomePage = () => {
   return (
     <div className="flex flex-col items-center justify-start min-h-[calc(100vh-180px)] pt-8"> {/* Adjusted alignment */}
       <h2 className="text-black text-3xl font-bold mb-6 text-center">Mon calendrier des découvertes</h2> {/* Styled title */}
-      <div className="bg-card p-6 rounded-lg shadow-lg"> {/* Calendar card wrapper */}
-        <Calendar
-          mode="single"
-          selected={selectedDate}
-          onSelect={handleDateSelect}
-          className="rounded-md" // Removed border and shadow here as it's now on the DayPicker itself
-          locale={fr}
-          datesWithNotes={datesWithNotes} // Pass the datesWithNotes map
-        />
-      </div>
+      {/* Removed the bg-card p-6 rounded-lg shadow-lg wrapper around Calendar */}
+      <Calendar
+        mode="single"
+        selected={selectedDate}
+        onSelect={handleDateSelect}
+        className="rounded-md"
+        locale={fr}
+        datesWithNotes={datesWithNotes} // Pass the datesWithNotes map
+      />
       <p className="text-black text-lg mt-4 text-center"> {/* Styled text */}
         {selectedDate ? `Aucune entrée pour le ${format(selectedDate, "PPP", { locale: fr })}` : "Sélectionnez une date pour voir ou ajouter des entrées."}
       </p>

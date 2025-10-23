@@ -116,7 +116,8 @@
   }
 
   body {
-    @apply bg-gradient-orange-yellow text-foreground font-sans; /* Apply custom gradient background */
+    background: radial-gradient(100% 67.72% at 100% 32.28%, #FFDD00 0%, #FFA07A 100%); /* Apply custom radial gradient background */
+    @apply text-foreground font-sans;
   }
 }
 
