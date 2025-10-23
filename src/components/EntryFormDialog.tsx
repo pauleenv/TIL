@@ -38,7 +38,7 @@ import { cn } from "@/lib/utils";
 import { LearnedEntry, addEntry, updateEntry } from "@/lib/data-store";
 import { showSuccess, showError } from "@/utils/toast";
 import { useSession } from '@/components/SessionContextProvider';
-import { getSubjectTagClasses } from "@/lib/subject-colors"; // Import the utility
+import { getSubjectDropdownItemClasses } from "@/lib/subject-colors"; // Import the utility
 
 // Define the form schema using Zod
 const formSchema = z.object({
@@ -327,7 +327,7 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
                     </FormControl>
                     <SelectContent>
                       {predefinedSubjects.map((subject) => (
-                        <SelectItem key={subject} value={subject} className={cn(getSubjectTagClasses(subject))}>
+                        <SelectItem key={subject} value={subject} className={getSubjectDropdownItemClasses(subject)}>
                           {subject}
                         </SelectItem>
                       ))}

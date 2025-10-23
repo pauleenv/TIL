@@ -6,12 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { Tag, ChevronDown } from "lucide-react";
+import { ChevronDown } from "lucide-react"; // Removed Tag icon import
 import { useSession } from '@/components/SessionContextProvider';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
 import LinkPreview from "@/components/LinkPreview";
-import { getSubjectTagClasses } from "@/lib/subject-colors"; // Import the utility
+import { getSubjectTagClasses, getSubjectDropdownItemClasses } from "@/lib/subject-colors"; // Import both utilities
 import { cn } from "@/lib/utils"; // Import the cn utility
 
 const predefinedSubjects = [
@@ -87,7 +87,7 @@ const EncyclopediaPage = () => {
           <SelectContent>
             <SelectItem value="all">Toutes les matières</SelectItem>
             {predefinedSubjects.map((subject) => ( // Use predefinedSubjects here
-              <SelectItem key={subject} value={subject} className={cn(getSubjectTagClasses(subject))}>
+              <SelectItem key={subject} value={subject} className={getSubjectDropdownItemClasses(subject)}>
                 {subject}
               </SelectItem>
             ))}
@@ -119,10 +119,7 @@ const EncyclopediaPage = () => {
                       {format(new Date(entry.date), "PPP", { locale: fr })}
                     </span>
                     <span
-                      className={cn(
-                        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
-                        getSubjectTagClasses(entry.subject)
-                      )}
+                      className={getSubjectTagClasses(entry.subject)}
                     >
                       {entry.subject}
                     </span>

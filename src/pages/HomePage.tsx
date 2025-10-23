@@ -152,10 +152,7 @@ const HomePage = () => {
                   ))}
                   <div className="flex flex-wrap gap-2 mt-2">
                     <span
-                      className={cn(
-                        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
-                        getSubjectTagClasses(entry.subject)
-                      )}
+                      className={getSubjectTagClasses(entry.subject)}
                     >
                       {entry.subject}
                     </span>

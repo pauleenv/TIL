@@ -18,6 +18,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["Poppins", "sans-serif"], // Ajout de Poppins comme police sans-serif par défaut
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
