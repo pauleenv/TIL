@@ -137,6 +137,7 @@
   border: 2px solid black; /* Added border */
   box-shadow: 3px 2px 0px rgb(0,0,0); /* Added drop shadow */
   background-color: var(--dot-background-color, #000); /* Fallback color */
+  z-index: 1; /* Added z-index to ensure visibility */
 }
 
 /* Specific subject colors for the dots */
