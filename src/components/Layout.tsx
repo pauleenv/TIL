@@ -7,7 +7,7 @@ import { Book, BarChart3, UserCircle, PlusCircle } from "lucide-react";
 import { MadeWithDyad } from "./made-with-dyad";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-// Removed imports for HomeActive and HomeInactive
+import Home from "@/assets/icons/Home"; // Importation de la nouvelle icône Home
 
 const Layout = () => {
   const location = useLocation();
@@ -70,7 +70,7 @@ const Layout = () => {
                 "flex flex-col items-center justify-center text-xs sm:text-sm text-black",
                 isActive("/") && "bg-white shadow-custom-black rounded-[16px] mx-2 my-1.5"
               )}>
-                Accueil {/* Removed HomeActive/HomeInactive icons */}
+                <Home className="h-5 w-5 mb-1" /> Accueil
               </Link>
             </TabsTrigger>
             <TabsTrigger value="encyclopedia" asChild>
