@@ -23,12 +23,11 @@ export const getSubjectTagClasses = (subject: string) => {
     baseClasses += " text-xs leading-[18px]"; // Taille par défaut pour les autres
   }
 
-  const colors = subjectColors[subject];
-  if (colors) {
-    return `${baseClasses} bg-[${colors.background}]`;
-  }
-  // Fallback pour les matières non définies ou le style par défaut
-  return `${baseClasses} bg-white`;
+  // Convertir le nom du sujet en kebab-case pour correspondre aux variables CSS
+  const cssVarName = subject.toLowerCase().replace(/[^a-z0-9]/g, '-');
+  
+  // Utiliser la variable CSS pour la couleur de fond
+  return `${baseClasses} bg-[var(--subject-${cssVarName}-bg)]`;
 };
 
 export const getSubjectDropdownItemClasses = (subject: string) => {
