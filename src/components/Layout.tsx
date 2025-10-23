@@ -3,7 +3,7 @@
 import React from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Book, BarChart3, UserCircle, PlusCircle } from "lucide-react"; // Assurez-vous que 'Home' n'est PAS importé d'ici
+import { Book, BarChart3, UserCircle, PlusCircle } from "lucide-react";
 import { MadeWithDyad } from "./made-with-dyad";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -14,6 +14,11 @@ const Layout = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const currentPath = location.pathname;
+
+  // DIAGNOSTIC LOGS START
+  console.log("Layout: Current Path:", currentPath);
+  console.log("Layout: Is Home Active ('/'):", currentPath === "/");
+  // DIAGNOSTIC LOGS END
 
   const getActiveTab = () => {
     if (currentPath === "/") return "home";
@@ -71,7 +76,9 @@ const Layout = () => {
                 "flex flex-col items-center justify-center text-xs sm:text-sm text-black",
                 isActive("/") && "bg-white shadow-custom-black rounded-[16px] mx-2 my-1.5"
               )}>
-                {isActive("/") ? <HomeActive className="h-5 w-5 mb-1" /> : <HomeInactive className="h-5 w-5 mb-1" />} Accueil
+                {/* DIAGNOSTIC STYLING START */}
+                {isActive("/") ? <HomeActive className="h-5 w-5 mb-1" style={{ color: 'red' }} /> : <HomeInactive className="h-5 w-5 mb-1" style={{ color: 'blue' }} />} Accueil
+                {/* DIAGNOSTIC STYLING END */}
               </Link>
             </TabsTrigger>
             <TabsTrigger value="encyclopedia" asChild>
