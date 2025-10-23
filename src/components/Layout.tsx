@@ -60,13 +60,13 @@ const Layout = () => {
       )}
 
       {/* Bottom Navigation Bar */}
-      <nav className="fixed bottom-5 left-4 right-3 bg-white border-t-2 border-black shadow-custom-black-lg rounded-t-[10px] z-50"> {/* Styled nav bar with new margins */}
+      <nav className="fixed bottom-5 left-4 right-3 bg-white shadow-custom-black-lg rounded-[16px] z-50"> {/* Changed rounded-t-[10px] to rounded-[16px] and removed border-t-2 border-black */}
         <Tabs value={getActiveTab()} className="w-full">
           <TabsList className="grid w-full grid-cols-3 h-16 bg-transparent"> {/* Changed to 3 columns, removed bg-primary */}
             <TabsTrigger value="home" asChild>
               <Link to="/" className={cn(
                 "flex flex-col items-center justify-center text-xs sm:text-sm text-black", // Text color black
-                currentPath === "/" && "bg-white border-2 border-black shadow-custom-black rounded-md mx-2 my-1.5" // Active tab style
+                currentPath === "/" && "bg-white border-2 border-black shadow-custom-black rounded-[16px] mx-2 my-1.5" // Active tab style: changed rounded-md to rounded-[16px]
               )}>
                 <Home className="h-5 w-5 mb-1" /> Accueil
               </Link>
@@ -75,7 +75,7 @@ const Layout = () => {
             <TabsTrigger value="encyclopedia" asChild>
               <Link to="/encyclopedia" className={cn(
                 "flex flex-col items-center justify-center text-xs sm:text-sm text-black", // Text color black
-                currentPath === "/encyclopedia" && "bg-white border-2 border-black shadow-custom-black rounded-md mx-2 my-1.5" // Active tab style
+                currentPath === "/encyclopedia" && "bg-white border-2 border-black shadow-custom-black rounded-[16px] mx-2 my-1.5" // Active tab style: changed rounded-md to rounded-[16px]
               )}>
                 <Book className="h-5 w-5 mb-1" /> Encyclopédie
               </Link>
@@ -83,7 +83,7 @@ const Layout = () => {
             <TabsTrigger value="dashboard" asChild>
               <Link to="/dashboard" className={cn(
                 "flex flex-col items-center justify-center text-xs sm:text-sm text-black", // Text color black
-                currentPath === "/dashboard" && "bg-white border-2 border-black shadow-custom-black rounded-md mx-2 my-1.5" // Active tab style
+                currentPath === "/dashboard" && "bg-white border-2 border-black shadow-custom-black rounded-[16px] mx-2 my-1.5" // Active tab style: changed rounded-md to rounded-[16px]
               )}>
                 <BarChart3 className="h-5 w-5 mb-1" /> Tableau de bord
               </Link>
