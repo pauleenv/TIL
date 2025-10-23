@@ -11,10 +11,10 @@ interface LinkPreviewProps {
 }
 
 interface LinkMetadata {
-  title: string;
-  description: string;
-  image: string;
-  url: string;
+  title: string | null;
+  description: string | null;
+  image: string | null;
+  url: string | null;
 }
 
 const fetchLinkPreview = async (linkUrl: string): Promise<LinkMetadata | null> => {
@@ -47,8 +47,8 @@ const fetchLinkPreview = async (linkUrl: string): Promise<LinkMetadata | null> =
 
     const data = await response.json();
     console.log('Client: Received link preview data:', data);
-    return data;
-  } catch (error) {
+    return data as LinkMetadata;
+  } catch (error: any) { // Explicitly type error as 'any' or 'unknown'
     console.error("Client: Failed to fetch link preview:", error);
     return null;
   }
@@ -60,7 +60,7 @@ const LinkPreview: React.FC<LinkPreviewProps> = ({ url }) => {
     queryFn: () => fetchLinkPreview(url),
     enabled: !!url, // Only run query if URL is provided
     staleTime: 1000 * 60 * 60, // Cache for 1 hour
-    cacheTime: 1000 * 60 * 60 * 24, // Keep in cache for 24 hours
+    gcTime: 1000 * 60 * 60 * 24, // Keep in cache for 24 hours (replaces cacheTime)
   });
 
   if (!url) return null;
