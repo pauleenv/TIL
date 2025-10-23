@@ -12,7 +12,16 @@ export const subjectColors: { [key: string]: { background: string; text: string 
 
 export const getSubjectTagClasses = (subject: string) => {
   // Classes de base pour le tag affiché (style pilule)
-  const baseClasses = "flex items-center justify-center w-[70px] h-[20px] border-2 border-black shadow-[3px_2px_0px_rgb(0,0,0)] rounded-[16px] font-normal text-xs leading-[18px] text-black";
+  let baseClasses = "flex items-center justify-center w-[70px] h-[20px] border-2 border-black shadow-[3px_2px_0px_rgb(0,0,0)] rounded-[16px] font-normal text-black";
+
+  // Ajustements spécifiques pour la taille de la police et la hauteur de ligne
+  if (subject === "Nature/Géographie") {
+    baseClasses += " text-[9px] leading-[14px]";
+  } else if (subject === "Arts/Pop Culture") {
+    baseClasses += " text-[7px] leading-[10px]";
+  } else {
+    baseClasses += " text-xs leading-[18px]"; // Taille par défaut pour les autres
+  }
 
   const colors = subjectColors[subject];
   if (colors) {
