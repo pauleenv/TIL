@@ -7,8 +7,7 @@ import { Book, BarChart3, UserCircle, PlusCircle } from "lucide-react";
 import { MadeWithDyad } from "./made-with-dyad";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import HomeActive from "@/assets/icons/HomeActive"; // Importation de l'icône d'accueil active
-import HomeInactive from "@/assets/icons/HomeInactive"; // Importation de l'icône d'accueil inactive
+// Removed imports for HomeActive and HomeInactive
 
 const Layout = () => {
   const location = useLocation();
@@ -71,7 +70,7 @@ const Layout = () => {
                 "flex flex-col items-center justify-center text-xs sm:text-sm text-black",
                 isActive("/") && "bg-white shadow-custom-black rounded-[16px] mx-2 my-1.5"
               )}>
-                {isActive("/") ? <HomeActive className="h-5 w-5 mb-1" /> : <HomeInactive className="h-5 w-5 mb-1" />} Accueil
+                Accueil {/* Removed HomeActive/HomeInactive icons */}
               </Link>
             </TabsTrigger>
             <TabsTrigger value="encyclopedia" asChild>
