@@ -138,13 +138,13 @@
 }
 
 /* Specific subject colors for the dots */
-.rdp-day.rdp-day_has-note-Tech::after { background-color: var(--subject-tech-bg); }
-.rdp-day.rdp-day_has-note-Histoire::after { background-color: var(--subject-histoire-bg); }
-.rdp-day.rdp-day_has-note-Sports::after { background-color: var(--subject-sports-bg); }
-.rdp-day.rdp-day_has-note-Langues::after { background-color: var(--subject-langues-bg); }
-.rdp-day.rdp-day_has-note-Sciences::after { background-color: var(--subject-sciences-bg); }
-.rdp-day.rdp-day_has-note-Nature\/Géographie::after { background-color: var(--subject-nature-geographie-bg); }
-.rdp-day.rdp-day_has-note-Arts\/Pop-Culture::after { background-color: var(--subject-arts-pop-culture-bg); }
+.rdp-day.rdp-day_has-note-Tech::after { background-color: var(--subject-tech-bg) !important; }
+.rdp-day.rdp-day_has-note-Histoire::after { background-color: var(--subject-histoire-bg) !important; }
+.rdp-day.rdp-day_has-note-Sports::after { background-color: var(--subject-sports-bg) !important; }
+.rdp-day.rdp-day_has-note-Langues::after { background-color: var(--subject-langues-bg) !important; }
+.rdp-day.rdp-day_has-note-Sciences::after { background-color: var(--subject-sciences-bg) !important; }
+.rdp-day.rdp-day_has-note-Nature\/Géographie::after { background-color: var(--subject-nature-geographie-bg) !important; }
+.rdp-day.rdp-day_has-note-Arts\/Pop-Culture::after { background-color: var(--subject-arts-pop-culture-bg) !important; }
 
 /* Force current day number to be black */
 .rdp-day_today {

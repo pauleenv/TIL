@@ -82,7 +82,7 @@ function Calendar({
         day_range_middle:
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
-        day_today: "bg-[#FFDD00] !text-black border-2 border-black shadow-custom-black", // Ensure text is black
+        day_today: "bg-[#FFDD00] !bg-[#FFDD00] !text-black border-2 border-black shadow-custom-black", // Added !bg-[#FFDD00] here
         ...classNames,
       }}
       components={{
