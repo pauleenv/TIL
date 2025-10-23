@@ -22,24 +22,33 @@ function Calendar({
 
   const customModifiers: Record<string, Date[]> = {};
   const datesWithAnyNote: Date[] = [];
+  const modifierClassNamesMap: Record<string, string> = {}; // To store the mapping from modifier name to CSS class name
 
   if (datesWithNotes) {
     datesWithNotes.forEach((subject, dateString) => {
       const date = new Date(dateString);
-      // Only replace spaces with hyphens, keep slashes as is (they are escaped in CSS)
-      const sanitizedSubject = subject.replace(/\s/g, '-'); 
-      const subjectModifierName = `has-note-${sanitizedSubject}`;
+      
+      // Sanitize the subject name to create a valid CSS class name, escaping slashes
+      const sanitizedSubjectForCss = subject.replace(/\s/g, '-').replace(/\//g, '\\/');
+      
+      // The modifier name used internally by react-day-picker (no escaped slashes)
+      const modifierName = `has-note-${subject.replace(/\s/g, '-')}`; 
+      
+      // The actual CSS class name, which includes the escaped slash
+      const cssClassName = `rdp-day_has-note-${sanitizedSubjectForCss}`;
 
-      if (!customModifiers[subjectModifierName]) {
-        customModifiers[subjectModifierName] = [];
+      if (!customModifiers[modifierName]) {
+        customModifiers[modifierName] = [];
       }
-      customModifiers[subjectModifierName].push(date);
+      customModifiers[modifierName].push(date);
       datesWithAnyNote.push(date);
+      modifierClassNamesMap[modifierName] = cssClassName; // Store the mapping
     });
   }
 
   // Add the generic 'hasNote' modifier for all days with notes
   customModifiers.hasNote = datesWithAnyNote;
+  modifierClassNamesMap.hasNote = "rdp-day_hasNote"; // Map generic modifier to its class
 
   return (
     <DayPicker
@@ -84,14 +93,7 @@ function Calendar({
         IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
       }}
       modifiers={customModifiers} // Pass custom modifiers
-      modifierClassNames={{
-        hasNote: "rdp-day_hasNote", // Apply the base class for the dot
-        ...Object.fromEntries(
-          Object.keys(customModifiers)
-            .filter(key => key.startsWith('has-note-')) // Filter for subject-specific modifiers
-            .map(key => [key, `rdp-day_${key}`]) // Map modifier name to class name
-        ),
-      }}
+      modifierClassNames={modifierClassNamesMap} // Use the generated map for class names
       {...props}
     />
   );
