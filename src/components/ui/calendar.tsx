@@ -20,17 +20,26 @@ function Calendar({
   ...props
 }: CalendarProps) {
 
-  const getDayClassNames = (date: Date) => {
-    if (!datesWithNotes) return "";
-    const dateString = format(date, "yyyy-MM-dd");
-    const subject = datesWithNotes.get(dateString);
-    if (subject) {
-      // Replace spaces and slashes for CSS class names
-      const sanitizedSubject = subject.replace(/[\s\/]/g, '-');
-      return `rdp-day_hasNote rdp-day_has-note-${sanitizedSubject}`;
-    }
-    return "";
-  };
+  const customModifiers: Record<string, Date[]> = {};
+  const datesWithAnyNote: Date[] = [];
+
+  if (datesWithNotes) {
+    datesWithNotes.forEach((subject, dateString) => {
+      const date = new Date(dateString);
+      // Only replace spaces with hyphens, keep slashes as is (they are escaped in CSS)
+      const sanitizedSubject = subject.replace(/\s/g, '-'); 
+      const subjectModifierName = `has-note-${sanitizedSubject}`;
+
+      if (!customModifiers[subjectModifierName]) {
+        customModifiers[subjectModifierName] = [];
+      }
+      customModifiers[subjectModifierName].push(date);
+      datesWithAnyNote.push(date);
+    });
+  }
+
+  // Add the generic 'hasNote' modifier for all days with notes
+  customModifiers.hasNote = datesWithAnyNote;
 
   return (
     <DayPicker
@@ -54,10 +63,9 @@ function Calendar({
           "text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]",
         row: "flex w-full mt-2",
         cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
-        day: (day) => cn(
+        day: cn(
           buttonVariants({ variant: "ghost" }),
-          "h-9 w-9 p-0 font-normal aria-selected:opacity-100",
-          getDayClassNames(day) // Apply dynamic class names here
+          "h-9 w-9 p-0 font-normal aria-selected:opacity-100"
         ),
         day_range_end: "day-range-end",
         day_selected:
@@ -74,6 +82,15 @@ function Calendar({
       components={{
         IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
         IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
+      }}
+      modifiers={customModifiers} // Pass custom modifiers
+      modifierClassNames={{
+        hasNote: "rdp-day_hasNote", // Apply the base class for the dot
+        ...Object.fromEntries(
+          Object.keys(customModifiers)
+            .filter(key => key.startsWith('has-note-')) // Filter for subject-specific modifiers
+            .map(key => [key, `rdp-day_${key}`]) // Map modifier name to class name
+        ),
       }}
       {...props}
     />
