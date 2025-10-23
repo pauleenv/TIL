@@ -7,7 +7,7 @@ import { fr } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
 import { getSubjectTagClasses } from "@/lib/subject-colors";
-import { format, isValid } from "date-fns"; // Import isValid
+import { format, isValid } from "date-fns";
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   datesWithNotes?: Map<string, string>; // Add prop for dates with notes
@@ -20,33 +20,6 @@ function Calendar({
   datesWithNotes, // Destructure the new prop
   ...props
 }: CalendarProps) {
-  const CustomDay = (dayProps: any) => {
-    const day = dayProps.day;
-    
-    // Add a check here to ensure 'day' is a valid Date object
-    if (!isValid(day)) {
-      // If the day is invalid, render the default DayPicker.Day without custom logic
-      return <DayPicker.Day {...dayProps} />;
-    }
-
-    const formattedDay = format(day, "yyyy-MM-dd");
-    const subject = datesWithNotes?.get(formattedDay);
-    const { style: dotStyle } = subject ? getSubjectTagClasses(subject) : { style: {} };
-
-    return (
-      <div className="relative">
-        <DayPicker.Day {...dayProps} />
-        {subject && (
-          <div
-            className="absolute bottom-1 right-1 w-2 h-2 rounded-full"
-            style={{ backgroundColor: dotStyle.backgroundColor }}
-            title={`Note sur: ${subject}`}
-          />
-        )}
-      </div>
-    );
-  };
-
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
@@ -88,7 +61,29 @@ function Calendar({
       components={{
         IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
         IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
-        Day: CustomDay, // Use the custom Day component
+        DayContent: ({ day, children }) => {
+          // Ensure 'day' is a valid Date object before formatting
+          if (!isValid(day)) {
+            return <>{children}</>; // Render default content if day is invalid
+          }
+
+          const formattedDay = format(day, "yyyy-MM-dd");
+          const subject = datesWithNotes?.get(formattedDay);
+          const { style: dotStyle } = subject ? getSubjectTagClasses(subject) : { style: {} };
+
+          return (
+            <div className="relative w-full h-full flex items-center justify-center">
+              {children} {/* Render the default day content (e.g., day number) */}
+              {subject && (
+                <div
+                  className="absolute bottom-1 right-1 w-2 h-2 rounded-full"
+                  style={{ backgroundColor: dotStyle.backgroundColor }}
+                  title={`Note sur: ${subject}`}
+                />
+              )}
+            </div>
+          );
+        },
       }}
       locale={fr}
       {...props}
