@@ -83,7 +83,7 @@ function Calendar({
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
         // IMPORTANT: day_today is placed after day_selected to ensure it takes precedence if both apply
-        day_today: "bg-[#F4D738] text-black", // Using a specific hex color for today's date
+        day_today: "bg-[#FFDD00] text-black", // Corrected to #FFDD00 for today's date
         ...classNames,
       }}
       components={{
