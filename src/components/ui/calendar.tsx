@@ -31,8 +31,9 @@ function Calendar({
   const modifiersClassNames = datesWithNotes ? Object.fromEntries(
     Array.from(datesWithNotes.keys()).map(dateString => {
       const subject = datesWithNotes.get(dateString);
-      const { className: tagClassName } = subject ? getSubjectTagClasses(subject) : { className: "" };
-      return [`has-note-${dateString}`, cn("relative", tagClassName.split(' ').filter(c => c.startsWith('bg-') || c.startsWith('text-') || c.startsWith('border-')).join(' '))];
+      // We only need the 'hasNote' modifier for the dot, not the full tag classes here.
+      // The dot styling is handled by globals.css based on the 'hasNote' class.
+      return [`has-note-${dateString}`, "rdp-day_hasNote"];
     })
   ) : {};
 
@@ -73,7 +74,7 @@ function Calendar({
         day_range_end: "day-range-end",
         day_selected:
           "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-        day_today: "bg-accent text-accent-foreground",
+        day_today: "bg-[#ffdd00] text-black border-2 border-black shadow-[3px_2px_0px_rgb(0,0,0)] hover:bg-[#ffdd00]/90 hover:text-black focus:bg-[#ffdd00] focus:text-black", // Custom styles for today
         day_outside:
           "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
         day_disabled: "text-muted-foreground opacity-50",
@@ -84,21 +85,13 @@ function Calendar({
       }}
       modifiers={{
         ...modifiers,
-        // Add a generic modifier for all days with notes to apply a base style
         hasNote: Array.from(datesWithNotes?.keys() || []).map(dateString => new Date(dateString)),
       }}
       modifiersClassNames={{
         ...modifiersClassNames,
-        hasNote: "relative", // Add relative positioning to days with notes
+        hasNote: "rdp-day_hasNote", // Apply the base class for the dot
       }}
-      modifiersStyles={{
-        ...modifiersStyles,
-        hasNote: {
-          // Use a pseudo-element or a child div for the dot
-          // This requires custom CSS to render the dot, as inline styles don't support pseudo-elements
-          // We'll add a custom CSS rule for this.
-        }
-      }}
+      modifiersStyles={modifiersStyles}
       locale={fr}
       {...props}
     />
