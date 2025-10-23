@@ -133,6 +133,8 @@
   width: 8px;
   height: 8px;
   border-radius: 9999px; /* full rounded */
+  border: 2px solid black; /* Added border */
+  box-shadow: 3px 2px 0px rgb(0,0,0); /* Added drop shadow */
   background-color: var(--dot-background-color, #000); /* Fallback color */
 }
 
