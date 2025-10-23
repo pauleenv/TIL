@@ -122,11 +122,7 @@
 }
 
 /* Custom styles for react-day-picker modifiers */
-.rdp-day_hasNote {
-  /* Removed position: relative here as it's already on the day element itself */
-}
-
-.rdp-day_hasNote::after {
+.rdp-day.rdp-day_hasNote::after { /* More specific selector */
   content: "";
   position: absolute;
   bottom: 4px; /* Adjust as needed */
@@ -142,15 +138,18 @@
 }
 
 /* Specific subject colors for the dots */
-.rdp-day_has-note-Tech::after { background-color: var(--subject-tech-bg); }
-.rdp-day_has-note-Histoire::after { background-color: var(--subject-histoire-bg); }
-.rdp-day_has-note-Sports::after { background-color: var(--subject-sports-bg); }
-.rdp-day_has-note-Langues::after { background-color: var(--subject-langues-bg); }
-.rdp-day_has-note-Sciences::after { background-color: var(--subject-sciences-bg); }
-.rdp-day_has-note-Nature\/Géographie::after { background-color: var(--subject-nature-geographie-bg); }
-.rdp-day_has-note-Arts\/Pop-Culture::after { background-color: var(--subject-arts-pop-culture-bg); }
+.rdp-day.rdp-day_has-note-Tech::after { background-color: var(--subject-tech-bg); }
+.rdp-day.rdp-day_has-note-Histoire::after { background-color: var(--subject-histoire-bg); }
+.rdp-day.rdp-day_has-note-Sports::after { background-color: var(--subject-sports-bg); }
+.rdp-day.rdp-day_has-note-Langues::after { background-color: var(--subject-langues-bg); }
+.rdp-day.rdp-day_has-note-Sciences::after { background-color: var(--subject-sciences-bg); }
+.rdp-day.rdp-day_has-note-Nature\/Géographie::after { background-color: var(--subject-nature-geographie-bg); }
+.rdp-day.rdp-day_has-note-Arts\/Pop-Culture::after { background-color: var(--subject-arts-pop-culture-bg); }
 
 /* Force current day number to be black */
+.rdp-day_today {
+  color: black !important; /* Target the day button itself */
+}
 .rdp-day_today .rdp-day_selection_grid__day_label {
-  color: #000000 !important;
+  color: black !important; /* Keep this as a fallback/additional target */
 }
