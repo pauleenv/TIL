@@ -12,7 +12,8 @@ export const subjectColors: { [key: string]: { background: string; text: string 
 
 export const getSubjectTagClasses = (subject: string) => {
   // Classes de base pour le tag affiché (style pilule)
-  let baseClasses = "flex items-center justify-center w-[70px] h-[20px] border-2 border-black shadow-[3px_2px_0px_rgb(0,0,0)] rounded-[16px] font-normal text-black";
+  // Suppression de la largeur fixe (w-[70px]) et ajout de padding horizontal (px-2)
+  let baseClasses = "flex items-center justify-center h-[20px] px-2 border-2 border-black shadow-[3px_2px_0px_rgb(0,0,0)] rounded-[16px] font-normal text-black whitespace-nowrap";
 
   // Ajustements spécifiques pour la taille de la police et la hauteur de ligne
   if (subject === "Nature/Géographie") {
