@@ -20,6 +20,30 @@ function Calendar({
   datesWithNotes, // Destructure the new prop
   ...props
 }: CalendarProps) {
+  // Prepare modifiers for react-day-picker
+  const modifiers = datesWithNotes ? Object.fromEntries(
+    Array.from(datesWithNotes.keys()).map(dateString => [
+      `has-note-${dateString}`,
+      new Date(dateString)
+    ])
+  ) : {};
+
+  const modifiersClassNames = datesWithNotes ? Object.fromEntries(
+    Array.from(datesWithNotes.keys()).map(dateString => {
+      const subject = datesWithNotes.get(dateString);
+      const { className: tagClassName } = subject ? getSubjectTagClasses(subject) : { className: "" };
+      return [`has-note-${dateString}`, cn("relative", tagClassName.split(' ').filter(c => c.startsWith('bg-') || c.startsWith('text-') || c.startsWith('border-')).join(' '))];
+    })
+  ) : {};
+
+  const modifiersStyles = datesWithNotes ? Object.fromEntries(
+    Array.from(datesWithNotes.keys()).map(dateString => {
+      const subject = datesWithNotes.get(dateString);
+      const { style: dotStyle } = subject ? getSubjectTagClasses(subject) : { style: {} };
+      return [`has-note-${dateString}`, { '--dot-background-color': dotStyle.backgroundColor }];
+    })
+  ) : {};
+
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
@@ -58,34 +82,22 @@ function Calendar({
         day_hidden: "invisible",
         ...classNames,
       }}
-      components={{
-        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
-        DayContent: ({ day, children }) => {
-          if (!isValid(day)) {
-            // Fallback for invalid day, ensure visibility
-            return <span className="text-muted-foreground">{children}</span>;
-          }
-
-          const formattedDay = format(day, "yyyy-MM-dd");
-          const subject = datesWithNotes?.get(formattedDay);
-          const { style: dotStyle } = subject ? getSubjectTagClasses(subject) : { style: {} };
-
-          return (
-            <div className="relative h-full w-full flex items-center justify-center">
-              <span className="text-foreground dark:text-primary-foreground">
-                {day.getDate()} {/* Explicitement rendre le numéro du jour */}
-              </span>
-              {subject && (
-                <div
-                  className="absolute bottom-1 right-1 w-2 h-2 rounded-full"
-                  style={{ backgroundColor: dotStyle.backgroundColor }}
-                  title={`Note sur: ${subject}`}
-                />
-              )}
-            </div>
-          );
-        },
+      modifiers={{
+        ...modifiers,
+        // Add a generic modifier for all days with notes to apply a base style
+        hasNote: Array.from(datesWithNotes?.keys() || []).map(dateString => new Date(dateString)),
+      }}
+      modifiersClassNames={{
+        ...modifiersClassNames,
+        hasNote: "relative", // Add relative positioning to days with notes
+      }}
+      modifiersStyles={{
+        ...modifiersStyles,
+        hasNote: {
+          // Use a pseudo-element or a child div for the dot
+          // This requires custom CSS to render the dot, as inline styles don't support pseudo-elements
+          // We'll add a custom CSS rule for this.
+        }
       }}
       locale={fr}
       {...props}

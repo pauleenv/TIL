@@ -51,6 +51,15 @@
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Subject Colors as CSS variables for use in globals.css */
+    --subject-tech-bg: #FF7A5C;
+    --subject-histoire-bg: #F4D738;
+    --subject-sports-bg: #FF3057;
+    --subject-langues-bg: #5168FF;
+    --subject-sciences-bg: #A7DBD8;
+    --subject-nature-geographie-bg: #48C748;
+    --subject-arts-pop-culture-bg: #FF66B7;
   }
 
   .dark {
@@ -89,6 +98,15 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    /* Subject Colors as CSS variables for use in globals.css */
+    --subject-tech-bg: #FF7A5C;
+    --subject-histoire-bg: #F4D738;
+    --subject-sports-bg: #FF3057;
+    --subject-langues-bg: #5168FF;
+    --subject-sciences-bg: #A7DBD8;
+    --subject-nature-geographie-bg: #48C748;
+    --subject-arts-pop-culture-bg: #FF66B7;
   }
 }
 
@@ -101,3 +119,28 @@
     @apply bg-background text-foreground font-sans; /* Ensure font-sans is applied */
   }
 }
+
+/* Custom styles for react-day-picker modifiers */
+.rdp-day_hasNote {
+  position: relative;
+}
+
+.rdp-day_hasNote::after {
+  content: "";
+  position: absolute;
+  bottom: 4px; /* Adjust as needed */
+  right: 4px; /* Adjust as needed */
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px; /* full rounded */
+  background-color: var(--dot-background-color, #000); /* Fallback color */
+}
+
+/* Specific subject colors for the dots */
+.rdp-day_has-note-Tech::after { background-color: var(--subject-tech-bg); }
+.rdp-day_has-note-Histoire::after { background-color: var(--subject-histoire-bg); }
+.rdp-day_has-note-Sports::after { background-color: var(--subject-sports-bg); }
+.rdp-day_has-note-Langues::after { background-color: var(--subject-langues-bg); }
+.rdp-day_has-note-Sciences::after { background-color: var(--subject-sciences-bg); }
+.rdp-day_has-note-Nature\/Géographie::after { background-color: var(--subject-nature-geographie-bg); }
+.rdp-day_has-note-Arts\/Pop-Culture::after { background-color: var(--subject-arts-pop-culture-bg); }
