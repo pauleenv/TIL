@@ -49,7 +49,7 @@ function Calendar({
   return (
     <DayPicker
       showOutsideDays={showOutsideDays}
-      className={cn("p-3 border-2 border-black shadow-custom-black-lg", className)} // Applied border and shadow to the calendar itself
+      className={cn("p-3 border-2 border-black shadow-custom-black-lg bg-white", className)} // Added bg-white here
       classNames={{
         months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
         month: "space-y-4",
