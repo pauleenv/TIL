@@ -3,12 +3,12 @@
 import React from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Book, BarChart3, UserCircle, PlusCircle } from "lucide-react"; // Removed Home icon from here
+import { Book, BarChart3, UserCircle, PlusCircle } from "lucide-react"; // Assurez-vous que 'Home' n'est PAS importé d'ici
 import { MadeWithDyad } from "./made-with-dyad";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import HomeActive from "@/assets/icons/HomeActive"; // Import active home icon
-import HomeInactive from "@/assets/icons/HomeInactive"; // Import inactive home icon
+import HomeActive from "@/assets/icons/HomeActive"; // Importation de l'icône d'accueil active
+import HomeInactive from "@/assets/icons/HomeInactive"; // Importation de l'icône d'accueil inactive
 
 const Layout = () => {
   const location = useLocation();
