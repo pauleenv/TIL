@@ -101,64 +101,51 @@ const HomePage = () => {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 items-start justify-center min-h-[calc(100vh-180px)]">
-      <div className="flex flex-col items-center lg:w-1/2">
-        <h2 className="text-3xl font-bold mb-6 text-center">Votre Calendrier d'Apprentissage</h2>
-        <div className="bg-card p-6 rounded-lg shadow-lg">
-          <Calendar
-            mode="single"
-            selected={selectedDate}
-            onSelect={handleDateSelect}
-            className="rounded-md border"
-            locale={fr}
-            datesWithNotes={datesWithNotes} // Pass the datesWithNotes map
-          />
-        </div>
-        <p className="text-lg text-muted-foreground mt-4 text-center">
-          Sélectionnez une date pour voir ou ajouter des entrées.
-        </p>
-        {selectedDate && (
-          <Button onClick={handleAddEntryClick} className="mt-4 w-full lg:w-auto">
-            Ajouter une entrée pour le {format(selectedDate, "PPP", { locale: fr })}
-          </Button>
-        )}
+    <div className="flex flex-col items-center justify-start min-h-[calc(100vh-180px)] pt-8"> {/* Adjusted alignment */}
+      <h2 className="text-black text-3xl font-bold mb-6 text-center">Mon calendrier des découvertes</h2> {/* Styled title */}
+      <div className="bg-card p-6 rounded-lg shadow-lg"> {/* Calendar card wrapper */}
+        <Calendar
+          mode="single"
+          selected={selectedDate}
+          onSelect={handleDateSelect}
+          className="rounded-md" // Removed border and shadow here as it's now on the DayPicker itself
+          locale={fr}
+          datesWithNotes={datesWithNotes} // Pass the datesWithNotes map
+        />
       </div>
+      <p className="text-black text-lg mt-4 text-center"> {/* Styled text */}
+        {selectedDate ? `Aucune entrée pour le ${format(selectedDate, "PPP", { locale: fr })}` : "Sélectionnez une date pour voir ou ajouter des entrées."}
+      </p>
+      {/* Removed the old "Add Entry" button here, as it's now a floating button in Layout.tsx */}
 
-      <div className="lg:w-1/2 w-full">
-        <h3 className="text-2xl font-bold mb-4 text-center lg:text-left">
-          Entrées pour le {selectedDate ? format(selectedDate, "PPP", { locale: fr }) : "aucune date sélectionnée"}
-        </h3>
-        {entriesForSelectedDate.length === 0 ? (
-          <p className="text-muted-foreground text-center lg:text-left">
-            Aucune entrée pour cette date.
-          </p>
-        ) : (
+      <div className="w-full max-w-lg mt-8"> {/* Adjusted max-width for entries list */}
+        {entriesForSelectedDate.length > 0 && (
           <div className="space-y-4">
             {entriesForSelectedDate.map((entry) => {
               const { className: tagClassName, style: tagStyle } = getSubjectTagClasses(entry.subject);
               return (
-                <Card key={entry.id} className="relative">
+                <Card key={entry.id} className="relative border-2 border-black shadow-custom-black"> {/* Added border and shadow to entry cards */}
                   <CardHeader>
-                    <CardTitle className="flex justify-between items-center">
+                    <CardTitle className="flex justify-between items-center text-black"> {/* Text color black */}
                       <span>{entry.title}</span>
                       <div className="flex space-x-2">
-                        <Button variant="outline" size="sm" onClick={() => handleEditEntryClick(entry)}>
+                        <Button variant="outline" size="sm" onClick={() => handleEditEntryClick(entry)} className="border-2 border-black shadow-custom-black text-black bg-white hover:bg-gray-100"> {/* Styled buttons */}
                           Modifier
                         </Button>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
-                            <Button variant="destructive" size="sm">Supprimer</Button>
+                            <Button variant="destructive" size="sm" className="border-2 border-black shadow-custom-black text-white bg-destructive hover:bg-destructive/90">Supprimer</Button> {/* Styled buttons */}
                           </AlertDialogTrigger>
-                          <AlertDialogContent>
+                          <AlertDialogContent className="border-2 border-black shadow-custom-black"> {/* Styled alert dialog */}
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Êtes-vous absolument sûr(e) ?</AlertDialogTitle>
-                              <AlertDialogDescription>
+                              <AlertDialogTitle className="text-black">Êtes-vous absolument sûr(e) ?</AlertDialogTitle>
+                              <AlertDialogDescription className="text-black">
                                 Cette action ne peut pas être annulée. Cela supprimera définitivement votre entrée.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel>Annuler</AlertDialogCancel>
-                              <AlertDialogAction onClick={() => handleDeleteEntry(entry.id)}>Supprimer</AlertDialogAction>
+                              <AlertDialogCancel className="border-2 border-black shadow-custom-black text-black bg-white hover:bg-gray-100">Annuler</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => handleDeleteEntry(entry.id)} className="border-2 border-black shadow-custom-black text-white bg-destructive hover:bg-destructive/90">Supprimer</AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
                         </AlertDialog>
@@ -166,7 +153,7 @@ const HomePage = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground mb-2 whitespace-pre-wrap">{entry.note}</p>
+                    <p className="text-black mb-2 whitespace-pre-wrap">{entry.note}</p> {/* Text color black */}
                     {entry.link && entry.link.map((linkItem, index) => (
                       <LinkPreview key={index} url={linkItem} />
                     ))}
@@ -178,7 +165,7 @@ const HomePage = () => {
                         {entry.subject}
                       </span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-2">
+                    <p className="text-black mt-2"> {/* Text color black */}
                       Chokbaromètre: {entry.chokbarometer}
                     </p>
                   </CardContent>
@@ -193,7 +180,7 @@ const HomePage = () => {
         open={isFormDialogOpen}
         onOpenChange={setIsFormDialogOpen}
         initialEntry={editingEntry}
-        onSave={handleEntrySave} // Use the new handler
+        onSave={handleEntrySave}
         defaultDate={selectedDate}
       />
     </div>

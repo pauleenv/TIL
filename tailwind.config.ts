@@ -93,6 +93,13 @@ export default {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundImage: {
+        'gradient-orange-yellow': 'linear-gradient(180deg, #FF7A5C 0%, #F4D738 100%)',
+      },
+      boxShadow: {
+        'custom-black': '3px 2px 0px rgb(0,0,0)',
+        'custom-black-lg': '6px 4px 0px rgb(0,0,0)',
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],
