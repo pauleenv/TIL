@@ -22,33 +22,30 @@ function Calendar({
 
   const customModifiers: Record<string, Date[]> = {};
   const datesWithAnyNote: Date[] = [];
-  const modifierClassNamesMap: Record<string, string> = {}; // To store the mapping from modifier name to CSS class name
+  const modifierClassNamesMap: Record<string, string> = {};
 
   if (datesWithNotes) {
     datesWithNotes.forEach((subject, dateString) => {
       const date = new Date(dateString);
       
-      // Sanitize the subject name to create a valid CSS class name, escaping slashes
-      const sanitizedSubjectForCss = subject.replace(/\s/g, '-').replace(/\//g, '\\/');
+      // The modifier name used internally by react-day-picker (no escaped slashes, just spaces replaced)
+      const modifierKey = `has-note-${subject.replace(/\s/g, '-')}`; 
       
-      // The modifier name used internally by react-day-picker (no escaped slashes)
-      const modifierName = `has-note-${subject.replace(/\s/g, '-')}`; 
-      
-      // The actual CSS class name, which includes the escaped slash
-      const cssClassName = `rdp-day_has-note-${sanitizedSubjectForCss}`;
+      // The actual CSS class name, with slashes escaped for CSS selector
+      // This needs to match exactly what's in globals.css
+      const cssClassName = `rdp-day_has-note-${subject.replace(/\s/g, '-').replace(/\//g, '\\/')}`;
 
-      if (!customModifiers[modifierName]) {
-        customModifiers[modifierName] = [];
+      if (!customModifiers[modifierKey]) {
+        customModifiers[modifierKey] = [];
       }
-      customModifiers[modifierName].push(date);
+      customModifiers[modifierKey].push(date);
+      modifierClassNamesMap[modifierKey] = cssClassName;
       datesWithAnyNote.push(date);
-      modifierClassNamesMap[modifierName] = cssClassName; // Store the mapping
     });
   }
 
-  // Add the generic 'hasNote' modifier for all days with notes
   customModifiers.hasNote = datesWithAnyNote;
-  modifierClassNamesMap.hasNote = "rdp-day_hasNote"; // Map generic modifier to its class
+  modifierClassNamesMap.hasNote = "rdp-day_hasNote";
 
   return (
     <DayPicker
@@ -79,7 +76,7 @@ function Calendar({
         day_range_end: "day-range-end",
         day_selected:
           "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-        day_today: "bg-accent text-accent-foreground",
+        day_today: "bg-yellow-300 text-black", // Style for today's date
         day_outside:
           "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
         day_disabled: "text-muted-foreground opacity-50",
@@ -92,8 +89,8 @@ function Calendar({
         IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
         IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
       }}
-      modifiers={customModifiers} // Pass custom modifiers
-      modifierClassNames={modifierClassNamesMap} // Use the generated map for class names
+      modifiers={customModifiers}
+      modifierClassNames={modifierClassNamesMap}
       {...props}
     />
   );
