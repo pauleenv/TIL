@@ -108,7 +108,7 @@ const HomePage = () => {
         mode="single"
         selected={selectedDate}
         onSelect={handleDateSelect}
-        className="rounded-md"
+        // className="rounded-md" // Removed this line
         locale={fr}
         datesWithNotes={datesWithNotes} // Pass the datesWithNotes map
       />
