@@ -15,11 +15,6 @@ const Layout = () => {
   const navigate = useNavigate();
   const currentPath = location.pathname;
 
-  // DIAGNOSTIC LOGS START
-  console.log("Layout: Current Path:", currentPath);
-  console.log("Layout: Is Home Active ('/'):", currentPath === "/");
-  // DIAGNOSTIC LOGS END
-
   const getActiveTab = () => {
     if (currentPath === "/") return "home";
     if (currentPath === "/encyclopedia") return "encyclopedia";
@@ -76,9 +71,7 @@ const Layout = () => {
                 "flex flex-col items-center justify-center text-xs sm:text-sm text-black",
                 isActive("/") && "bg-white shadow-custom-black rounded-[16px] mx-2 my-1.5"
               )}>
-                {/* DIAGNOSTIC STYLING START */}
-                {isActive("/") ? <HomeActive className="h-5 w-5 mb-1" style={{ color: 'red' }} /> : <HomeInactive className="h-5 w-5 mb-1" style={{ color: 'blue' }} />} Accueil
-                {/* DIAGNOSTIC STYLING END */}
+                {isActive("/") ? <HomeActive className="h-5 w-5 mb-1" /> : <HomeInactive className="h-5 w-5 mb-1" />} Accueil
               </Link>
             </TabsTrigger>
             <TabsTrigger value="encyclopedia" asChild>
