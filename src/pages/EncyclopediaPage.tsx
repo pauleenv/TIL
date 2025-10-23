@@ -6,11 +6,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { Tag, ChevronDown, ChevronUp } from "lucide-react";
+import { Tag, ChevronDown } => "lucide-react";
 import { useSession } from '@/components/SessionContextProvider';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
 import LinkPreview from "@/components/LinkPreview";
+import { getSubjectTagClasses } from "@/lib/subject-colors"; // Import the utility
 
 const predefinedSubjects = [
   "Tech",
@@ -117,7 +118,10 @@ const EncyclopediaPage = () => {
                       {format(new Date(entry.date), "PPP", { locale: fr })}
                     </span>
                     <span
-                      className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"
+                      className={cn(
+                        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+                        getSubjectTagClasses(entry.subject) // Use the utility function here
+                      )}
                     >
                       <Tag className="h-3 w-3 mr-1" /> {entry.subject}
                     </span>

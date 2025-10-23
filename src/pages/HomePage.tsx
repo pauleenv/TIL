@@ -21,7 +21,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useSession } from '@/components/SessionContextProvider';
-import LinkPreview from "@/components/LinkPreview"; // Import LinkPreview
+import LinkPreview from "@/components/LinkPreview";
+import { getSubjectTagClasses } from "@/lib/subject-colors"; // Import the utility
 
 const HomePage = () => {
   const { user, loading } = useSession();
@@ -150,7 +151,10 @@ const HomePage = () => {
                   ))}
                   <div className="flex flex-wrap gap-2 mt-2">
                     <span
-                      className="inline-flex items-center rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary"
+                      className={cn(
+                        "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
+                        getSubjectTagClasses(entry.subject) // Use the utility function here
+                      )}
                     >
                       {entry.subject}
                     </span>
