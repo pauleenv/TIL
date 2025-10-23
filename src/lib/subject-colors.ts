@@ -1,13 +1,13 @@
 "use client";
 
 export const subjectColors: { [key: string]: { background: string; text: string } } = {
-  "Tech": { background: "#A7DBD8", text: "#000000" }, // Bleu-vert apaisant
-  "Histoire": { background: "#E0BBE4", text: "#000000" }, // Ocre doux
-  "Sports": { background: "#FFC72C", text: "#000000" }, // Orange terreux
-  "Langues": { background: "#957DAD", text: "#000000" }, // Bleu lavande
-  "Sciences": { background: "#DAF7A6", text: "#000000" }, // Vert clair
-  "Nature/Géographie": { background: "#87CEEB", text: "#000000" }, // Bleu ciel
-  "Arts/Pop Culture": { background: "#FFDAB9", text: "#000000" }, // Rose poudré
+  "Tech": { background: "#FF7A5C", text: "#000000" },
+  "Histoire": { background: "#F4D738", text: "#000000" },
+  "Sports": { background: "#FF3057", text: "#000000" },
+  "Langues": { background: "#5168FF", text: "#000000" },
+  "Sciences": { background: "#A7DBD8", text: "#000000" },
+  "Nature/Géographie": { background: "#48C748", text: "#000000" },
+  "Arts/Pop Culture": { background: "#FF66B7", text: "#000000" },
 };
 
 export const getSubjectTagClasses = (subject: string) => {
