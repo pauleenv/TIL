@@ -6,11 +6,21 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { Tag, ChevronDown, ChevronUp } from "lucide-react"; // Import ChevronDown and ChevronUp
+import { Tag, ChevronDown, ChevronUp } from "lucide-react";
 import { useSession } from '@/components/SessionContextProvider';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"; // Import Collapsible components
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
-import LinkPreview from "@/components/LinkPreview"; // Will be created next
+import LinkPreview from "@/components/LinkPreview";
+
+const predefinedSubjects = [
+  "Tech",
+  "Histoire",
+  "Sports",
+  "Nature/Géographie",
+  "Langues",
+  "Arts/Pop Culture",
+  "Sciences",
+];
 
 const EncyclopediaPage = () => {
   const { user, loading } = useSession();
@@ -29,8 +39,10 @@ const EncyclopediaPage = () => {
 
     const entries = await getEntries(user.id);
     setAllEntries(entries);
+    // Filter subjects to only include the predefined ones, or "Autre" if an entry has a subject not in the predefined list
     const allUniqueSubjects = await getAllSubjects(user.id);
-    setSubjects(allUniqueSubjects);
+    const filteredUniqueSubjects = allUniqueSubjects.filter(subject => predefinedSubjects.includes(subject));
+    setSubjects(filteredUniqueSubjects);
 
     if (selectedSubject === "all") {
       setFilteredEntries(entries);
@@ -72,7 +84,7 @@ const EncyclopediaPage = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Toutes les matières</SelectItem>
-            {subjects.map((subject) => (
+            {predefinedSubjects.map((subject) => ( // Use predefinedSubjects here
               <SelectItem key={subject} value={subject}>
                 {subject}
               </SelectItem>
@@ -89,7 +101,7 @@ const EncyclopediaPage = () => {
         <div className="space-y-4">
           {filteredEntries.map((entry) => (
             <Card key={entry.id}>
-              <Collapsible> {/* Wrap card content in Collapsible */}
+              <Collapsible>
                 <CardHeader>
                   <div className="flex justify-between items-center">
                     <CardTitle>{entry.title}</CardTitle>

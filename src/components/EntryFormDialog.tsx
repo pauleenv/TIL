@@ -31,7 +31,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Calendar as CalendarIcon, PlusCircle, XCircle, GripVertical } from "lucide-react"; // Import GripVertical
+import { Calendar as CalendarIcon, PlusCircle, XCircle, GripVertical } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
@@ -54,14 +54,13 @@ const formSchema = z.object({
 });
 
 const predefinedSubjects = [
-  "Développement Web",
-  "Science",
+  "Tech",
   "Histoire",
-  "Art",
-  "Sport",
+  "Sports",
+  "Nature/Géographie",
   "Langues",
-  "Philosophie",
-  "Autre",
+  "Arts/Pop Culture",
+  "Sciences",
 ];
 
 const chokbarometerOptions = ["Intéressant", "Surprenant", "Incroyable", "Chokbar"];
