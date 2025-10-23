@@ -59,7 +59,7 @@ function Calendar({
         nav: "space-x-1 flex items-center",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
-          "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 border-2 border-black shadow-custom-black" // Added border and shadow
+          "h-7 w-7 bg-transparent p-0 border-2 border-black shadow-custom-black !text-black" // Removed opacity and added !text-black
         ),
         nav_button_previous: "absolute left-1",
         nav_button_next: "absolute right-1",
