@@ -11,16 +11,16 @@ const HomeActive = (props: React.SVGProps<SVGSVGElement>) => (
   >
     <path
       d="M12 2.5L2 12h3v8a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-8h3L12 2.5Z"
-      fill="#000"
-      stroke="#000"
+      fill="currentColor" // Utilise la couleur du texte parent pour le remplissage
+      stroke="currentColor" // Utilise la couleur du texte parent pour le contour
       strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"
     />
     <path
       d="M9 22v-6a3 3 0 0 1 6 0v6"
-      fill="#000"
-      stroke="#000"
+      fill="currentColor" // Utilise la couleur du texte parent pour le remplissage
+      stroke="currentColor" // Utilise la couleur du texte parent pour le contour
       strokeWidth={1.5}
       strokeLinecap="round"
       strokeLinejoin="round"
