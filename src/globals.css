@@ -123,7 +123,7 @@
 
 /* Custom styles for react-day-picker modifiers */
 .rdp-day_hasNote {
-  position: relative;
+  /* Removed position: relative here as it's already on the day element itself */
 }
 
 .rdp-day_hasNote::after {
@@ -138,6 +138,7 @@
   box-shadow: 3px 2px 0px rgb(0,0,0); /* Added drop shadow */
   background-color: var(--dot-background-color, #000); /* Fallback color */
   z-index: 1; /* Added z-index to ensure visibility */
+  display: block; /* Ensure it renders */
 }
 
 /* Specific subject colors for the dots */
@@ -148,3 +149,8 @@
 .rdp-day_has-note-Sciences::after { background-color: var(--subject-sciences-bg); }
 .rdp-day_has-note-Nature\/Géographie::after { background-color: var(--subject-nature-geographie-bg); }
 .rdp-day_has-note-Arts\/Pop-Culture::after { background-color: var(--subject-arts-pop-culture-bg); }
+
+/* Force current day number to be black */
+.rdp-day_today .rdp-day_selection_grid__day_label {
+  color: #000000 !important;
+}
