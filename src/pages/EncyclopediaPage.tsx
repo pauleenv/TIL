@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { Tag, ChevronDown } => "lucide-react";
+import { Tag, ChevronDown } from "lucide-react"; // Correction ici : 'from' au lieu de '=>'
 import { useSession } from '@/components/SessionContextProvider';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
