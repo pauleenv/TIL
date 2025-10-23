@@ -60,6 +60,9 @@
     --subject-sciences-bg: #A7DBD8;
     --subject-nature-geographie-bg: #48C748;
     --subject-arts-pop-culture-bg: #FF66B7;
+
+    /* Custom color for current day background */
+    --current-day-bg: #FFDD00;
   }
 
   .dark {
@@ -107,6 +110,9 @@
     --subject-sciences-bg: #A7DBD8;
     --subject-nature-geographie-bg: #48C748;
     --subject-arts-pop-culture-bg: #FF66B7;
+
+    /* Custom color for current day background */
+    --current-day-bg: #FFDD00;
   }
 }
 

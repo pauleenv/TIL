@@ -21,8 +21,7 @@ function Calendar({
 }: CalendarProps) {
   const modifiers = {
     hasNote: (day: Date) => {
-      // Ajout d'une vérification pour s'assurer que 'day' est un objet Date valide
-      if (!day || !(day instanceof Date)) return false;
+      if (!day || !(day instanceof Date)) return false; // Garde la vérification pour la robustesse
       const dateString = day.toISOString().split('T')[0];
       return datesWithNotes.has(dateString);
     },
@@ -34,11 +33,8 @@ function Calendar({
 
   // Dynamically add subject-specific classes for dots
   const customDayContent = (day: Date) => {
-    // Ajout d'une vérification pour s'assurer que 'day' est un objet Date valide
-    if (!day || !(day instanceof Date)) {
-      return <span></span>; // Retourne un span vide si 'day' n'est pas une date valide
-    }
-
+    // Supprime la condition qui retournait un span vide pour toujours afficher le numéro du jour
+    // La vérification pour `day instanceof Date` est maintenue dans `modifiers.hasNote`
     const dateString = day.toISOString().split('T')[0];
     const subject = datesWithNotes.get(dateString);
     const dayClasses = ["rdp-day_selection_grid__day_label"];
@@ -68,7 +64,7 @@ function Calendar({
         nav: "space-x-1 flex items-center",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
-          "h-7 w-7 bg-transparent p-0 text-black"
+          "h-7 w-7 bg-transparent p-0 text-black" // Pas d'opacité ici
         ),
         nav_button_previous: "absolute left-1",
         nav_button_next: "absolute right-1",
@@ -85,7 +81,7 @@ function Calendar({
         day_range_end: "day-range-end",
         day_selected:
           "rounded-md bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-        day_today: "bg-accent text-accent-foreground",
+        day_today: "bg-[var(--current-day-bg)] text-black", // Utilise la nouvelle variable CSS et texte noir
         day_outside:
           "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
         day_disabled: "text-muted-foreground opacity-50",
@@ -95,8 +91,8 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4 text-black" strokeWidth={3} />,
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4 text-black" strokeWidth={3} />,
+        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4 text-black" strokeWidth={3} />, // Maintient strokeWidth
+        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4 text-black" strokeWidth={3} />, // Maintient strokeWidth
         DayContent: customDayContent,
       }}
       modifiers={modifiers}
