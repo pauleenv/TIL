@@ -30,7 +30,6 @@ function Calendar({
 
   const modifiersClassNames = datesWithNotes ? Object.fromEntries(
     Array.from(datesWithNotes.keys()).map(dateString => {
-      const subject = datesWithNotes.get(dateString);
       // We only need the 'hasNote' modifier for the dot, not the full tag classes here.
       // The dot styling is handled by globals.css based on the 'hasNote' class.
       return [`has-note-${dateString}`, "rdp-day_hasNote"];
@@ -44,6 +43,8 @@ function Calendar({
       return [`has-note-${dateString}`, { '--dot-background-color': dotStyle.backgroundColor }];
     })
   ) : {};
+
+  const isSelectedDateToday = props.selected && isValid(props.selected) && format(props.selected, "yyyy-MM-dd") === format(new Date(), "yyyy-MM-dd");
 
   return (
     <DayPicker
@@ -72,9 +73,14 @@ function Calendar({
           "h-9 w-9 p-0 font-normal aria-selected:opacity-100"
         ),
         day_range_end: "day-range-end",
-        day_selected:
+        day_selected: cn(
           "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-        day_today: "bg-[#ffdd00] text-black border-2 border-black shadow-[3px_2px_0px_rgb(0,0,0)] hover:bg-[#ffdd00]/90 hover:text-black focus:bg-[#ffdd00] focus:text-black", // Custom styles for today
+          isSelectedDateToday && "bg-[#ffdd00] text-black border-2 border-black shadow-[3px_2px_0px_rgb(0,0,0)] hover:bg-[#ffdd00]/90 hover:text-black focus:bg-[#ffdd00] focus:text-black"
+        ),
+        day_today: cn(
+          "bg-[#ffdd00] text-black border-2 border-black shadow-[3px_2px_0px_rgb(0,0,0)] hover:bg-[#ffdd00]/90 hover:text-black focus:bg-[#ffdd00] focus:text-black",
+          isSelectedDateToday && "bg-[#ffdd00] text-black border-2 border-black shadow-[3px_2px_0px_rgb(0,0,0)] hover:bg-[#ffdd00]/90 hover:text-black focus:bg-[#ffdd00] focus:text-black" // Ensure today's style persists if also selected
+        ),
         day_outside:
           "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
         day_disabled: "text-muted-foreground opacity-50",
