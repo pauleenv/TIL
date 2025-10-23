@@ -121,10 +121,10 @@ const EncyclopediaPage = () => {
                     <span
                       className={cn(
                         "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
-                        getSubjectTagClasses(entry.subject) // Use the utility function here
+                        getSubjectTagClasses(entry.subject)
                       )}
                     >
-                      <Tag className="h-3 w-3 mr-1" /> {entry.subject}
+                      {entry.subject}
                     </span>
                     <span className="text-xs text-muted-foreground">
                       Chokbaromètre: {entry.chokbarometer}

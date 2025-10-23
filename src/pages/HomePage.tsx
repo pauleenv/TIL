@@ -23,6 +23,7 @@ import {
 import { useSession } from '@/components/SessionContextProvider';
 import LinkPreview from "@/components/LinkPreview";
 import { getSubjectTagClasses } from "@/lib/subject-colors"; // Import the utility
+import { cn } from "@/lib/utils"; // Import the cn utility
 
 const HomePage = () => {
   const { user, loading } = useSession();
@@ -153,7 +154,7 @@ const HomePage = () => {
                     <span
                       className={cn(
                         "inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium",
-                        getSubjectTagClasses(entry.subject) // Use the utility function here
+                        getSubjectTagClasses(entry.subject)
                       )}
                     >
                       {entry.subject}
