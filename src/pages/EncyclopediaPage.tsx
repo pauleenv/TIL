@@ -6,12 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
-import { Tag, ChevronDown } from "lucide-react"; // Correction ici : 'from' au lieu de '=>'
+import { Tag, ChevronDown } from "lucide-react";
 import { useSession } from '@/components/SessionContextProvider';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
 import LinkPreview from "@/components/LinkPreview";
 import { getSubjectTagClasses } from "@/lib/subject-colors"; // Import the utility
+import { cn } from "@/lib/utils"; // Import the cn utility
 
 const predefinedSubjects = [
   "Tech",
