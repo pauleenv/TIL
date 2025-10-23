@@ -82,12 +82,12 @@ function Calendar({
         day_range_middle:
           "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
-        day_today: "bg-[#FFDD00] !bg-[#FFDD00] !text-black border-2 border-black shadow-custom-black", // Added !bg-[#FFDD00] here
+        day_today: "!bg-[#FFDD00] !text-black border-2 border-black shadow-custom-black", // Ensure text is black and background is yellow
         ...classNames,
       }}
       components={{
-        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
-        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
+        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4 text-black" />, // Added text-black
+        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4 text-black" />, // Added text-black
       }}
       modifiers={customModifiers}
       modifierClassNames={modifierClassNamesMap}
