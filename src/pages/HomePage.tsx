@@ -108,7 +108,7 @@ const HomePage = () => {
         mode="single"
         selected={selectedDate}
         onSelect={handleDateSelect}
-        className="w-full" // Added w-full here
+        className="w-full rounded-md border" // Re-added rounded-md border
         locale={fr}
         datesWithNotes={datesWithNotes} // Pass the datesWithNotes map
       />
