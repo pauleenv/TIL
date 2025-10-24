@@ -33,16 +33,21 @@ const Layout = () => {
     navigate("/new-entry");
   };
 
+  const isHomePage = currentPath === "/";
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-transparent p-4 flex justify-between items-center"> {/* Removed bg-primary, text-primary-foreground */}
         <h1 className="text-black text-4xl font-bold text-center flex-grow">AJA</h1> {/* Updated title and styling */}
-        <Button variant="ghost" size="icon" className="bg-white border-2 border-black shadow-custom-black rounded-full w-10 h-10 flex items-center justify-center text-black hover:bg-gray-100"> {/* Styled profile button */}
+        <Button variant="ghost" size="icon" className="bg-white border-2 border-black shadow-custom-black rounded-full w-10 h-10 flex items-center justify-center text-black hover:bg-gray-100" onClick={handleProfileClick}> {/* Styled profile button */}
           <UserCircle className="h-6 w-6" />
         </Button>
       </header>
 
-      <div className="flex-grow container mx-auto p-4 pb-[80px]">
+      <div className={cn(
+        "flex-grow mx-auto pb-[80px]",
+        isHomePage ? "w-full px-4 pr-3" : "container p-4"
+      )}>
         <Outlet />
       </div>
 
@@ -83,7 +88,7 @@ const Layout = () => {
             <TabsTrigger value="dashboard" asChild>
               <Link to="/dashboard" className={cn(
                 "flex flex-col items-center justify-center text-xs sm:text-sm text-black", // Text color black
-                currentPath === "/dashboard" && "bg-white shadow-custom-black rounded-[16px] mx-2 my-1.5" // Active tab style: removed border-2 border-black
+                currentPath === "/dashboard" && "bg-white shadow-custom-custom-black rounded-[16px] mx-2 my-1.5" // Active tab style: removed border-2 border-black
               )}>
                 <BarChart3 className="h-5 w-5 mb-1" /> Tableau de bord
               </Link>
