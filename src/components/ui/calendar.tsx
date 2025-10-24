@@ -58,9 +58,9 @@ function Calendar({
         head_cell:
           "text-muted-foreground rounded-md flex-1 font-normal text-[0.8rem] flex items-center justify-center",
         row: "flex w-full mt-2",
-        // La cellule est flexible et centre son contenu
-        cell: "text-center text-sm p-0 relative flex-1 aspect-square flex items-center justify-center [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-range-start)]:rounded-l-md [&:has([aria-selected])]:bg-accent/50 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
-        // Le bouton de jour a une taille fixe et des coins arrondis
+        // Revert cell to be closer to shadcn default, ensuring it's a container for the day button
+        cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-range-start)]:rounded-l-md [&:has([aria-selected])]:bg-accent/50 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+        // Ensure day button has its original size and rounded corners
         day: cn(
           buttonVariants({ variant: "ghost" }),
           "h-9 w-9 p-0 font-normal aria-selected:opacity-100 rounded-md"
