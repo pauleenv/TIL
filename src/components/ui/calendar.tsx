@@ -7,6 +7,7 @@ import { fr } from "date-fns/locale";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
+import { subjectColors } from "@/lib/subject-colors"; // Import subjectColors
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   datesWithNotes?: Map<string, string>; // Map<dateString, subject>
@@ -19,38 +20,49 @@ function Calendar({
   datesWithNotes = new Map(),
   ...props
 }: CalendarProps) {
-  const modifiers = {
-    hasNote: (day: Date) => {
-      if (!day || !(day instanceof Date)) return false;
-      const dateString = day.toISOString().split('T')[0];
-      return datesWithNotes.has(dateString);
-    },
-  };
 
-  const modifiersClassNames = {
-    hasNote: "rdp-day_hasNote",
-  };
+  // Les modificateurs et leurs classes associées sont supprimés car le point est rendu directement dans DayContent
+  // const modifiers = {
+  //   hasNote: (day: Date) => {
+  //     if (!day || !(day instanceof Date)) return false;
+  //     const dateString = day.toISOString().split('T')[0];
+  //     return datesWithNotes.has(dateString);
+  //   },
+  // };
 
-  // Dynamically add subject-specific classes for dots
-  const customDayContent = (day: Date) => {
-    // Réintroduction de la vérification pour s'assurer que 'day' est un objet Date valide
+  // const modifiersClassNames = {
+  //   hasNote: "rdp-day_hasNote",
+  // };
+
+  const customDayContent = (day: Date | undefined) => {
+    // Vérification pour s'assurer que 'day' est un objet Date valide
     if (!day || !(day instanceof Date)) {
-      return <span></span>; // Retourne un span vide si 'day' n'est pas une date valide
+      return null; // Retourne null pour laisser DayPicker gérer l'affichage par défaut ou ne rien afficher
     }
 
     const dateString = day.toISOString().split('T')[0];
     const subject = datesWithNotes.get(dateString);
-    const dayClasses = ["rdp-day_selection_grid__day_label"];
+
+    const dotStyle: React.CSSProperties = {};
     if (subject) {
-      // Sanitize subject for CSS class name (replace '/' with '-')
-      const sanitizedSubject = subject.replace(/\//g, '-');
-      dayClasses.push(`rdp-day_has-note-${sanitizedSubject}`);
+      const colors = subjectColors[subject];
+      if (colors) {
+        dotStyle.backgroundColor = colors.background;
+      }
     }
 
     return (
-      <span className={cn(...dayClasses)}>
-        {day.getDate()}
-      </span>
+      <div className="relative flex items-center justify-center h-full w-full">
+        {/* Affiche le numéro du jour */}
+        <span>{day.getDate()}</span>
+        {/* Affiche le point si une note existe pour ce jour */}
+        {subject && (
+          <span
+            className="absolute bottom-1 right-1 w-2 h-2 rounded-full border-2 border-black shadow-[3px_2px_0px_rgb(0,0,0)] z-10"
+            style={dotStyle}
+          />
+        )}
+      </div>
     );
   };
 
@@ -98,8 +110,9 @@ function Calendar({
         IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4 text-black" strokeWidth={3} />,
         DayContent: customDayContent,
       }}
-      modifiers={modifiers}
-      modifiersClassNames={modifiersClassNames}
+      // Les props modifiers et modifiersClassNames sont supprimées car le point est rendu directement
+      // modifiers={modifiers}
+      // modifiersClassNames={modifiersClassNames}
       {...props}
     />
   );
