@@ -2,12 +2,12 @@
 
 import * as React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { DayPicker } from "react-day-picker";
+import { DayPicker, DayModifiers } from "react-day-picker";
 import { fr } from "date-fns/locale";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
-import { subjectColors } from "@/lib/subject-colors"; // Import subjectColors
+import { subjectColors } from "@/lib/subject-colors"; // Import subjectColors to get dot colors
 
 export type CalendarProps = React.ComponentProps<typeof DayPicker> & {
   datesWithNotes?: Map<string, string>; // Map<dateString, subject>
@@ -20,50 +20,34 @@ function Calendar({
   datesWithNotes = new Map(),
   ...props
 }: CalendarProps) {
+  const modifiers = {
+    hasNote: (day: Date) => {
+      if (!day || !(day instanceof Date)) return false;
+      const dateString = day.toISOString().split('T')[0];
+      return datesWithNotes.has(dateString);
+    },
+  };
 
-  // Les modificateurs et leurs classes associées sont supprimés car le point est rendu directement dans DayContent
-  // const modifiers = {
-  //   hasNote: (day: Date) => {
-  //     if (!day || !(day instanceof Date)) return false;
-  //     const dateString = day.toISOString().split('T')[0];
-  //     return datesWithNotes.has(dateString);
-  //   },
-  // };
+  const modifiersClassNames = {
+    hasNote: "rdp-day_hasNote",
+  };
 
-  // const modifiersClassNames = {
-  //   hasNote: "rdp-day_hasNote",
-  // };
-
-  const customDayContent = (day: Date | undefined) => {
-    // Vérification pour s'assurer que 'day' est un objet Date valide
-    if (!day || !(day instanceof Date)) {
-      return null; // Retourne null pour laisser DayPicker gérer l'affichage par défaut ou ne rien afficher
+  // Prepare dynamic styles for the dots
+  const dayStyles: DayModifiers = {};
+  Array.from(datesWithNotes.entries()).forEach(([dateString, subject]) => {
+    const day = new Date(dateString);
+    // Ensure the date object is valid before adding to styles
+    if (day instanceof Date && !isNaN(day.getTime())) {
+      dayStyles[day] = { '--dot-background-color': subjectColors[subject]?.background || '#000000' };
     }
+  });
 
-    const dateString = day.toISOString().split('T')[0];
-    const subject = datesWithNotes.get(dateString);
-
-    const dotStyle: React.CSSProperties = {};
-    if (subject) {
-      const colors = subjectColors[subject];
-      if (colors) {
-        dotStyle.backgroundColor = colors.background;
-      }
+  // DayContent should just render the day number
+  const customDayContent = ({ date }: { date: Date | undefined }) => {
+    if (!date || !(date instanceof Date)) {
+      return null; // Let DayPicker render default if not a valid date
     }
-
-    return (
-      <div className="relative flex items-center justify-center h-full w-full">
-        {/* Affiche le numéro du jour */}
-        <span>{day.getDate()}</span>
-        {/* Affiche le point si une note existe pour ce jour */}
-        {subject && (
-          <span
-            className="absolute bottom-1 right-1 w-2 h-2 rounded-full border-2 border-black shadow-[3px_2px_0px_rgb(0,0,0)] z-10"
-            style={dotStyle}
-          />
-        )}
-      </div>
-    );
+    return <span>{date.getDate()}</span>;
   };
 
   return (
@@ -96,7 +80,7 @@ function Calendar({
         day_range_end: "day-range-end",
         day_selected:
           "rounded-md bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-        day_today: "bg-[var(--current-day-bg)] text-black", // Maintient la couleur de fond et le texte noir
+        day_today: "bg-[var(--current-day-bg)] text-black",
         day_outside:
           "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
         day_disabled: "text-muted-foreground opacity-50",
@@ -110,9 +94,9 @@ function Calendar({
         IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4 text-black" strokeWidth={3} />,
         DayContent: customDayContent,
       }}
-      // Les props modifiers et modifiersClassNames sont supprimées car le point est rendu directement
-      // modifiers={modifiers}
-      // modifiersClassNames={modifiersClassNames}
+      modifiers={modifiers}
+      modifiersClassNames={modifiersClassNames}
+      styles={dayStyles} // Apply dynamic styles here
       {...props}
     />
   );

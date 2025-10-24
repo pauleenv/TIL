@@ -127,8 +127,7 @@
   }
 }
 
-/* Suppression des règles CSS pour les points de note, car ils seront désormais rendus directement dans le composant */
-/*
+/* Custom styles for react-day-picker modifiers */
 .rdp-day.rdp-day_hasNote::after {
   content: "";
   position: absolute;
@@ -139,19 +138,10 @@
   border-radius: 9999px;
   border: 2px solid black;
   box-shadow: 3px 2px 0px rgb(0,0,0);
-  background-color: var(--dot-background-color, #000);
+  background-color: var(--dot-background-color, #000); /* Use dynamic CSS variable */
   z-index: 1;
   display: block;
 }
-
-.rdp-day.rdp-day_has-note-Tech::after { background-color: var(--subject-tech-bg) !important; }
-.rdp-day.rdp-day_has-note-Histoire::after { background-color: var(--subject-histoire-bg) !important; }
-.rdp-day.rdp-day_has-note-Sports::after { background-color: var(--subject-sports-bg) !important; }
-.rdp-day.rdp-day_has-note-Langues::after { background-color: var(--subject-langues-bg) !important; }
-.rdp-day.rdp-day_has-note-Sciences::after { background-color: var(--subject-sciences-bg) !important; }
-.rdp-day.rdp-day_has-note-Nature\/Géographie::after { background-color: var(--subject-nature-geographie-bg) !important; }
-.rdp-day.rdp-day_has-note-Arts\/Pop-Culture::after { background-color: var(--subject-arts-pop-culture-bg) !important; }
-*/
 
 /* Force current day number to be black */
 .rdp-day_today {
