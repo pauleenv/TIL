@@ -101,41 +101,40 @@ const HomePage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-[calc(100vh-180px)] pt-8"> {/* Adjusted alignment */}
-      <h2 className="text-black text-3xl font-bold mb-6 text-center">Mon calendrier des découvertes</h2> {/* Styled title */}
-      {/* Removed the bg-card p-6 rounded-lg shadow-lg wrapper around Calendar */}
-      <Calendar
-        mode="single"
-        selected={selectedDate}
-        onSelect={handleDateSelect}
-        // className="rounded-md" // Removed this line
-        locale={fr}
-        datesWithNotes={datesWithNotes} // Pass the datesWithNotes map
-      />
-      <p className="text-black text-lg mt-4 text-center"> {/* Styled text */}
+    <div className="flex flex-col items-center justify-start min-h-[calc(100vh-180px)] pt-8">
+      <h2 className="text-black text-3xl font-bold mb-6 text-center">Mon calendrier des découvertes</h2>
+      <Card className="bg-card p-6 rounded-[16px] border-2 border-black !shadow-custom-black-lg"> {/* Added !shadow-custom-black-lg */}
+        <Calendar
+          mode="single"
+          selected={selectedDate}
+          onSelect={handleDateSelect}
+          locale={fr}
+          datesWithNotes={datesWithNotes}
+        />
+      </Card>
+      <p className="text-black text-lg mt-4 text-center">
         {selectedDate ? `Aucune entrée pour le ${format(selectedDate, "PPP", { locale: fr })}` : "Sélectionnez une date pour voir ou ajouter des entrées."}
       </p>
-      {/* Removed the old "Add Entry" button here, as it's now a floating button in Layout.tsx */}
 
-      <div className="w-full max-w-lg mt-8"> {/* Adjusted max-width for entries list */}
+      <div className="w-full max-w-lg mt-8">
         {entriesForSelectedDate.length > 0 && (
           <div className="space-y-4">
             {entriesForSelectedDate.map((entry) => {
               const { className: tagClassName, style: tagStyle } = getSubjectTagClasses(entry.subject);
               return (
-                <Card key={entry.id} className="relative border-2 border-black shadow-custom-black"> {/* Added border and shadow to entry cards */}
+                <Card key={entry.id} className="relative border-2 border-black shadow-custom-black">
                   <CardHeader>
-                    <CardTitle className="flex justify-between items-center text-black"> {/* Text color black */}
+                    <CardTitle className="flex justify-between items-center text-black">
                       <span>{entry.title}</span>
                       <div className="flex space-x-2">
-                        <Button variant="outline" size="sm" onClick={() => handleEditEntryClick(entry)} className="border-2 border-black shadow-custom-black text-black bg-white hover:bg-gray-100"> {/* Styled buttons */}
+                        <Button variant="outline" size="sm" onClick={() => handleEditEntryClick(entry)} className="border-2 border-black shadow-custom-black text-black bg-white hover:bg-gray-100">
                           Modifier
                         </Button>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
-                            <Button variant="destructive" size="sm" className="border-2 border-black shadow-custom-black text-white bg-destructive hover:bg-destructive/90">Supprimer</Button> {/* Styled buttons */}
+                            <Button variant="destructive" size="sm" className="border-2 border-black shadow-custom-black text-white bg-destructive hover:bg-destructive/90">Supprimer</Button>
                           </AlertDialogTrigger>
-                          <AlertDialogContent className="border-2 border-black shadow-custom-black"> {/* Styled alert dialog */}
+                          <AlertDialogContent className="border-2 border-black shadow-custom-black">
                             <AlertDialogHeader>
                               <AlertDialogTitle className="text-black">Êtes-vous absolument sûr(e) ?</AlertDialogTitle>
                               <AlertDialogDescription className="text-black">
@@ -152,7 +151,7 @@ const HomePage = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-black mb-2 whitespace-pre-wrap">{entry.note}</p> {/* Text color black */}
+                    <p className="text-black mb-2 whitespace-pre-wrap">{entry.note}</p>
                     {entry.link && entry.link.map((linkItem, index) => (
                       <LinkPreview key={index} url={linkItem} />
                     ))}
@@ -164,7 +163,7 @@ const HomePage = () => {
                         {entry.subject}
                       </span>
                     </div>
-                    <p className="text-black mt-2"> {/* Text color black */}
+                    <p className="text-black mt-2">
                       Chokbaromètre: {entry.chokbarometer}
                     </p>
                   </CardContent>

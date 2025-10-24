@@ -143,11 +143,11 @@
   display: block;
 }
 
-/* Force current day to have #FFDD00 background and black text */
+/* Force current day number to be black */
 .rdp-day_today {
-  background-color: #FFDD00 !important;
-  color: black !important;
+  background-color: #FFDD00 !important; /* Explicitly set background for today */
+  color: black !important; /* Target the day button itself */
 }
 .rdp-day_today .rdp-day_selection_grid__day_label {
-  color: black !important;
+  color: black !important; /* Keep this as a fallback/additional target */
 }
