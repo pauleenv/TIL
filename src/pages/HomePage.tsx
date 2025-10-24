@@ -101,14 +101,14 @@ const HomePage = () => {
   }
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-[calc(100vh-180px)] pt-8 w-full"> {/* Removed max-w-lg, added w-full */}
+    <div className="flex flex-col items-center justify-start min-h-[calc(100vh-180px)] pt-8"> {/* Adjusted alignment */}
       <h2 className="text-black text-3xl font-bold mb-6 text-center">Mon calendrier des découvertes</h2> {/* Styled title */}
       {/* Removed the bg-card p-6 rounded-lg shadow-lg wrapper around Calendar */}
       <Calendar
         mode="single"
         selected={selectedDate}
         onSelect={handleDateSelect}
-        className="w-full rounded-md border" // Re-added rounded-md border
+        // className="rounded-md" // Removed this line
         locale={fr}
         datesWithNotes={datesWithNotes} // Pass the datesWithNotes map
       />
