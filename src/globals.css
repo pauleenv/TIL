@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
@@ -60,9 +60,6 @@
     --subject-sciences-bg: #A7DBD8;
     --subject-nature-geographie-bg: #48C748;
     --subject-arts-pop-culture-bg: #FF66B7;
-
-    /* Custom color for current day background */
-    --current-day-bg: #FFDD00;
   }
 
   .dark {
@@ -72,8 +69,8 @@
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
 
     --primary: 210 40% 98%;
     --primary-foreground: 222.2 47.4% 11.2%;
@@ -110,9 +107,6 @@
     --subject-sciences-bg: #A7DBD8;
     --subject-nature-geographie-bg: #48C748;
     --subject-arts-pop-culture-bg: #FF66B7;
-
-    /* Custom color for current day background */
-    --current-day-bg: #FFDD00;
   }
 }
 
@@ -128,26 +122,28 @@
 }
 
 /* Custom styles for react-day-picker modifiers */
-.rdp-day.rdp-day_hasNote::after {
-  content: "";
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
-  width: 8px;
-  height: 8px;
-  border-radius: 9999px;
-  border: 2px solid black;
-  box-shadow: 3px 2px 0px rgb(0,0,0);
-  background-color: var(--dot-background-color, #000); /* Use dynamic CSS variable */
-  z-index: 1;
-  display: block;
+.rdp-day_hasNote {
+  position: relative;
 }
 
-/* Force current day number to be black */
-.rdp-day_today {
-  background-color: #FFDD00 !important; /* Explicitly set background for today */
-  color: black !important; /* Target the day button itself */
+.rdp-day_hasNote::after {
+  content: "";
+  position: absolute;
+  bottom: 4px; /* Adjust as needed */
+  right: 4px; /* Adjust as needed */
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px; /* full rounded */
+  border: 2px solid black; /* Added border */
+  box-shadow: 3px 2px 0px rgb(0,0,0); /* Added drop shadow */
+  background-color: var(--dot-background-color, #000); /* Fallback color */
 }
-.rdp-day_today .rdp-day_selection_grid__day_label {
-  color: black !important; /* Keep this as a fallback/additional target */
-}
+
+/* Specific subject colors for the dots */
+.rdp-day_has-note-Tech::after { background-color: var(--subject-tech-bg); }
+.rdp-day_has-note-Histoire::after { background-color: var(--subject-histoire-bg); }
+.rdp-day_has-note-Sports::after { background-color: var(--subject-sports-bg); }
+.rdp-day_has-note-Langues::after { background-color: var(--subject-langues-bg); }
+.rdp-day_has-note-Sciences::after { background-color: var(--subject-sciences-bg); }
+.rdp-day_has-note-Nature\/Géographie::after { background-color: var(--subject-nature-geographie-bg); }
+.rdp-day_has-note-Arts\/Pop-Culture::after { background-color: var(--subject-arts-pop-culture-bg); }
