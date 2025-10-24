@@ -120,7 +120,7 @@ const HomePage = () => {
             {entriesForSelectedDate.map((entry) => {
               const { className: tagClassName, style: tagStyle } = getSubjectTagClasses(entry.subject);
               return (
-                <Card key={entry.id} className="relative bg-white border-2 border-black shadow-custom-extra-large rounded-[16px]"> {/* Updated to new shadow */}
+                <Card key={entry.id} className="relative bg-white border-2 border-black shadow-custom-black-lg rounded-[16px]"> {/* Changed to shadow-custom-black-lg */}
                   <CardHeader>
                     <CardTitle className="flex justify-between items-center text-black">
                       <span>{entry.title}</span>
