@@ -99,6 +99,7 @@ export default {
       boxShadow: {
         'custom-black': '3px 2px 0px rgb(0,0,0)',
         'custom-black-lg': '6px 4px 0px rgb(0,0,0)',
+        'super-bold': '10px 8px 0px rgb(0,0,0)', // Nouvelle ombre très prononcée pour le test
       },
     },
   },
