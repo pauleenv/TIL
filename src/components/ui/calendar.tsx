@@ -80,7 +80,7 @@ function Calendar({
         day_range_end: "day-range-end",
         day_selected:
           "rounded-md bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-        day_today: "bg-[var(--current-day-bg)] text-black",
+        day_today: "text-black", // Suppression de la classe bg-[var(--current-day-bg)]
         day_outside:
           "day-outside text-muted-foreground opacity-50 aria-selected:bg-accent/50 aria-selected:text-muted-foreground aria-selected:opacity-30",
         day_disabled: "text-muted-foreground opacity-50",

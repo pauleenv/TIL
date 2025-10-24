@@ -145,6 +145,7 @@
 
 /* Force current day number to be black */
 .rdp-day_today {
+  background-color: #FFDD00 !important; /* Explicitly set background for today */
   color: black !important; /* Target the day button itself */
 }
 .rdp-day_today .rdp-day_selection_grid__day_label {
