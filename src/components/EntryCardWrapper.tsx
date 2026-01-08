@@ -13,7 +13,7 @@ const EntryCardWrapper: React.FC<EntryCardWrapperProps> = ({ children, className
   return (
     <Card
       className={cn(
-        "bg-white border-2 border-black shadow-custom-black-lg rounded-[16px]",
+        "bg-white border-2 border-black rounded-[16px] shadow-xl", // Temporarily changed to shadow-xl for diagnosis
         className
       )}
       {...props}
