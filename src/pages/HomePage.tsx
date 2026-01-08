@@ -3,7 +3,7 @@
 import React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Removed Card import as it's now wrapped
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { LearnedEntry, getEntriesByDate, deleteEntry, getDatesWithFirstEntrySubject } from "@/lib/data-store";
@@ -24,6 +24,7 @@ import { useSession } from '@/components/SessionContextProvider';
 import LinkPreview from "@/components/LinkPreview";
 import { getSubjectTagClasses } from "@/lib/subject-colors"; // Import the utility
 import { cn } from "@/lib/utils"; // Import the cn utility
+import EntryCardWrapper from "@/components/EntryCardWrapper"; // Import the new wrapper
 
 const HomePage = () => {
   const { user, loading } = useSession();
@@ -120,12 +121,7 @@ const HomePage = () => {
             {entriesForSelectedDate.map((entry, index) => {
               const { className: tagClassName, style: tagStyle } = getSubjectTagClasses(entry.subject);
               return (
-                <Card 
-                  key={entry.id} 
-                  className={cn(
-                    "relative bg-white border-2 border-black rounded-[16px] shadow-custom-black-lg" // Standardized shadow
-                  )}
-                >
+                <EntryCardWrapper key={entry.id} className="relative">
                   <CardHeader>
                     <CardTitle className="flex justify-between items-center text-black">
                       <span>{entry.title}</span>
@@ -137,7 +133,7 @@ const HomePage = () => {
                           <AlertDialogTrigger asChild>
                             <Button variant="destructive" size="sm" className="border-2 border-black shadow-custom-black text-white bg-destructive hover:bg-destructive/90">Supprimer</Button>
                           </AlertDialogTrigger>
-                          <AlertDialogContent className="border-2 border-black shadow-custom-black-lg"> {/* Added shadow-custom-black-lg here */}
+                          <AlertDialogContent className="border-2 border-black shadow-custom-black-lg">
                             <AlertDialogHeader>
                               <AlertDialogTitle className="text-black">Êtes-vous absolument sûr(e) ?</AlertDialogTitle>
                               <AlertDialogDescription className="text-black">
@@ -170,7 +166,7 @@ const HomePage = () => {
                       Chokbaromètre: {entry.chokbarometer}
                     </p>
                   </CardContent>
-                </Card>
+                </EntryCardWrapper>
               );
             })}
           </div>

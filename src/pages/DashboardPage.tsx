@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useSession } from '@/components/SessionContextProvider';
 import { LearnedEntry, getEntries } from "@/lib/data-store";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Removed Card import as it's now wrapped
 import {
   ResponsiveContainer,
   BarChart,
@@ -19,6 +19,7 @@ import {
 } from "recharts";
 import { BarChart3 } from "lucide-react";
 import { subjectColors } from "@/lib/subject-colors"; // Import subjectColors
+import EntryCardWrapper from "@/components/EntryCardWrapper"; // Import the new wrapper
 
 interface SubjectData {
   name: string;
@@ -83,7 +84,7 @@ const DashboardPage = () => {
       <h2 className="text-3xl font-bold mb-6 text-center">Votre Tableau de Bord d'Apprentissage</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card className="bg-white border-2 border-black shadow-custom-black-lg rounded-[16px]">
+        <EntryCardWrapper>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total des Entrées</CardTitle>
             <BarChart3 className="h-4 w-4 text-muted-foreground" />
@@ -92,12 +93,12 @@ const DashboardPage = () => {
             <div className="text-2xl font-bold">{allEntries.length}</div>
             <p className="text-xs text-muted-foreground">Entrées d'apprentissage enregistrées</p>
           </CardContent>
-        </Card>
+        </EntryCardWrapper>
         {/* Add more summary cards if needed */}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card className="bg-white border-2 border-black shadow-custom-black-lg rounded-[16px]">
+        <EntryCardWrapper>
           <CardHeader>
             <CardTitle>Entrées par Matière</CardTitle>
           </CardHeader>
@@ -121,9 +122,9 @@ const DashboardPage = () => {
               <p className="text-muted-foreground text-center">Aucune donnée de matière disponible.</p>
             )}
           </CardContent>
-        </Card>
+        </EntryCardWrapper>
 
-        <Card className="bg-white border-2 border-black shadow-custom-black-lg rounded-[16px]">
+        <EntryCardWrapper>
           <CardHeader>
             <CardTitle>Répartition du Chokbaromètre</CardTitle>
           </CardHeader>
@@ -153,7 +154,7 @@ const DashboardPage = () => {
               <p className="text-muted-foreground text-center">Aucune donnée de chokbaromètre disponible.</p>
             )}
           </CardContent>
-        </Card>
+        </EntryCardWrapper>
       </div>
     </div>
   );

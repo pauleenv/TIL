@@ -2,7 +2,7 @@
 
 import React from "react";
 import { LearnedEntry, getEntries, getAllSubjects, getEntriesBySubject } from "@/lib/data-store";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Removed Card import as it's now wrapped
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import LinkPreview from "@/components/LinkPreview";
 import { getSubjectTagClasses, getSubjectDropdownItemClasses } from "@/lib/subject-colors";
 import { cn } from "@/lib/utils";
+import EntryCardWrapper from "@/components/EntryCardWrapper"; // Import the new wrapper
 
 const predefinedSubjects = [
   "Tech",
@@ -107,7 +108,7 @@ const EncyclopediaPage = () => {
           {filteredEntries.map((entry) => {
             const { className: tagClassName, style: tagStyle } = getSubjectTagClasses(entry.subject);
             return (
-              <Card key={entry.id} className="bg-white border-2 border-black shadow-custom-black-lg rounded-[16px]">
+              <EntryCardWrapper key={entry.id}>
                 <Collapsible>
                   <CardHeader>
                     <div className="flex justify-between items-center">
@@ -143,7 +144,7 @@ const EncyclopediaPage = () => {
                     </CardContent>
                   </CollapsibleContent>
                 </Collapsible>
-              </Card>
+              </EntryCardWrapper>
             );
           })}
         </div>
