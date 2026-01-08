@@ -36,7 +36,7 @@ const Layout = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-transparent p-4 flex justify-between items-center"> {/* Removed bg-primary, text-primary-foreground */}
-        <h1 className="text-black text-4xl font-bold text-center flex-grow">AJA</h1> {/* Updated title and styling */}
+        <h1 className="text-black text-4xl font-bold">AJA</h1> {/* Updated title and styling */}
         <Button variant="ghost" size="icon" className="bg-white border-2 border-black shadow-custom-black rounded-full w-10 h-10 flex items-center justify-center text-black hover:bg-gray-100"> {/* Styled profile button */}
           <UserCircle className="h-6 w-6" />
         </Button>
