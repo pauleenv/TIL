@@ -11,15 +11,17 @@ interface EntryCardWrapperProps extends React.ComponentProps<typeof Card> {
 
 const EntryCardWrapper: React.FC<EntryCardWrapperProps> = ({ children, className, ...props }) => {
   return (
-    <Card
-      className={cn(
-        "bg-white border-2 border-black rounded-[16px] shadow-xl", // Temporarily changed to shadow-xl for diagnosis
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </Card>
+    <div className={cn(
+      "bg-white border-2 border-black rounded-[16px] shadow-custom-black-lg", // Apply all visual styles to the wrapper div
+      className
+    )}>
+      <Card
+        className="p-0 shadow-none border-none bg-transparent" // Strip conflicting styles from the Card
+        {...props}
+      >
+        {children}
+      </Card>
+    </div>
   );
 };
 
