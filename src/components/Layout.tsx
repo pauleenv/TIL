@@ -36,7 +36,7 @@ const Layout = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-transparent p-4 flex justify-between items-center"> {/* Removed bg-primary, text-primary-foreground */}
-        <img src="/Logo-1.svg" alt="AJA Logo" className="h-12 w-auto" /> {/* Replaced h1 with logo */}
+        <img src="/Logo-1.svg" alt="AJA Logo" className="w-[120px] h-auto" /> {/* Resized logo to 120px width */}
         <Button variant="ghost" size="icon" className="bg-white border-2 border-black shadow-custom-black rounded-full w-10 h-10 flex items-center justify-center text-black hover:bg-gray-100"> {/* Styled profile button */}
           <UserCircle className="h-6 w-6" />
         </Button>
