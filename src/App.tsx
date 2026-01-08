@@ -38,6 +38,8 @@ const App = () => (
         </SessionContextProvider>
       </BrowserRouter>
     </TooltipProvider>
+    {/* Hidden element to ensure custom shadow classes are always included in the CSS bundle */}
+    <div className="sr-only shadow-custom-black-lg"></div>
   </QueryClientProvider>
 );
 

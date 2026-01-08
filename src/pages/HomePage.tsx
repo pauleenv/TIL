@@ -123,8 +123,7 @@ const HomePage = () => {
                 <Card 
                   key={entry.id} 
                   className={cn(
-                    "relative bg-white border-2 border-black rounded-[16px]",
-                    index === 0 ? "shadow-super-bold" : "shadow-custom-black-lg" // Appliquer l'ombre super-bold à la première carte
+                    "relative bg-white border-2 border-black rounded-[16px] shadow-custom-black-lg" // Standardized shadow
                   )}
                 >
                   <CardHeader>
