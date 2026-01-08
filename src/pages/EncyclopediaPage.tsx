@@ -107,7 +107,7 @@ const EncyclopediaPage = () => {
           {filteredEntries.map((entry) => {
             const { className: tagClassName, style: tagStyle } = getSubjectTagClasses(entry.subject);
             return (
-              <Card key={entry.id} className="bg-white border-2 border-black shadow-custom-black-lg rounded-[16px]">
+              <Card key={entry.id} className="bg-white border-2 border-black shadow-super-bold rounded-[16px]">
                 <Collapsible>
                   <CardHeader>
                     <div className="flex justify-between items-center">

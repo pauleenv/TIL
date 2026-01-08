@@ -83,7 +83,7 @@ const DashboardPage = () => {
       <h2 className="text-3xl font-bold mb-6 text-center">Votre Tableau de Bord d'Apprentissage</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <Card className="bg-white border-2 border-black shadow-custom-black-lg rounded-[16px]">
+        <Card className="bg-white border-2 border-black shadow-super-bold rounded-[16px]">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total des Entrées</CardTitle>
             <BarChart3 className="h-4 w-4 text-muted-foreground" />
@@ -97,7 +97,7 @@ const DashboardPage = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card className="bg-white border-2 border-black shadow-custom-black-lg rounded-[16px]">
+        <Card className="bg-white border-2 border-black shadow-super-bold rounded-[16px]">
           <CardHeader>
             <CardTitle>Entrées par Matière</CardTitle>
           </CardHeader>
@@ -123,7 +123,7 @@ const DashboardPage = () => {
           </CardContent>
         </Card>
 
-        <Card className="bg-white border-2 border-black shadow-custom-black-lg rounded-[16px]">
+        <Card className="bg-white border-2 border-black shadow-super-bold rounded-[16px]">
           <CardHeader>
             <CardTitle>Répartition du Chokbaromètre</CardTitle>
           </CardHeader>
