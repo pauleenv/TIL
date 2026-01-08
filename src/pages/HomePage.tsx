@@ -137,7 +137,7 @@ const HomePage = () => {
                           <AlertDialogTrigger asChild>
                             <Button variant="destructive" size="sm" className="border-2 border-black shadow-custom-black text-white bg-destructive hover:bg-destructive/90">Supprimer</Button>
                           </AlertDialogTrigger>
-                          <AlertDialogContent className="border-2 border-black shadow-custom-black">
+                          <AlertDialogContent className="border-2 border-black shadow-custom-black-lg"> {/* Added shadow-custom-black-lg here */}
                             <AlertDialogHeader>
                               <AlertDialogTitle className="text-black">Êtes-vous absolument sûr(e) ?</AlertDialogTitle>
                               <AlertDialogDescription className="text-black">
