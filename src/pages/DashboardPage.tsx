@@ -5,7 +5,7 @@ import { useSession } from '@/components/SessionContextProvider';
 import { LearnedEntry, getEntries } from "@/lib/data-store";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell, } from "recharts";
-import { BarChart3 } from "lucide-react";
+import { BarChart3 } from "lite-react";
 import { subjectColors } from "@/lib/subject-colors";
 import EntryCardWrapper from "@/components/EntryCardWrapper";
 import Chokbarometer from "@/components/Chokbarometer";
@@ -157,7 +157,7 @@ const DashboardPage = () => {
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={subjectsData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
                   <defs>
-                    <filter id="barChartShadow" x="-50%" y="-50%" width="200%" height="200%">
+                    <filter id="barChartShadow" x="-10%" y="0" width="120%" height="100%">
                       <feDropShadow dx="3" dy="2" stdDeviation="0" floodColor="black" />
                     </filter>
                   </defs>
