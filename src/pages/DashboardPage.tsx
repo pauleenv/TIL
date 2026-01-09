@@ -63,11 +63,11 @@ interface CustomLegendProps {
 
 const CustomLegend: React.FC<CustomLegendProps> = ({ payload }) => {
   return (
-    <ul className="flex flex-col items-start space-y-2 mt-4">
+    <ul className="flex flex-row flex-wrap justify-center gap-x-4 gap-y-2 mt-4">
       {payload?.map((entry, index) => (
         <li key={`item-${index}`} className="flex items-center space-x-2">
           <div
-            className="w-4 h-4 border-2 border-black rounded-[5px] shadow-custom-black" // Apply desired styles
+            className="w-5 h-5 border-2 border-black rounded-[5px] shadow-custom-black" // Increased size to w-5 h-5
             style={{ backgroundColor: entry.color }}
           ></div>
           <span className="text-black">{entry.value}</span> {/* Text in black */}
