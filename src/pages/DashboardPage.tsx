@@ -130,6 +130,11 @@ const DashboardPage = () => {
                 <div className="w-full md:w-1/2">
                   <ResponsiveContainer width="100%" height={300}>
                     <PieChart>
+                      <defs>
+                        <filter id="pieChartShadow" x="-50%" y="-50%" width="200%" height="200%">
+                          <feDropShadow dx="3" dy="2" stdDeviation="0" floodColor="black" />
+                        </filter>
+                      </defs>
                       <Pie
                         data={chokbarometerData}
                         cx="50%"
@@ -147,6 +152,7 @@ const DashboardPage = () => {
                           <Cell 
                             key={`cell-${index}`} 
                             fill={CHOKBAROMETER_COLORS[index % CHOKBAROMETER_COLORS.length]} 
+                            filter="url(#pieChartShadow)" // Apply the custom SVG filter here
                           />
                         ))}
                       </Pie>
