@@ -5,7 +5,7 @@ import { useSession } from '@/components/SessionContextProvider';
 import { LearnedEntry, getEntries } from "@/lib/data-store";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell, } from "recharts";
-import { BarChart3 } from "lite-react";
+import { BarChart3 } from "lucide-react";
 import { subjectColors } from "@/lib/subject-colors";
 import EntryCardWrapper from "@/components/EntryCardWrapper";
 import Chokbarometer from "@/components/Chokbarometer";
