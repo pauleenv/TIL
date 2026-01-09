@@ -67,7 +67,7 @@ const CustomLegend: React.FC<CustomLegendProps> = ({ payload }) => {
       {payload?.map((entry, index) => (
         <li key={`item-${index}`} className="flex items-center space-x-2">
           <div
-            className="w-5 h-5 border-2 border-black rounded-[5px] shadow-custom-black" // Increased size to w-5 h-5
+            className="w-8 h-5 border-2 border-black rounded-[5px] shadow-custom-black" // Changed to w-8 h-5 for horizontal rectangle
             style={{ backgroundColor: entry.color }}
           ></div>
           <span className="text-black">{entry.value}</span> {/* Text in black */}
