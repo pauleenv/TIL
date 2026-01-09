@@ -21,7 +21,9 @@ interface ChokbarometerData {
   level: "Intéressant" | "Surprenant" | "Incroyable" | "Chokbar";
 }
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658'];
+// Updated COLORS array for Chokbaromètre diagram
+const CHOKBAROMETER_COLORS = ['#C991FF40', '#C991FF80', '#C991FFBF', '#C991FF'];
+const SUBJECT_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']; // Keep existing for subjects
 
 const DashboardPage = () => {
   const { user, loading } = useSession();
@@ -57,11 +59,15 @@ const DashboardPage = () => {
     entries.forEach(entry => {
       chokbarometerCounts[entry.chokbarometer] = (chokbarometerCounts[entry.chokbarometer] || 0) + 1;
     });
-    const chokbarometerChartData = Object.entries(chokbarometerCounts).map(([name, count]) => ({
-      name,
-      count,
-      level: name as "Intéressant" | "Surprenant" | "Incroyable" | "Chokbar"
-    }));
+    // Ensure consistent order for colors
+    const orderedChokbarometerLevels: ("Intéressant" | "Surprenant" | "Incroyable" | "Chokbar")[] = ["Intéressant", "Surprenant", "Incroyable", "Chokbar"];
+    const chokbarometerChartData = orderedChokbarometerLevels
+      .map(level => ({
+        name: level,
+        count: chokbarometerCounts[level] || 0,
+        level: level
+      }))
+      .filter(item => item.count > 0); // Only include levels that have entries
     setChokbarometerData(chokbarometerChartData);
   };
 
@@ -104,7 +110,7 @@ const DashboardPage = () => {
                   <Legend />
                   <Bar dataKey="count" name="Nombre d'entrées">
                     {subjectsData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={subjectColors[entry.name]?.background || COLORS[index % COLORS.length]} />
+                      <Cell key={`cell-${index}`} fill={subjectColors[entry.name]?.background || SUBJECT_COLORS[index % SUBJECT_COLORS.length]} />
                     ))}
                   </Bar>
                 </BarChart>
@@ -135,7 +141,7 @@ const DashboardPage = () => {
                         label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                       >
                         {chokbarometerData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                          <Cell key={`cell-${index}`} fill={CHOKBAROMETER_COLORS[index % CHOKBAROMETER_COLORS.length]} />
                         ))}
                       </Pie>
                       <Tooltip />
