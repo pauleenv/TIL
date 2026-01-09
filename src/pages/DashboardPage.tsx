@@ -31,7 +31,7 @@ const CHOKBAROMETER_COLORS = [
 const SUBJECT_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']; // Keep existing for subjects
 
 // Custom label component for the PieChart
-const CustomPieChartLabel = ({ cx, cy, midAngle, outerRadius, percent, name }: any) => {
+const CustomPieChartLabel = ({ cx, cy, midAngle, outerRadius, percent }: any) => {
   const RADIAN = Math.PI / 180;
   const radius = outerRadius + 20; // Position labels slightly outside the pie
   const x = cx + radius * Math.cos(-midAngle * RADIAN);
@@ -47,7 +47,7 @@ const CustomPieChartLabel = ({ cx, cy, midAngle, outerRadius, percent, name }: a
       filter="none" // Explicitly remove any inherited SVG filter (shadow)
       className="text-sm font-medium" // Apply Tailwind classes for styling
     >
-      {`${name} ${(percent * 100).toFixed(0)}%`}
+      {`${(percent * 100).toFixed(0)}%`}
     </text>
   );
 };
