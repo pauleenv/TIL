@@ -104,7 +104,7 @@ const ProfilePage = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-180px)] p-4">
-      <Card className="w-full max-w-md bg-white border-2 border-black shadow-custom-black-lg rounded-[16px]">
+      <Card className="w-full max-w-md bg-white border-2 border-black drop-shadow-custom-black-lg rounded-[16px]"> {/* Changed to drop-shadow-custom-black-lg */}
         <CardHeader>
           <CardTitle className="text-center">Votre Profil</CardTitle>
         </CardHeader>

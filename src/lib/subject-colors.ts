@@ -15,7 +15,7 @@ export const getSubjectTagClasses = (subject: string) => {
   const backgroundColor = colors ? colors.background : "#FFFFFF"; // Default to white if not found
   const textColor = colors ? colors.text : "#000000"; // Default to black if not found
 
-  let baseClasses = "flex items-center justify-center px-2 border-2 border-black shadow-[3px_2px_0px_rgb(0,0,0)] rounded-[16px] font-normal whitespace-nowrap";
+  let baseClasses = "flex items-center justify-center px-2 border-2 border-black drop-shadow-custom-black rounded-[16px] font-normal whitespace-nowrap"; // Changed to drop-shadow-custom-black
 
   // Ajustements spécifiques pour la taille de la police et la hauteur de ligne
   if (subject === "Nature/Géographie") {

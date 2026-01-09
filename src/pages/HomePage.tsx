@@ -122,7 +122,7 @@ const HomePage = () => {
                           variant="outline"
                           size="sm"
                           onClick={() => handleEditEntryClick(entry)}
-                          className="border-2 border-black shadow-custom-black text-black bg-white hover:bg-gray-100"
+                          className="border-2 border-black drop-shadow-custom-black text-black bg-white hover:bg-gray-100" // Changed to drop-shadow-custom-black
                         >
                           Modifier
                         </Button>
@@ -131,12 +131,12 @@ const HomePage = () => {
                             <Button
                               variant="destructive"
                               size="sm"
-                              className="border-2 border-black shadow-custom-black text-white bg-destructive hover:bg-destructive/90"
+                              className="border-2 border-black drop-shadow-custom-black text-white bg-destructive hover:bg-destructive/90" // Changed to drop-shadow-custom-black
                             >
                               Supprimer
                             </Button>
                           </AlertDialogTrigger>
-                          <AlertDialogContent className="border-2 border-black shadow-custom-black-lg">
+                          <AlertDialogContent className="border-2 border-black drop-shadow-custom-black-lg"> {/* Changed to drop-shadow-custom-black-lg */}
                             <AlertDialogHeader>
                               <AlertDialogTitle className="text-black">Êtes-vous absolument sûr(e) ?</AlertDialogTitle>
                               <AlertDialogDescription className="text-black">
@@ -144,12 +144,12 @@ const HomePage = () => {
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel className="border-2 border-black shadow-custom-black text-black bg-white hover:bg-gray-100">
+                              <AlertDialogCancel className="border-2 border-black drop-shadow-custom-black text-black bg-white hover:bg-gray-100"> {/* Changed to drop-shadow-custom-black */}
                                 Annuler
                               </AlertDialogCancel>
                               <AlertDialogAction
                                 onClick={() => handleDeleteEntry(entry.id)}
-                                className="border-2 border-black shadow-custom-black text-white bg-destructive hover:bg-destructive/90"
+                                className="border-2 border-black drop-shadow-custom-black text-white bg-destructive hover:bg-destructive/90" // Changed to drop-shadow-custom-black
                               >
                                 Supprimer
                               </AlertDialogAction>
@@ -183,8 +183,8 @@ const HomePage = () => {
         open={isFormDialogOpen}
         onOpenChange={setIsFormDialogOpen}
         initialEntry={editingEntry}
-        onSave={handleEntrySave}
         defaultDate={selectedDate}
+        onSave={handleEntrySave}
       />
     </div>
   );

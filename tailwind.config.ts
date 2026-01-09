@@ -101,6 +101,10 @@ export default {
         'custom-black-lg': '6px 4px 0px rgb(0,0,0)',
         'super-bold': '10px 8px 0px rgb(0,0,0)', // Nouvelle ombre très prononcée pour le test
       },
+      dropShadow: { // Add dropShadow here
+        'custom-black': '3px 2px 0px rgba(0, 0, 0, 1)',
+        'custom-black-lg': '6px 4px 0px rgba(0, 0, 0, 1)',
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],
