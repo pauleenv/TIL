@@ -52,6 +52,32 @@ const CustomPieChartLabel = ({ cx, cy, midAngle, outerRadius, percent }: any) =>
   );
 };
 
+// Custom Legend component
+interface CustomLegendProps {
+  payload?: Array<{
+    value: string; // The name of the legend item (e.g., "Intéressant")
+    color?: string; // The color of the item
+    payload?: ChokbarometerData; // The original data payload
+  }>;
+}
+
+const CustomLegend: React.FC<CustomLegendProps> = ({ payload }) => {
+  return (
+    <ul className="flex flex-col items-start space-y-2 mt-4">
+      {payload?.map((entry, index) => (
+        <li key={`item-${index}`} className="flex items-center space-x-2">
+          <div
+            className="w-4 h-4 border-2 border-black rounded-[5px] shadow-custom-black" // Apply desired styles
+            style={{ backgroundColor: entry.color }}
+          ></div>
+          <span className="text-black">{entry.value}</span> {/* Text in black */}
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+
 const DashboardPage = () => {
   const { user, loading } = useSession();
   const [allEntries, setAllEntries] = useState<LearnedEntry[]>([]);
@@ -184,7 +210,7 @@ const DashboardPage = () => {
                         ))}
                       </Pie>
                       <Tooltip />
-                      <Legend />
+                      <Legend content={<CustomLegend />} /> {/* Use the custom legend component here */}
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
