@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useSession } from '@/components/SessionContextProvider';
 import { LearnedEntry, getEntries } from "@/lib/data-store";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie, Cell, } from "recharts"; // Removed Legend from import
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell, } from "recharts";
 import { BarChart3 } from "lucide-react";
 import { subjectColors } from "@/lib/subject-colors";
 import EntryCardWrapper from "@/components/EntryCardWrapper";
@@ -52,7 +52,31 @@ const CustomPieChartLabel = ({ cx, cy, midAngle, outerRadius, percent }: any) =>
   );
 };
 
-// Removed CustomLegend component as it's no longer needed.
+// Custom Legend component
+interface CustomLegendProps {
+  payload?: Array<{
+    value: string; // The name of the legend item (e.g., "Intéressant")
+    color?: string; // The color of the item
+    payload?: ChokbarometerData; // The original data payload
+  }>;
+}
+
+const CustomLegend: React.FC<CustomLegendProps> = ({ payload }) => {
+  return (
+    <ul className="flex flex-row flex-wrap justify-center gap-x-4 gap-y-2 mt-4">
+      {payload?.map((entry, index) => (
+        <li key={`item-${index}`} className="flex items-center space-x-2">
+          <div
+            className="w-5 h-5 border-2 border-black rounded-[5px] drop-shadow-custom-black" // Changed to drop-shadow-custom-black
+            style={{ backgroundColor: entry.color }}
+          ></div>
+          <span className="text-black">{entry.value}</span> {/* Text in black */}
+        </li>
+      ))}
+    </ul>
+  );
+};
+
 
 const DashboardPage = () => {
   const { user, loading } = useSession();
@@ -136,7 +160,7 @@ const DashboardPage = () => {
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
-                  {/* <Legend /> */} {/* Removed Legend */}
+                  <Legend />
                   <Bar dataKey="count" name="Nombre d'entrées">
                     {subjectsData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={subjectColors[entry.name]?.background || SUBJECT_COLORS[index % SUBJECT_COLORS.length]} />
@@ -186,7 +210,7 @@ const DashboardPage = () => {
                         ))}
                       </Pie>
                       <Tooltip />
-                      {/* <Legend content={<CustomLegend />} /> */} {/* Removed CustomLegend */}
+                      <Legend content={<CustomLegend />} /> {/* Use the custom legend component here */}
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
