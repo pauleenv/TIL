@@ -67,7 +67,7 @@ const CustomLegend: React.FC<CustomLegendProps> = ({ payload }) => {
       {payload?.map((entry, index) => (
         <li key={`item-${index}`} className="flex items-center space-x-2">
           <div
-            className="w-5 h-5 border-2 border-black rounded-[5px] drop-shadow-custom-black" // Changed to drop-shadow-custom-black
+            className="w-8 h-4 border-2 border-black rounded-[5px] drop-shadow-custom-black" // Changed to w-8 h-4 for horizontal rectangle
             style={{ backgroundColor: entry.color }}
           ></div>
           <span className="text-black">{entry.value}</span> {/* Text in black */}
@@ -214,7 +214,6 @@ const DashboardPage = () => {
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
-                {/* Removed the div containing the list of Chokbarometer items */}
               </div>
             ) : (
               <p className="text-muted-foreground text-center">Aucune donnée de chokbaromètre disponible.</p>
