@@ -67,10 +67,10 @@ const CustomLegend: React.FC<CustomLegendProps> = ({ payload }) => {
       {payload?.map((entry, index) => (
         <li key={`item-${index}`} className="flex items-center space-x-2">
           <div
-            className="w-8 h-4 border-2 border-black rounded-[5px] drop-shadow-custom-black" // Changed to w-8 h-4 for horizontal rectangle
+            className="w-8 h-4 border-2 border-black rounded-[5px] drop-shadow-custom-black"
             style={{ backgroundColor: entry.color }}
           ></div>
-          <span className="text-black">{entry.value}</span> {/* Text in black */}
+          <span className="text-black">{entry.value}</span>
         </li>
       ))}
     </ul>
@@ -156,14 +156,23 @@ const DashboardPage = () => {
             {subjectsData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={subjectsData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                  <defs>
+                    <filter id="barChartShadow" x="-50%" y="-50%" width="200%" height="200%">
+                      <feDropShadow dx="3" dy="2" stdDeviation="0" floodColor="black" />
+                    </filter>
+                  </defs>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="count" name="Nombre d'entrées">
+                  <Bar dataKey="count" name="Nombre d'entrées" stroke="black" strokeWidth={2} cornerRadius={5}>
                     {subjectsData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={subjectColors[entry.name]?.background || SUBJECT_COLORS[index % SUBJECT_COLORS.length]} />
+                      <Cell 
+                        key={`cell-${index}`} 
+                        fill={subjectColors[entry.name]?.background || SUBJECT_COLORS[index % SUBJECT_COLORS.length]} 
+                        filter="url(#barChartShadow)"
+                      />
                     ))}
                   </Bar>
                 </BarChart>
