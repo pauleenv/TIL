@@ -26,7 +26,7 @@ const Chokbarometer: React.FC<ChokbarometerProps> = ({
     switch (level) {
       case "Intéressant": return { emoji: "chokbar-1.svg", label: "Intéressant" };
       case "Surprenant": return { emoji: "chokbar-2.svg", label: "Surprenant" };
-      case "Incroyable": return { emoji: "chokbar-3.svg", label: "Incroyable" };
+      case "Incroyable": return { emoji: "chokbar-3.svg", label: "Chokbar" };
       case "Chokbar": return { emoji: "chokbar-4.svg", label: "Chokbar" };
       default: return { emoji: "chokbar-1.svg", label: "Intéressant" };
     }
@@ -39,7 +39,7 @@ const Chokbarometer: React.FC<ChokbarometerProps> = ({
       <img 
         src={`/${emoji}`} 
         alt={label}
-        className={cn(getSizeClasses(), "object-contain shadow-custom-black")} // Added shadow-custom-black class
+        className={cn(getSizeClasses(), "object-contain shadow-custom-black rounded-full")} // Added rounded-full here
         aria-label={label}
       />
       <span className="text-xs mt-1 text-center">{label}</span>
