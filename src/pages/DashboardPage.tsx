@@ -30,6 +30,28 @@ const CHOKBAROMETER_COLORS = [
 ];
 const SUBJECT_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']; // Keep existing for subjects
 
+// Custom label component for the PieChart
+const CustomPieChartLabel = ({ cx, cy, midAngle, outerRadius, percent, name }: any) => {
+  const RADIAN = Math.PI / 180;
+  const radius = outerRadius + 20; // Position labels slightly outside the pie
+  const x = cx + radius * Math.cos(-midAngle * RADIAN);
+  const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+  return (
+    <text
+      x={x}
+      y={y}
+      fill="black" // Ensure label text is black
+      textAnchor={x > cx ? 'start' : 'end'}
+      dominantBaseline="central"
+      filter="none" // Explicitly remove any inherited SVG filter (shadow)
+      className="text-sm font-medium" // Apply Tailwind classes for styling
+    >
+      {`${name} ${(percent * 100).toFixed(0)}%`}
+    </text>
+  );
+};
+
 const DashboardPage = () => {
   const { user, loading } = useSession();
   const [allEntries, setAllEntries] = useState<LearnedEntry[]>([]);
@@ -148,7 +170,7 @@ const DashboardPage = () => {
                         outerRadius={80}
                         fill="#8884d8"
                         dataKey="count"
-                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`} // Re-added the label prop
+                        label={CustomPieChartLabel} // Use the custom label component here
                         stroke="black"  // Add solid black border
                         strokeWidth={2}  // Border width to match card borders
                         cornerRadius={5} // Changed to 5px corner radius
