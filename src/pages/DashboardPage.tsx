@@ -166,12 +166,18 @@ const DashboardPage = () => {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="count" name="Nombre d'entrées" stroke="black" strokeWidth={2} cornerRadius={5}>
+                  <Bar 
+                    dataKey="count" 
+                    name="Nombre d'entrées" 
+                    stroke="black" 
+                    strokeWidth={2} 
+                    radius={[5, 5, 0, 0]} // Apply corner radius to top corners
+                    filter="url(#barChartShadow)" // Apply the custom SVG filter here
+                  >
                     {subjectsData.map((entry, index) => (
                       <Cell 
                         key={`cell-${index}`} 
                         fill={subjectColors[entry.name]?.background || SUBJECT_COLORS[index % SUBJECT_COLORS.length]} 
-                        filter="url(#barChartShadow)"
                       />
                     ))}
                   </Bar>
