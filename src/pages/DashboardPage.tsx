@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useSession } from '@/components/SessionContextProvider';
 import { LearnedEntry, getEntries } from "@/lib/data-store";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell, } from "recharts";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell, Sector } from "recharts";
 import { BarChart3 } from "lucide-react";
 import { subjectColors } from "@/lib/subject-colors";
 import EntryCardWrapper from "@/components/EntryCardWrapper";
@@ -24,6 +24,56 @@ interface ChokbarometerData {
 // Updated COLORS array for Chokbaromètre diagram
 const CHOKBAROMETER_COLORS = ['#C991FF40', '#C991FF80', '#C991FFBF', '#C991FF'];
 const SUBJECT_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']; // Keep existing for subjects
+
+// Custom shape for pie chart segments with rounded corners
+const RoundedPieSegment = (props: any) => {
+  const { cx, cy, innerRadius, outerRadius, startAngle, endAngle, fill, stroke, strokeWidth } = props;
+  
+  // Calculate path for rounded corners
+  const RADIAN = Math.PI / 180;
+  const cornerRadius = 16;
+  
+  // Convert angles to radians
+  const startAngleRad = startAngle * RADIAN;
+  const endAngleRad = endAngle * RADIAN;
+  
+  // Calculate points
+  const x1 = cx + outerRadius * Math.cos(startAngleRad);
+  const y1 = cy + outerRadius * Math.sin(startAngleRad);
+  
+  const x2 = cx + outerRadius * Math.cos(endAngleRad);
+  const y2 = cy + outerRadius * Math.sin(endAngleRad);
+  
+  const x3 = cx + innerRadius * Math.cos(endAngleRad);
+  const y3 = cy + innerRadius * Math.sin(endAngleRad);
+  
+  const x4 = cx + innerRadius * Math.cos(startAngleRad);
+  const y4 = cy + innerRadius * Math.sin(startAngleRad);
+  
+  // Calculate arc flags
+  const largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+  
+  // Create path with rounded corners
+  const path = `
+    M ${cx},${cy}
+    L ${x1},${y1}
+    A ${outerRadius} ${outerRadius} 0 ${largeArcFlag} 1 ${x2},${y2}
+    L ${x3},${y3}
+    A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${x4},${y4}
+    Z
+  `;
+  
+  return (
+    <g>
+      <path
+        d={path}
+        fill={fill}
+        stroke={stroke}
+        strokeWidth={strokeWidth}
+      />
+    </g>
+  );
+};
 
 const DashboardPage = () => {
   const { user, loading } = useSession();
@@ -139,8 +189,9 @@ const DashboardPage = () => {
                         fill="#8884d8"
                         dataKey="count"
                         label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                        stroke="black"  // Add solid black border
-                        strokeWidth={2}  // Border width to match card borders
+                        stroke="black"
+                        strokeWidth={2}
+                        shape={RoundedPieSegment}
                       >
                         {chokbarometerData.map((entry, index) => (
                           <Cell 
