@@ -21,42 +21,6 @@ interface ChokbarometerData {
   level: "Intéressant" | "Surprenant" | "Incroyable" | "Chokbar";
 }
 
-// Custom shape component for pie chart with rounded corners
-const RoundedCornerShape = (props: any) => {
-  const { cx, cy, innerRadius, outerRadius, startAngle, endAngle, fill, stroke, strokeWidth } = props;
-  
-  // Convert angles from degrees to radians
-  const startAngleRad = (startAngle * Math.PI) / 180;
-  const endAngleRad = (endAngle * Math.PI) / 180;
-  
-  // Calculate points for the path
-  const x1 = cx + outerRadius * Math.cos(startAngleRad);
-  const y1 = cy + outerRadius * Math.sin(startAngleRad);
-  const x2 = cx + outerRadius * Math.cos(endAngleRad);
-  const y2 = cy + outerRadius * Math.sin(endAngleRad);
-  
-  const largeArcFlag = endAngle - startAngle > 180 ? 1 : 0;
-  
-  // Create path with rounded corners
-  const pathData = `
-    M ${cx} ${cy}
-    L ${x1} ${y1}
-    A ${outerRadius} ${outerRadius} 0 ${largeArcFlag} 1 ${x2} ${y2}
-    L ${cx} ${cy}
-    Z
-  `;
-  
-  return (
-    <path
-      d={pathData}
-      fill={fill}
-      stroke={stroke}
-      strokeWidth={strokeWidth}
-      strokeLinejoin="round"
-    />
-  );
-};
-
 // Updated COLORS array for Chokbaromètre diagram
 const CHOKBAROMETER_COLORS = ['#C991FF40', '#C991FF80', '#C991FFBF', '#C991FF'];
 const SUBJECT_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']; // Keep existing for subjects
@@ -175,9 +139,8 @@ const DashboardPage = () => {
                         fill="#8884d8"
                         dataKey="count"
                         label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                        stroke="black"
-                        strokeWidth={2}
-                        shape={<RoundedCornerShape />}
+                        stroke="black"  // Add solid black border
+                        strokeWidth={2}  // Border width to match card borders
                       >
                         {chokbarometerData.map((entry, index) => (
                           <Cell 
