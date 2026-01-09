@@ -21,8 +21,13 @@ interface ChokbarometerData {
   level: "Intéressant" | "Surprenant" | "Incroyable" | "Chokbar";
 }
 
-// Updated COLORS array for Chokbaromètre diagram with 100% opacity
-const CHOKBAROMETER_COLORS = ['#C991FFFF', '#C991FFFF', '#C991FFFF', '#C991FFFF'];
+// Using distinct, fully opaque colors for Chokbaromètre diagram
+const CHOKBAROMETER_COLORS = [
+  subjectColors["Sciences"].background, // Corresponds to "Intéressant"
+  subjectColors["Histoire"].background, // Corresponds to "Surprenant"
+  subjectColors["Tech"].background,     // Corresponds to "Incroyable"
+  subjectColors["Sports"].background    // Corresponds to "Chokbar"
+];
 const SUBJECT_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']; // Keep existing for subjects
 
 const DashboardPage = () => {
