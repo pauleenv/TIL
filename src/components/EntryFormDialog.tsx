@@ -5,32 +5,12 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { format } from "date-fns";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, } from "@/components/ui/dialog";
 import { Calendar as CalendarIcon, PlusCircle, XCircle, GripVertical } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
@@ -38,16 +18,17 @@ import { cn } from "@/lib/utils";
 import { LearnedEntry, addEntry, updateEntry } from "@/lib/data-store";
 import { showSuccess, showError } from "@/utils/toast";
 import { useSession } from '@/components/SessionContextProvider';
-import { getSubjectDropdownItemClasses } from "@/lib/subject-colors"; // Import the utility
+import { getSubjectDropdownItemClasses } from "@/lib/subject-colors";
+import Chokbarometer from "@/components/Chokbarometer";
 
 // Define the form schema using Zod
 const formSchema = z.object({
-  date: z.date({
-    required_error: "Veuillez sélectionner une date.",
-  }),
+  date: z.date({ required_error: "Veuillez sélectionner une date.", }),
   title: z.string().min(3, "Le titre doit contenir au moins 3 caractères.").max(100, "Le titre ne peut pas dépasser 100 caractères."),
   note: z.string().min(10, "La note doit contenir au moins 10 caractères.").max(500, "La note ne peut pas dépasser 500 caractères."),
-  link: z.array(z.object({ value: z.string().url("Le lien doit être une URL valide.").optional().or(z.literal("")) })).optional(),
+  link: z.array(z.object({
+    value: z.string().url("Le lien doit être une URL valide.").optional().or(z.literal(""))
+  })).optional(),
   subject: z.string().min(1, "Veuillez sélectionner une matière."),
   chokbarometer: z.enum(["Intéressant", "Surprenant", "Incroyable", "Chokbar"], {
     required_error: "Veuillez sélectionner l'intensité pour le chokbaromètre.",
@@ -64,7 +45,12 @@ const predefinedSubjects = [
   "Sciences",
 ];
 
-const chokbarometerOptions = ["Intéressant", "Surprenant", "Incroyable", "Chokbar"];
+const chokbarometerOptions = [
+  { value: "Intéressant", label: "Intéressant", emoji: "chokbar-1.svg" },
+  { value: "Surprenant", label: "Surprenant", emoji: "chokbar-2.svg" },
+  { value: "Incroyable", label: "Incroyable", emoji: "chokbar-3.svg" },
+  { value: "Chokbar", label: "Chokbar", emoji: "chokbar-4.svg" }
+];
 
 interface EntryFormDialogProps {
   open: boolean;
@@ -82,7 +68,7 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
   defaultDate,
 }) => {
   const { user } = useSession();
-
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -136,7 +122,13 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
     };
 
     if (initialEntry) {
-      const updated = await updateEntry({ ...initialEntry, ...entryData, id: initialEntry.id, created_at: initialEntry.created_at, updated_at: new Date().toISOString() });
+      const updated = await updateEntry({
+        ...initialEntry,
+        ...entryData,
+        id: initialEntry.id,
+        created_at: initialEntry.created_at,
+        updated_at: new Date().toISOString()
+      });
       if (updated) {
         showSuccess("Entrée mise à jour avec succès !");
         onSave();
@@ -162,7 +154,8 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
   };
 
   const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
-    event.preventDefault(); // Essentiel pour permettre le dépôt
+    event.preventDefault();
+    // Essentiel pour permettre le dépôt
     event.dataTransfer.dropEffect = "move";
   };
 
@@ -171,11 +164,13 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
     if (draggedItemIndex !== null && draggedItemIndex !== dropIndex) {
       move(draggedItemIndex, dropIndex);
     }
-    setDraggedItemIndex(null); // Réinitialiser l'index de l'élément glissé
+    setDraggedItemIndex(null);
+    // Réinitialiser l'index de l'élément glissé
   };
 
   const handleDragEnd = () => {
-    setDraggedItemIndex(null); // S'assurer de la réinitialisation même si le dépôt n'a pas eu lieu sur une cible valide
+    setDraggedItemIndex(null);
+    // S'assurer de la réinitialisation même si le dépôt n'a pas eu lieu sur une cible valide
   };
 
   return (
@@ -347,24 +342,32 @@ const EntryFormDialog: React.FC<EntryFormDialogProps> = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Chokbaromètre</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Sélectionnez l'intensité de la surprise" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {chokbarometerOptions.map((option) => (
-                        <SelectItem key={option} value={option}>
-                          {option}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    {chokbarometerOptions.map((option) => (
+                      <Button
+                        key={option.value}
+                        type="button"
+                        variant={field.value === option.value ? "default" : "outline"}
+                        className={cn(
+                          "flex flex-col items-center justify-center h-auto p-2",
+                          field.value === option.value && "border-2 border-primary"
+                        )}
+                        onClick={() => field.onChange(option.value)}
+                      >
+                        <img 
+                          src={`/${option.emoji}`} 
+                          alt={option.label}
+                          className="w-8 h-8 object-contain mb-1"
+                        />
+                        <span className="text-xs">{option.label}</span>
+                      </Button>
+                    ))}
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
             />
+
             <DialogFooter>
               <Button type="submit" className="w-full">
                 {initialEntry ? "Mettre à jour l'entrée" : "Sauvegarder l'entrée"}

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 30 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-177.464,-174.502)">
+        <g transform="matrix(1,0,0,1,55.0165,-0.498227)">
+            <g transform="matrix(1.15654,0,0,1.15654,-21.5157,-29.7422)">
+                <circle cx="137.447" cy="190" r="12.97" style="fill:rgb(201,145,255);"/>
+            </g>
+            <g transform="matrix(1,0,0,1,-2.55283,-5)">
+                <path d="M140,180C148.279,180 155,186.721 155,195C155,203.279 148.279,210 140,210C131.721,210 125,203.279 125,195C125,186.721 131.721,180 140,180ZM140,182.03C132.842,182.03 127.03,187.842 127.03,195C127.03,202.158 132.842,207.97 140,207.97C147.158,207.97 152.97,202.158 152.97,195C152.97,187.842 147.158,182.03 140,182.03Z"/>
+            </g>
+            <g id="face-with-open-mouth_1f62e.svg" transform="matrix(0.0585938,0,0,0.0585938,137.447,190)">
+                <g transform="matrix(1,0,0,1,-256,-256)">
+                    <g transform="matrix(1,0,0,1,15.085,-31.1121)">
+                        <g transform="matrix(0.985738,0,0,0.985738,-196.072,3.03816)">
+                            <circle cx="356.231" cy="213.021" r="73.021" style="fill:white;"/>
+                        </g>
+                        <g transform="matrix(0.42407,0,0,0.42407,8.93315,122.698)">
+                            <circle cx="356.231" cy="213.021" r="73.021"/>
+                        </g>
+                    </g>
+                    <ellipse cx="255.5" cy="360.224" rx="61.5" ry="77.124"/>
+                    <g transform="matrix(1,0,0,1,-15.6187,-31.1121)">
+                        <g transform="matrix(0.985738,0,0,0.985738,5.08066,3.03816)">
+                            <circle cx="356.231" cy="213.021" r="73.021" style="fill:white;"/>
+                        </g>
+                        <g transform="matrix(0.42407,0,0,0.42407,197.967,122.698)">
+                            <circle cx="356.231" cy="213.021" r="73.021"/>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

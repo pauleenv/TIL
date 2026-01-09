@@ -2,7 +2,7 @@
 
 import React from "react";
 import { LearnedEntry, getEntries, getAllSubjects, getEntriesBySubject } from "@/lib/data-store";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Removed Card import as it's now wrapped
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
@@ -13,7 +13,8 @@ import { Button } from "@/components/ui/button";
 import LinkPreview from "@/components/LinkPreview";
 import { getSubjectTagClasses, getSubjectDropdownItemClasses } from "@/lib/subject-colors";
 import { cn } from "@/lib/utils";
-import EntryCardWrapper from "@/components/EntryCardWrapper"; // Import the new wrapper
+import EntryCardWrapper from "@/components/EntryCardWrapper";
+import Chokbarometer from "@/components/Chokbarometer";
 
 const predefinedSubjects = [
   "Tech",
@@ -39,14 +40,14 @@ const EncyclopediaPage = () => {
       setFilteredEntries([]);
       return;
     }
-
     const entries = await getEntries(user.id);
     setAllEntries(entries);
+    
     // Filter subjects to only include the predefined ones, or "Autre" if an entry has a subject not in the predefined list
     const allUniqueSubjects = await getAllSubjects(user.id);
     const filteredUniqueSubjects = allUniqueSubjects.filter(subject => predefinedSubjects.includes(subject));
     setSubjects(filteredUniqueSubjects);
-
+    
     if (selectedSubject === "all") {
       setFilteredEntries(entries);
     } else {
@@ -76,7 +77,6 @@ const EncyclopediaPage = () => {
   return (
     <div className="max-w-4xl mx-auto p-4">
       <h2 className="text-3xl font-bold mb-6 text-center">Votre Encyclopédie Personnelle</h2>
-
       <div className="mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <p className="text-lg text-muted-foreground">
           Explorez toutes vos connaissances apprises.
@@ -98,7 +98,6 @@ const EncyclopediaPage = () => {
           </SelectContent>
         </Select>
       </div>
-
       {filteredEntries.length === 0 ? (
         <p className="text-muted-foreground text-center">
           Aucune entrée trouvée pour cette matière.
@@ -124,15 +123,12 @@ const EncyclopediaPage = () => {
                       <span className="text-sm text-muted-foreground">
                         {format(new Date(entry.date), "PPP", { locale: fr })}
                       </span>
-                      <span
-                        className={tagClassName}
-                        style={tagStyle}
-                      >
+                      <span className={tagClassName} style={tagStyle}>
                         {entry.subject}
                       </span>
-                      <span className="text-xs text-muted-foreground">
-                        Chokbaromètre: {entry.chokbarometer}
-                      </span>
+                      <div className="flex items-center">
+                        <Chokbarometer level={entry.chokbarometer} size="sm" />
+                      </div>
                     </div>
                   </CardHeader>
                   <CollapsibleContent>

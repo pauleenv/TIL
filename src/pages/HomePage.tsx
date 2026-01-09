@@ -3,28 +3,19 @@
 import React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Button } from "@/components/ui/button";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Removed Card import as it's now wrapped
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import { LearnedEntry, getEntriesByDate, deleteEntry, getDatesWithFirstEntrySubject } from "@/lib/data-store";
 import EntryFormDialog from "@/components/EntryFormDialog";
 import { showSuccess, showError } from "@/utils/toast";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger, } from "@/components/ui/alert-dialog";
 import { useSession } from '@/components/SessionContextProvider';
 import LinkPreview from "@/components/LinkPreview";
-import { getSubjectTagClasses } from "@/lib/subject-colors"; // Import the utility
-import { cn } from "@/lib/utils"; // Import the cn utility
-import EntryCardWrapper from "@/components/EntryCardWrapper"; // Import the new wrapper
+import { getSubjectTagClasses } from "@/lib/subject-colors";
+import { cn } from "@/lib/utils";
+import EntryCardWrapper from "@/components/EntryCardWrapper";
+import Chokbarometer from "@/components/Chokbarometer";
 
 const HomePage = () => {
   const { user, loading } = useSession();
@@ -82,7 +73,7 @@ const HomePage = () => {
     if (success) {
       showSuccess("Entrée supprimée avec succès !");
       fetchEntries();
-      fetchDatesWithNotes(); // Refresh dates with notes after deletion
+      fetchDatesWithNotes();
     } else {
       showError("Erreur lors de la suppression de l'entrée.");
     }
@@ -90,7 +81,7 @@ const HomePage = () => {
 
   const handleEntrySave = () => {
     fetchEntries();
-    fetchDatesWithNotes(); // Refresh dates with notes after save
+    fetchDatesWithNotes();
   };
 
   if (loading) {
@@ -109,12 +100,13 @@ const HomePage = () => {
         selected={selectedDate}
         onSelect={handleDateSelect}
         locale={fr}
-        datesWithNotes={datesWithNotes} // Pass the datesWithNotes map
+        datesWithNotes={datesWithNotes}
       />
       <p className="text-black text-lg mt-4 text-center">
-        {selectedDate ? `Aucune entrée pour le ${format(selectedDate, "PPP", { locale: fr })}` : "Sélectionnez une date pour voir ou ajouter des entrées."}
+        {selectedDate
+          ? `Aucune entrée pour le ${format(selectedDate, "PPP", { locale: fr })}`
+          : "Sélectionnez une date pour voir ou ajouter des entrées."}
       </p>
-
       <div className="w-full max-w-lg mt-8">
         {entriesForSelectedDate.length > 0 && (
           <div className="space-y-4">
@@ -126,12 +118,23 @@ const HomePage = () => {
                     <CardTitle className="flex justify-between items-center text-black">
                       <span>{entry.title}</span>
                       <div className="flex space-x-2">
-                        <Button variant="outline" size="sm" onClick={() => handleEditEntryClick(entry)} className="border-2 border-black shadow-custom-black text-black bg-white hover:bg-gray-100">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => handleEditEntryClick(entry)}
+                          className="border-2 border-black shadow-custom-black text-black bg-white hover:bg-gray-100"
+                        >
                           Modifier
                         </Button>
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
-                            <Button variant="destructive" size="sm" className="border-2 border-black shadow-custom-black text-white bg-destructive hover:bg-destructive/90">Supprimer</Button>
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              className="border-2 border-black shadow-custom-black text-white bg-destructive hover:bg-destructive/90"
+                            >
+                              Supprimer
+                            </Button>
                           </AlertDialogTrigger>
                           <AlertDialogContent className="border-2 border-black shadow-custom-black-lg">
                             <AlertDialogHeader>
@@ -141,8 +144,15 @@ const HomePage = () => {
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
-                              <AlertDialogCancel className="border-2 border-black shadow-custom-black text-black bg-white hover:bg-gray-100">Annuler</AlertDialogCancel>
-                              <AlertDialogAction onClick={() => handleDeleteEntry(entry.id)} className="border-2 border-black shadow-custom-black text-white bg-destructive hover:bg-destructive/90">Supprimer</AlertDialogAction>
+                              <AlertDialogCancel className="border-2 border-black shadow-custom-black text-black bg-white hover:bg-gray-100">
+                                Annuler
+                              </AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={() => handleDeleteEntry(entry.id)}
+                                className="border-2 border-black shadow-custom-black text-white bg-destructive hover:bg-destructive/90"
+                              >
+                                Supprimer
+                              </AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
                         </AlertDialog>
@@ -155,16 +165,13 @@ const HomePage = () => {
                       <LinkPreview key={index} url={linkItem} />
                     ))}
                     <div className="flex flex-wrap gap-2 mt-2">
-                      <span
-                        className={tagClassName}
-                        style={tagStyle}
-                      >
+                      <span className={tagClassName} style={tagStyle}>
                         {entry.subject}
                       </span>
                     </div>
-                    <p className="text-black mt-2">
-                      Chokbaromètre: {entry.chokbarometer}
-                    </p>
+                    <div className="mt-2">
+                      <Chokbarometer level={entry.chokbarometer} size="sm" />
+                    </div>
                   </CardContent>
                 </EntryCardWrapper>
               );
@@ -172,7 +179,6 @@ const HomePage = () => {
           </div>
         )}
       </div>
-
       <EntryFormDialog
         open={isFormDialogOpen}
         onOpenChange={setIsFormDialogOpen}

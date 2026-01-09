@@ -3,23 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { useSession } from '@/components/SessionContextProvider';
 import { LearnedEntry, getEntries } from "@/lib/data-store";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card"; // Removed Card import as it's now wrapped
-import {
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  PieChart,
-  Pie,
-  Cell,
-} from "recharts";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell, } from "recharts";
 import { BarChart3 } from "lucide-react";
-import { subjectColors } from "@/lib/subject-colors"; // Import subjectColors
-import EntryCardWrapper from "@/components/EntryCardWrapper"; // Import the new wrapper
+import { subjectColors } from "@/lib/subject-colors";
+import EntryCardWrapper from "@/components/EntryCardWrapper";
+import Chokbarometer from "@/components/Chokbarometer";
 
 interface SubjectData {
   name: string;
@@ -29,9 +18,10 @@ interface SubjectData {
 interface ChokbarometerData {
   name: string;
   count: number;
+  level: "Intéressant" | "Surprenant" | "Incroyable" | "Chokbar";
 }
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']; // Keep for chokbarometer
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658'];
 
 const DashboardPage = () => {
   const { user, loading } = useSession();
@@ -67,7 +57,11 @@ const DashboardPage = () => {
     entries.forEach(entry => {
       chokbarometerCounts[entry.chokbarometer] = (chokbarometerCounts[entry.chokbarometer] || 0) + 1;
     });
-    const chokbarometerChartData = Object.entries(chokbarometerCounts).map(([name, count]) => ({ name, count }));
+    const chokbarometerChartData = Object.entries(chokbarometerCounts).map(([name, count]) => ({
+      name,
+      count,
+      level: name as "Intéressant" | "Surprenant" | "Incroyable" | "Chokbar"
+    }));
     setChokbarometerData(chokbarometerChartData);
   };
 
@@ -82,7 +76,6 @@ const DashboardPage = () => {
   return (
     <div className="max-w-6xl mx-auto p-4 space-y-8">
       <h2 className="text-3xl font-bold mb-6 text-center">Votre Tableau de Bord d'Apprentissage</h2>
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <EntryCardWrapper>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -94,9 +87,7 @@ const DashboardPage = () => {
             <p className="text-xs text-muted-foreground">Entrées d'apprentissage enregistrées</p>
           </CardContent>
         </EntryCardWrapper>
-        {/* Add more summary cards if needed */}
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <EntryCardWrapper>
           <CardHeader>
@@ -123,33 +114,49 @@ const DashboardPage = () => {
             )}
           </CardContent>
         </EntryCardWrapper>
-
         <EntryCardWrapper>
           <CardHeader>
             <CardTitle>Répartition du Chokbaromètre</CardTitle>
           </CardHeader>
           <CardContent>
             {chokbarometerData.length > 0 ? (
-              <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                  <Pie
-                    data={chokbarometerData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="count"
-                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  >
-                    {chokbarometerData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
+              <div className="flex flex-col md:flex-row gap-8">
+                <div className="w-full md:w-1/2">
+                  <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                      <Pie
+                        data={chokbarometerData}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        outerRadius={80}
+                        fill="#8884d8"
+                        dataKey="count"
+                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      >
+                        {chokbarometerData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        ))}
+                      </Pie>
+                      <Tooltip />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="w-full md:w-1/2 flex flex-col items-center justify-center space-y-4">
+                  {chokbarometerData.map((item, index) => (
+                    <div key={item.name} className="flex items-center w-full">
+                      <div className="w-16 h-16 flex items-center justify-center">
+                        <Chokbarometer level={item.level} size="sm" />
+                      </div>
+                      <div className="ml-2">
+                        <p className="font-medium">{item.name}</p>
+                        <p className="text-sm text-muted-foreground">{item.count} entrées</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             ) : (
               <p className="text-muted-foreground text-center">Aucune donnée de chokbaromètre disponible.</p>
             )}
