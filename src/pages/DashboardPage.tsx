@@ -139,9 +139,14 @@ const DashboardPage = () => {
                         fill="#8884d8"
                         dataKey="count"
                         label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                        stroke="black"  // Add solid black border
+                        strokeWidth={2}  // Border width to match card borders
                       >
                         {chokbarometerData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={CHOKBAROMETER_COLORS[index % CHOKBAROMETER_COLORS.length]} />
+                          <Cell 
+                            key={`cell-${index}`} 
+                            fill={CHOKBAROMETER_COLORS[index % CHOKBAROMETER_COLORS.length]} 
+                          />
                         ))}
                       </Pie>
                       <Tooltip />
