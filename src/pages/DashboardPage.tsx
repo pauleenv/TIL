@@ -141,6 +141,7 @@ const DashboardPage = () => {
                         label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                         stroke="black"  // Add solid black border
                         strokeWidth={2}  // Border width to match card borders
+                        cornerRadius={16} // Add 16px corner radius
                       >
                         {chokbarometerData.map((entry, index) => (
                           <Cell 
