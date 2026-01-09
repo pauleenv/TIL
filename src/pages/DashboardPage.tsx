@@ -164,6 +164,7 @@ const DashboardPage = () => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis 
+                    domain={[0, 'dataMax']} // Ensure Y-axis starts at 0 and extends to max data value
                     tickFormatter={(value) => Math.floor(value).toString()} // Format ticks to show only whole numbers
                   />
                   <Tooltip />
