@@ -148,7 +148,7 @@ const DashboardPage = () => {
                         outerRadius={80}
                         fill="#8884d8"
                         dataKey="count"
-                        // Removed the label prop to prevent shadows on captions
+                        label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`} // Re-added the label prop
                         stroke="black"  // Add solid black border
                         strokeWidth={2}  // Border width to match card borders
                         cornerRadius={5} // Changed to 5px corner radius
