@@ -65,27 +65,27 @@ const Layout = () => {
           <TabsList className="grid w-full grid-cols-3 h-16 bg-transparent"> {/* Changed to 3 columns, removed bg-primary */}
             <TabsTrigger value="home" asChild>
               <Link to="/" className={cn(
-                "flex flex-col items-center justify-center text-xs sm:text-sm text-black", // Text color black
-                currentPath === "/" && "bg-white drop-shadow-custom-black rounded-[16px] mx-2 my-1.5" // Active tab style: removed border-2 border-black, changed to drop-shadow-custom-black
+                "flex flex-col items-center justify-center text-xs sm:text-sm text-black" // Removed active background styles
               )}>
-                <Home className="h-5 w-5 mb-1" /> Accueil
+                <Home className={cn("h-5 w-5 mb-1", currentPath === "/" && "fill-current")} /> {/* Conditional fill-current */}
+                Accueil
               </Link>
             </TabsTrigger>
             {/* Removed New Entry tab */}
             <TabsTrigger value="encyclopedia" asChild>
               <Link to="/encyclopedia" className={cn(
-                "flex flex-col items-center justify-center text-xs sm:text-sm text-black", // Text color black
-                currentPath === "/encyclopedia" && "bg-white drop-shadow-custom-black rounded-[16px] mx-2 my-1.5" // Active tab style: removed border-2 border-black, changed to drop-shadow-custom-black
+                "flex flex-col items-center justify-center text-xs sm:text-sm text-black" // Removed active background styles
               )}>
-                <Book className="h-5 w-5 mb-1" /> Encyclopédie
+                <Book className={cn("h-5 w-5 mb-1", currentPath === "/encyclopedia" && "fill-current")} /> {/* Conditional fill-current */}
+                Encyclopédie
               </Link>
             </TabsTrigger>
             <TabsTrigger value="dashboard" asChild>
               <Link to="/dashboard" className={cn(
-                "flex flex-col items-center justify-center text-xs sm:text-sm text-black", // Text color black
-                currentPath === "/dashboard" && "bg-white drop-shadow-custom-black rounded-[16px] mx-2 my-1.5" // Active tab style: removed border-2 border-black, changed to drop-shadow-custom-black
+                "flex flex-col items-center justify-center text-xs sm:text-sm text-black" // Removed active background styles
               )}>
-                <BarChart3 className="h-5 w-5 mb-1" /> Tableau de bord
+                <BarChart3 className={cn("h-5 w-5 mb-1", currentPath === "/dashboard" && "fill-current")} /> {/* Conditional fill-current */}
+                Tableau de bord
               </Link>
             </TabsTrigger>
           </TabsList>
