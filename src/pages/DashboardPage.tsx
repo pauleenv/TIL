@@ -163,7 +163,9 @@ const DashboardPage = () => {
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
-                  <YAxis />
+                  <YAxis 
+                    tickFormatter={(value) => Math.floor(value).toString()} // Format ticks to show only whole numbers
+                  />
                   <Tooltip />
                   <Legend />
                   <Bar 
