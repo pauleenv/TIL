@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useSession } from '@/components/SessionContextProvider';
 import { LearnedEntry, getEntries } from "@/lib/data-store";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell, } from "recharts";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie, Cell, } from "recharts"; // Removed Legend from import
 import { BarChart3 } from "lucide-react";
 import { subjectColors } from "@/lib/subject-colors";
 import EntryCardWrapper from "@/components/EntryCardWrapper";
@@ -52,31 +52,7 @@ const CustomPieChartLabel = ({ cx, cy, midAngle, outerRadius, percent }: any) =>
   );
 };
 
-// Custom Legend component
-interface CustomLegendProps {
-  payload?: Array<{
-    value: string; // The name of the legend item (e.g., "Intéressant")
-    color?: string; // The color of the item
-    payload?: ChokbarometerData; // The original data payload
-  }>;
-}
-
-const CustomLegend: React.FC<CustomLegendProps> = ({ payload }) => {
-  return (
-    <ul className="flex flex-row flex-wrap justify-center gap-x-4 gap-y-2 mt-4">
-      {payload?.map((entry, index) => (
-        <li key={`item-${index}`} className="flex items-center space-x-2">
-          <div
-            className="w-8 h-5 border-2 border-black rounded-[5px] drop-shadow-custom-black" // Changed to drop-shadow-custom-black
-            style={{ backgroundColor: entry.color }}
-          ></div>
-          <span className="text-black">{entry.value}</span> {/* Text in black */}
-        </li>
-      ))}
-    </ul>
-  );
-};
-
+// Removed CustomLegend component as it's no longer needed.
 
 const DashboardPage = () => {
   const { user, loading } = useSession();
@@ -160,7 +136,7 @@ const DashboardPage = () => {
                   <XAxis dataKey="name" />
                   <YAxis />
                   <Tooltip />
-                  <Legend />
+                  {/* <Legend /> */} {/* Removed Legend */}
                   <Bar dataKey="count" name="Nombre d'entrées">
                     {subjectsData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={subjectColors[entry.name]?.background || SUBJECT_COLORS[index % SUBJECT_COLORS.length]} />
@@ -179,8 +155,8 @@ const DashboardPage = () => {
           </CardHeader>
           <CardContent>
             {chokbarometerData.length > 0 ? (
-              <div className="flex flex-col md:flex-row gap-8">
-                <div className="w-full md:w-1/2">
+              <div className="flex flex-col items-center gap-8"> {/* Centered the pie chart */}
+                <div className="w-full max-w-[300px]"> {/* Constrained width for better centering */}
                   <ResponsiveContainer width="100%" height={300}>
                     <PieChart>
                       <defs>
@@ -210,23 +186,11 @@ const DashboardPage = () => {
                         ))}
                       </Pie>
                       <Tooltip />
-                      <Legend content={<CustomLegend />} /> {/* Use the custom legend component here */}
+                      {/* <Legend content={<CustomLegend />} /> */} {/* Removed CustomLegend */}
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
-                <div className="w-full md:w-1/2 flex flex-col items-center justify-center space-y-4">
-                  {chokbarometerData.map((item, index) => (
-                    <div key={item.name} className="flex items-center w-full">
-                      <div className="w-16 h-16 flex items-center justify-center">
-                        <Chokbarometer level={item.level} size="sm" />
-                      </div>
-                      <div className="ml-2">
-                        <p className="font-medium">{item.name}</p>
-                        <p className="text-sm text-muted-foreground">{item.count} entrées</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
+                {/* Removed the div containing the list of Chokbarometer items */}
               </div>
             ) : (
               <p className="text-muted-foreground text-center">Aucune donnée de chokbaromètre disponible.</p>
