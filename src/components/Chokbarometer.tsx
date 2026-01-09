@@ -39,7 +39,7 @@ const Chokbarometer: React.FC<ChokbarometerProps> = ({
       <img 
         src={`/${emoji}`} 
         alt={label}
-        className={cn(getSizeClasses(), "object-contain")}
+        className={cn(getSizeClasses(), "object-contain shadow-custom-black")} // Added shadow-custom-black class
         aria-label={label}
       />
       <span className="text-xs mt-1 text-center">{label}</span>
