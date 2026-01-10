@@ -132,6 +132,10 @@ const DashboardPage = () => {
     return <div className="flex items-center justify-center min-h-[calc(100vh-180px)] text-muted-foreground">Veuillez vous connecter pour voir votre tableau de bord.</div>;
   }
 
+  // Calculate Y-axis ticks to show only whole numbers
+  const maxYValue = Math.max(...subjectsData.map(d => d.count), 1);
+  const yAxisTicks = Array.from({ length: maxYValue + 1 }, (_, i) => i);
+
   return (
     <div className="max-w-6xl mx-auto p-4 space-y-8">
       <h2 className="text-3xl font-bold mb-6 text-center">Votre Tableau de Bord d'Apprentissage</h2>
@@ -164,8 +168,10 @@ const DashboardPage = () => {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
                   <YAxis 
-                    domain={[0, 'dataMax']} // Ensure Y-axis starts at 0 and extends to max data value
-                    tickFormatter={(value) => Math.floor(value).toString()} // Format ticks to show only whole numbers
+                    domain={[0, maxYValue]} // Set domain from 0 to max value
+                    ticks={yAxisTicks} // Explicitly set ticks to whole numbers
+                    tickFormatter={(value) => value.toString()} // Format ticks as strings
+                    allowDecimals={false} // Ensure no decimals
                   />
                   <Tooltip />
                   <Legend />
