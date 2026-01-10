@@ -121,7 +121,7 @@ const DashboardPage = () => {
         level: level
       }))
       .filter(item => item.count > 0); // Only include levels that have entries
-    setChokbarometerData(chokbarometerData);
+    setChokbarometerData(chokbarometerChartData); // Corrected this line
   };
 
   if (loading) {
