@@ -178,12 +178,20 @@ const DashboardPage = () => {
                     </filter>
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
+                  <XAxis 
+                    dataKey="name" 
+                    tick={{ fill: 'black', fontSize: 12 }}
+                    axisLine={{ stroke: 'black', strokeWidth: 2 }}
+                    tickLine={{ stroke: 'black', strokeWidth: 2 }}
+                  />
                   <YAxis 
                     domain={[0, maxYValue]} // Set domain from 0 to max value
                     ticks={yAxisTicks} // Explicitly set ticks to whole numbers
                     tickFormatter={(value) => value.toString()} // Format ticks as strings
                     allowDecimals={false} // Ensure no decimals
+                    tick={{ fill: 'black', fontSize: 12 }}
+                    axisLine={{ stroke: 'black', strokeWidth: 2 }}
+                    tickLine={{ stroke: 'black', strokeWidth: 2 }}
                   />
                   <Tooltip />
                   <Bar 
