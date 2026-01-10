@@ -180,7 +180,7 @@ const DashboardPage = () => {
                     name="Nombre d'entrées" 
                     stroke="black" 
                     strokeWidth={2} 
-                    radius={[2, 2, 0, 0]} // Reduced corner radius for better visual
+                    radius={[5, 5, 0, 0]} // Reverted to original corner radius
                     filter="url(#barChartShadow)" // Apply the custom SVG filter here
                   >
                     {subjectsData.map((entry, index) => (
