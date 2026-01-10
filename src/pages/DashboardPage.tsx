@@ -170,7 +170,7 @@ const DashboardPage = () => {
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart 
                   data={subjectsData} 
-                  margin={{ top: 30, right: 30, left: 20, bottom: 5 }}
+                  margin={{ top: 40, right: 30, left: 20, bottom: 5 }}
                 >
                   <defs>
                     <filter id="barChartShadow" x="-10%" y="0" width="120%" height="100%">
