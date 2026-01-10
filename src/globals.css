@@ -94,7 +94,12 @@
   }
   
   /* Target shadcn CardTitle components specifically */
-  .card-title, .text-lg.font-semibold, .text-xl.font-semibold {
+  .card-title, .text-lg.font-semibold, .text-xl.font-semibold, [class*="text-"][class*="font-semibold"] {
+    font-weight: 900 !important;
+  }
+  
+  /* Target all CardTitle elements */
+  [data-testid="card-title"], h3[data-testid="card-title"] {
     font-weight: 900 !important;
   }
 }
