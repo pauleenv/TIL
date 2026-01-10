@@ -39,15 +39,12 @@ const EncyclopediaPage = () => {
       setFilteredEntries([]);
       return;
     }
-
     const entries = await getEntries(user.id);
     setAllEntries(entries);
-
     // Filter subjects to only include the predefined ones, or "Autre" if an entry has a subject not in the predefined list
     const allUniqueSubjects = await getAllSubjects(user.id);
     const filteredUniqueSubjects = allUniqueSubjects.filter(subject => predefinedSubjects.includes(subject));
     setSubjects(filteredUniqueSubjects);
-
     if (selectedSubject === "all") {
       setFilteredEntries(entries);
     } else {
@@ -81,29 +78,24 @@ const EncyclopediaPage = () => {
         <p className="text-lg text-muted-foreground">
           Explorez toutes vos connaissances apprises.
         </p>
-        <Select onValueChange={handleSubjectChange} value={selectedSubject}>
-          <SelectTrigger 
-            className="w-[180px] bg-white border-2 border-black drop-shadow-custom-black rounded-lg"
-          >
-            <SelectValue placeholder="Filtrer par matière" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">Toutes les matières</SelectItem>
-            {predefinedSubjects.map((subject) => {
-              const { style: dropdownItemStyle } = getSubjectDropdownItemClasses(subject);
-              return (
-                <SelectItem 
-                  key={subject} 
-                  value={subject} 
-                  style={dropdownItemStyle}
-                  className="rounded-lg m-1"
-                >
-                  {subject}
-                </SelectItem>
-              );
-            })}
-          </SelectContent>
-        </Select>
+        <div className="flex justify-center w-full sm:w-auto">
+          <Select onValueChange={handleSubjectChange} value={selectedSubject}>
+            <SelectTrigger className="w-[180px] bg-white border-2 border-black drop-shadow-custom-black rounded-lg">
+              <SelectValue placeholder="Toutes les matières" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Toutes les matières</SelectItem>
+              {predefinedSubjects.map((subject) => {
+                const { style: dropdownItemStyle } = getSubjectDropdownItemClasses(subject);
+                return (
+                  <SelectItem key={subject} value={subject} style={dropdownItemStyle} className="rounded-lg m-1">
+                    {subject}
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
       {filteredEntries.length === 0 ? (
         <p className="text-muted-foreground text-center">
