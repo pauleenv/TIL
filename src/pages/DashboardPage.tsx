@@ -163,7 +163,7 @@ const DashboardPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <EntryCardWrapper>
           <CardHeader>
-            <CardTitle>Entrées par Matière</CardTitle>
+            <CardTitle>Matières explorées</CardTitle>
           </CardHeader>
           <CardContent>
             {subjectsData.length > 0 ? (
