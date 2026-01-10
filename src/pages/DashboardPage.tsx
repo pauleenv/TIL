@@ -167,49 +167,53 @@ const DashboardPage = () => {
           </CardHeader>
           <CardContent>
             {subjectsData.length > 0 ? (
-              <ResponsiveContainer width="100%" height={300}>
-                <BarChart 
-                  data={subjectsData} 
-                  margin={{ top: 30, right: 30, left: 20, bottom: 5 }}
-                >
-                  <defs>
-                    <filter id="barChartShadow" x="-10%" y="0" width="120%" height="100%">
-                      <feDropShadow dx="3" dy="2" stdDeviation="0" floodColor="black" />
-                    </filter>
-                  </defs>
-                  <XAxis 
-                    dataKey="name" 
-                    tick={{ fill: 'black', fontSize: 12 }}
-                    axisLine={{ stroke: 'black', strokeWidth: 2 }}
-                    tickLine={{ stroke: 'black', strokeWidth: 2 }}
-                  />
-                  <YAxis 
-                    domain={[0, maxYValue]} // Set domain from 0 to max value
-                    ticks={yAxisTicks} // Explicitly set ticks to whole numbers
-                    tickFormatter={(value) => value.toString()} // Format ticks as strings
-                    allowDecimals={false} // Ensure no decimals
-                    tick={{ fill: 'black', fontSize: 12 }}
-                    axisLine={{ stroke: 'black', strokeWidth: 2 }}
-                    tickLine={{ stroke: 'black', strokeWidth: 2 }}
-                  />
-                  <Tooltip />
-                  <Bar 
-                    dataKey="count" 
-                    name="Nombre d'entrées"
-                    stroke="black" 
-                    strokeWidth={2}
-                    radius={[5, 5, 0, 0]} // Reverted to original corner radius
-                    filter="url(#barChartShadow)" // Apply the custom SVG filter here
-                  >
-                    {subjectsData.map((entry, index) => (
-                      <Cell 
-                        key={`cell-${index}`} 
-                        fill={subjectColors[entry.name]?.background || SUBJECT_COLORS[index % SUBJECT_COLORS.length]} 
+              <div className="flex justify-center">
+                <div className="w-full max-w-2xl">
+                  <ResponsiveContainer width="100%" height={250}>
+                    <BarChart 
+                      data={subjectsData} 
+                      margin={{ top: 30, right: 30, left: 20, bottom: 5 }}
+                    >
+                      <defs>
+                        <filter id="barChartShadow" x="-10%" y="0" width="120%" height="100%">
+                          <feDropShadow dx="3" dy="2" stdDeviation="0" floodColor="black" />
+                        </filter>
+                      </defs>
+                      <XAxis 
+                        dataKey="name" 
+                        tick={{ fill: 'black', fontSize: 12 }}
+                        axisLine={{ stroke: 'black', strokeWidth: 2 }}
+                        tickLine={{ stroke: 'black', strokeWidth: 2 }}
                       />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
+                      <YAxis 
+                        domain={[0, maxYValue]} // Set domain from 0 to max value
+                        ticks={yAxisTicks} // Explicitly set ticks to whole numbers
+                        tickFormatter={(value) => value.toString()} // Format ticks as strings
+                        allowDecimals={false} // Ensure no decimals
+                        tick={{ fill: 'black', fontSize: 12 }}
+                        axisLine={{ stroke: 'black', strokeWidth: 2 }}
+                        tickLine={{ stroke: 'black', strokeWidth: 2 }}
+                      />
+                      <Tooltip />
+                      <Bar 
+                        dataKey="count" 
+                        name="Nombre d'entrées"
+                        stroke="black" 
+                        strokeWidth={2}
+                        radius={[5, 5, 0, 0]} // Reverted to original corner radius
+                        filter="url(#barChartShadow)" // Apply the custom SVG filter here
+                      >
+                        {subjectsData.map((entry, index) => (
+                          <Cell 
+                            key={`cell-${index}`} 
+                            fill={subjectColors[entry.name]?.background || SUBJECT_COLORS[index % SUBJECT_COLORS.length]} 
+                          />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
             ) : (
               <p className="text-muted-foreground text-center">Aucune donnée de matière disponible.</p>
             )}
