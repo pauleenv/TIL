@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useSession } from '@/components/SessionContextProvider';
 import { LearnedEntry, getEntries } from "@/lib/data-store";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, PieChart, Pie, Cell, } from "recharts";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Legend, PieChart, Pie, Cell, } from "recharts";
 import { BarChart3 } from "lucide-react";
 import { subjectColors } from "@/lib/subject-colors";
 import EntryCardWrapper from "@/components/EntryCardWrapper";
@@ -177,7 +177,6 @@ const DashboardPage = () => {
                       <feDropShadow dx="3" dy="2" stdDeviation="0" floodColor="black" />
                     </filter>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" />
                   <XAxis 
                     dataKey="name" 
                     tick={{ fill: 'black', fontSize: 12 }}
