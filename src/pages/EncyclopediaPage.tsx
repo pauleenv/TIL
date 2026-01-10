@@ -86,6 +86,7 @@ const EncyclopediaPage = () => {
             className="w-[180px] bg-white border-2 border-black drop-shadow-custom-black rounded-lg"
           >
             <SelectValue placeholder="Filtrer par matière" />
+            <ChevronDown className="h-4 w-4 opacity-100 text-black" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Toutes les matières</SelectItem>
@@ -121,7 +122,7 @@ const EncyclopediaPage = () => {
                       <CardTitle>{entry.title}</CardTitle>
                       <CollapsibleTrigger asChild>
                         <Button variant="ghost" size="sm">
-                          <ChevronDown className="h-4 w-4 collapsible-icon data-[state=open]:rotate-180 transition-transform" />
+                          <ChevronDown className="h-4 w-4 collapsible-icon data-[state=open]:rotate-180 transition-transform text-black" />
                           <span className="sr-only">Toggle details</span>
                         </Button>
                       </CollapsibleTrigger>
