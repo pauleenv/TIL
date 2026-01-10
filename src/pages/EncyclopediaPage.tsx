@@ -1,5 +1,4 @@
 "use client";
-
 import React from "react";
 import { LearnedEntry, getEntries, getAllSubjects, getEntriesBySubject } from "@/lib/data-store";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -40,14 +39,15 @@ const EncyclopediaPage = () => {
       setFilteredEntries([]);
       return;
     }
+
     const entries = await getEntries(user.id);
     setAllEntries(entries);
-    
+
     // Filter subjects to only include the predefined ones, or "Autre" if an entry has a subject not in the predefined list
     const allUniqueSubjects = await getAllSubjects(user.id);
     const filteredUniqueSubjects = allUniqueSubjects.filter(subject => predefinedSubjects.includes(subject));
     setSubjects(filteredUniqueSubjects);
-    
+
     if (selectedSubject === "all") {
       setFilteredEntries(entries);
     } else {
@@ -82,7 +82,9 @@ const EncyclopediaPage = () => {
           Explorez toutes vos connaissances apprises.
         </p>
         <Select onValueChange={handleSubjectChange} value={selectedSubject}>
-          <SelectTrigger className="w-[180px]">
+          <SelectTrigger 
+            className="w-[180px] bg-white border-2 border-black drop-shadow-custom-black rounded-[16px]"
+          >
             <SelectValue placeholder="Filtrer par matière" />
           </SelectTrigger>
           <SelectContent>
@@ -90,7 +92,12 @@ const EncyclopediaPage = () => {
             {predefinedSubjects.map((subject) => {
               const { style: dropdownItemStyle } = getSubjectDropdownItemClasses(subject);
               return (
-                <SelectItem key={subject} value={subject} style={dropdownItemStyle}>
+                <SelectItem 
+                  key={subject} 
+                  value={subject} 
+                  style={dropdownItemStyle}
+                  className="rounded-[16px] m-1"
+                >
                   {subject}
                 </SelectItem>
               );
