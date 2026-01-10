@@ -168,7 +168,7 @@ const DashboardPage = () => {
           <CardContent>
             {subjectsData.length > 0 ? (
               <div className="flex justify-center">
-                <div className="w-full max-w-2xl">
+                <div className="w-full max-w-3xl">
                   <ResponsiveContainer width="100%" height={250}>
                     <BarChart 
                       data={subjectsData} 
