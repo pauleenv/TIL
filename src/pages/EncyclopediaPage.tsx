@@ -83,7 +83,7 @@ const EncyclopediaPage = () => {
         </p>
         <Select onValueChange={handleSubjectChange} value={selectedSubject}>
           <SelectTrigger 
-            className="w-[180px] bg-white border-2 border-black drop-shadow-custom-black rounded-[16px]"
+            className="w-[180px] bg-white border-2 border-black drop-shadow-custom-black rounded-lg"
           >
             <SelectValue placeholder="Filtrer par matière" />
           </SelectTrigger>
@@ -96,7 +96,7 @@ const EncyclopediaPage = () => {
                   key={subject} 
                   value={subject} 
                   style={dropdownItemStyle}
-                  className="rounded-[16px] m-1"
+                  className="rounded-lg m-1"
                 >
                   {subject}
                 </SelectItem>
