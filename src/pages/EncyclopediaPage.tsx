@@ -86,7 +86,6 @@ const EncyclopediaPage = () => {
             className="w-[180px] bg-white border-2 border-black drop-shadow-custom-black rounded-lg"
           >
             <SelectValue placeholder="Filtrer par matière" />
-            <ChevronDown className="h-4 w-4 opacity-100 text-black" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">Toutes les matières</SelectItem>
