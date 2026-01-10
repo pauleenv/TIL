@@ -88,9 +88,9 @@
     font-weight: 700;
   }
   
-  /* Make card titles and entry titles bold */
+  /* Make card titles and entry titles even bolder */
   .card-title, .entry-title {
-    font-weight: 700;
+    font-weight: 900;
   }
 }
 
