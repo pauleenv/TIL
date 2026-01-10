@@ -1,11 +1,10 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { useSession } from '@/components/SessionContextProvider';
 import { LearnedEntry, getEntries } from "@/lib/data-store";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie, Cell, } from "recharts";
-import { BarChart3 } from "lucide-react";
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, PieChart, Pie, Cell } from "recharts";
+import { BarChart3 } from "lite";
 import { subjectColors } from "@/lib/subject-colors";
 import EntryCardWrapper from "@/components/EntryCardWrapper";
 import Chokbarometer from "@/components/Chokbarometer";
@@ -23,11 +22,12 @@ interface ChokbarometerData {
 
 // Using distinct, fully opaque colors for Chokbaromètre diagram
 const CHOKBAROMETER_COLORS = [
-  subjectColors["Sciences"].background, // Corresponds to "Intéressant"
-  subjectColors["Histoire"].background, // Corresponds to "Surprenant"
+  subjectColors["Sciences"].background,  // Corresponds to "Intéressant"
+  subjectColors["Histoire"].background,  // Corresponds to "Surprenant"
   subjectColors["Tech"].background,     // Corresponds to "Incroyable"
-  subjectColors["Sports"].background    // Corresponds to "Chokbar"
+  subjectColors["Sports"].background     // Corresponds to "Chokbar"
 ];
+
 const SUBJECT_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']; // Keep existing for subjects
 
 // Custom label component for the PieChart
@@ -77,7 +77,6 @@ const CustomLegend: React.FC<CustomLegendProps> = ({ payload }) => {
   );
 };
 
-
 const DashboardPage = () => {
   const { user, loading } = useSession();
   const [allEntries, setAllEntries] = useState<LearnedEntry[]>([]);
@@ -104,7 +103,11 @@ const DashboardPage = () => {
     entries.forEach(entry => {
       subjectCounts[entry.subject] = (subjectCounts[entry.subject] || 0) + 1;
     });
-    const subjectsChartData = Object.entries(subjectCounts).map(([name, count]) => ({ name, count }));
+
+    const subjectsChartData = Object.entries(subjectCounts).map(([name, count]) => ({
+      name,
+      count
+    }));
     setSubjectsData(subjectsChartData);
 
     // Process chokbarometer data
@@ -112,8 +115,15 @@ const DashboardPage = () => {
     entries.forEach(entry => {
       chokbarometerCounts[entry.chokbarometer] = (chokbarometerCounts[entry.chokbarometer] || 0) + 1;
     });
+
     // Ensure consistent order for colors
-    const orderedChokbarometerLevels: ("Intéressant" | "Surprenant" | "Incroyable" | "Chokbar")[] = ["Intéressant", "Surprenant", "Incroyable", "Chokbar"];
+    const orderedChokbarometerLevels: ("Intéressant" | "Surprenant" | "Incroyable" | "Chokbar")[] = [
+      "Intéressant",
+      "Surprenant",
+      "Incroyable",
+      "Chokbar"
+    ];
+
     const chokbarometerChartData = orderedChokbarometerLevels
       .map(level => ({
         name: level,
@@ -121,7 +131,8 @@ const DashboardPage = () => {
         level: level
       }))
       .filter(item => item.count > 0); // Only include levels that have entries
-    setChokbarometerData(chokbarometerData);
+
+    setChokbarometerData(chokbarometerChartData);
   };
 
   if (loading) {
@@ -139,6 +150,7 @@ const DashboardPage = () => {
   return (
     <div className="max-w-6xl mx-auto p-4 space-y-8">
       <h2 className="text-3xl font-bold mb-6 text-center">Votre Tableau de Bord d'Apprentissage</h2>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <EntryCardWrapper>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -151,6 +163,7 @@ const DashboardPage = () => {
           </CardContent>
         </EntryCardWrapper>
       </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <EntryCardWrapper>
           <CardHeader>
@@ -167,25 +180,25 @@ const DashboardPage = () => {
                   </defs>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
-                  <YAxis 
+                  <YAxis
                     domain={[0, maxYValue]} // Set domain from 0 to max value
                     ticks={yAxisTicks} // Explicitly set ticks to whole numbers
                     tickFormatter={(value) => value.toString()} // Format ticks as strings
                     allowDecimals={false} // Ensure no decimals
                   />
                   <Tooltip />
-                  <Bar 
-                    dataKey="count" 
-                    name="Nombre d'entrées" 
-                    stroke="black" 
-                    strokeWidth={2} 
+                  <Bar
+                    dataKey="count"
+                    name="Nombre d'entrées"
+                    stroke="black"
+                    strokeWidth={2}
                     radius={[5, 5, 0, 0]} // Reverted to original corner radius
                     filter="url(#barChartShadow)" // Apply the custom SVG filter here
                   >
                     {subjectsData.map((entry, index) => (
-                      <Cell 
-                        key={`cell-${index}`} 
-                        fill={subjectColors[entry.name]?.background || SUBJECT_COLORS[index % SUBJECT_COLORS.length]} 
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={subjectColors[entry.name]?.background || SUBJECT_COLORS[index % SUBJECT_COLORS.length]}
                       />
                     ))}
                   </Bar>
@@ -196,14 +209,17 @@ const DashboardPage = () => {
             )}
           </CardContent>
         </EntryCardWrapper>
+
         <EntryCardWrapper>
           <CardHeader>
             <CardTitle>Répartition du Chokbaromètre</CardTitle>
           </CardHeader>
           <CardContent>
             {chokbarometerData.length > 0 ? (
-              <div className="flex flex-col items-center gap-8"> {/* Centered the pie chart */}
-                <div className="w-full max-w-[300px]"> {/* Constrained width for better centering */}
+              <div className="flex flex-col items-center gap-8">
+                {/* Centered the pie chart */}
+                <div className="w-full max-w-[300px]">
+                  {/* Constrained width for better centering */}
                   <ResponsiveContainer width="100%" height={300}>
                     <PieChart>
                       <defs>
@@ -220,14 +236,14 @@ const DashboardPage = () => {
                         fill="#8884d8"
                         dataKey="count"
                         label={CustomPieChartLabel} // Use the custom label component here
-                        stroke="black"  // Add solid black border
-                        strokeWidth={2}  // Border width to match card borders
+                        stroke="black" // Add solid black border
+                        strokeWidth={2} // Border width to match card borders
                         cornerRadius={5} // Changed to 5px corner radius
                       >
                         {chokbarometerData.map((entry, index) => (
-                          <Cell 
-                            key={`cell-${index}`} 
-                            fill={CHOKBAROMETER_COLORS[index % CHOKBAROMETER_COLORS.length]} 
+                          <Cell
+                            key={`cell-${index}`}
+                            fill={CHOKBAROMETER_COLORS[index % CHOKBAROMETER_COLORS.length]}
                             filter="url(#pieChartShadow)" // Apply the custom SVG filter here
                           />
                         ))}
