@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState } from "react";
 import { useSession } from '@/components/SessionContextProvider';
 import { LearnedEntry, getEntries } from "@/lib/data-store";
@@ -23,11 +22,12 @@ interface ChokbarometerData {
 
 // Using distinct, fully opaque colors for Chokbaromètre diagram
 const CHOKBAROMETER_COLORS = [
-  subjectColors["Sciences"].background, // Corresponds to "Intéressant"
-  subjectColors["Histoire"].background, // Corresponds to "Surprenant"
-  subjectColors["Tech"].background,     // Corresponds to "Incroyable"
-  subjectColors["Sports"].background    // Corresponds to "Chokbar"
+  subjectColors["Sciences"].background,  // Corresponds to "Intéressant"
+  subjectColors["Histoire"].background,   // Corresponds to "Surprenant"
+  subjectColors["Tech"].background,      // Corresponds to "Incroyable"
+  subjectColors["Sports"].background     // Corresponds to "Chokbar"
 ];
+
 const SUBJECT_COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d', '#ffc658']; // Keep existing for subjects
 
 // Custom label component for the PieChart
@@ -38,11 +38,11 @@ const CustomPieChartLabel = ({ cx, cy, midAngle, outerRadius, percent }: any) =>
   const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
   return (
-    <text
-      x={x}
-      y={y}
+    <text 
+      x={x} 
+      y={y} 
       fill="black" // Ensure label text is black
-      textAnchor={x > cx ? 'start' : 'end'}
+      textAnchor={x > cx ? 'start' : 'end'} 
       dominantBaseline="central"
       filter="none" // Explicitly remove any inherited SVG filter (shadow)
       className="text-sm font-medium" // Apply Tailwind classes for styling
@@ -55,7 +55,7 @@ const CustomPieChartLabel = ({ cx, cy, midAngle, outerRadius, percent }: any) =>
 // Custom Legend component
 interface CustomLegendProps {
   payload?: Array<{
-    value: string; // The name of the legend item (e.g., "Intéressant")
+    value: string;  // The name of the legend item (e.g., "Intéressant")
     color?: string; // The color of the item
     payload?: ChokbarometerData; // The original data payload
   }>;
@@ -66,7 +66,7 @@ const CustomLegend: React.FC<CustomLegendProps> = ({ payload }) => {
     <ul className="flex flex-row flex-wrap justify-center gap-x-4 gap-y-2 mt-4">
       {payload?.map((entry, index) => (
         <li key={`item-${index}`} className="flex items-center space-x-2">
-          <div
+          <div 
             className="w-8 h-4 border-2 border-black rounded-[5px] drop-shadow-custom-black"
             style={{ backgroundColor: entry.color }}
           ></div>
@@ -76,7 +76,6 @@ const CustomLegend: React.FC<CustomLegendProps> = ({ payload }) => {
     </ul>
   );
 };
-
 
 const DashboardPage = () => {
   const { user, loading } = useSession();
@@ -112,8 +111,15 @@ const DashboardPage = () => {
     entries.forEach(entry => {
       chokbarometerCounts[entry.chokbarometer] = (chokbarometerCounts[entry.chokbarometer] || 0) + 1;
     });
+
     // Ensure consistent order for colors
-    const orderedChokbarometerLevels: ("Intéressant" | "Surprenant" | "Incroyable" | "Chokbar")[] = ["Intéressant", "Surprenant", "Incroyable", "Chokbar"];
+    const orderedChokbarometerLevels: ("Intéressant" | "Surprenant" | "Incroyable" | "Chokbar")[] = [
+      "Intéressant",
+      "Surprenant",
+      "Incroyable",
+      "Chokbar"
+    ];
+
     const chokbarometerChartData = orderedChokbarometerLevels
       .map(level => ({
         name: level,
@@ -121,7 +127,8 @@ const DashboardPage = () => {
         level: level
       }))
       .filter(item => item.count > 0); // Only include levels that have entries
-    setChokbarometerData(chokbarometerChartData); // Corrected this line
+
+    setChokbarometerData(chokbarometerChartData);
   };
 
   if (loading) {
@@ -139,6 +146,7 @@ const DashboardPage = () => {
   return (
     <div className="max-w-6xl mx-auto p-4 space-y-8">
       <h2 className="text-3xl font-bold mb-6 text-center">Votre Tableau de Bord d'Apprentissage</h2>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <EntryCardWrapper>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -151,6 +159,7 @@ const DashboardPage = () => {
           </CardContent>
         </EntryCardWrapper>
       </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <EntryCardWrapper>
           <CardHeader>
@@ -159,7 +168,10 @@ const DashboardPage = () => {
           <CardContent>
             {subjectsData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={subjectsData} margin={{ top: 30, right: 30, left: 20, bottom: 5 }}>
+                <BarChart 
+                  data={subjectsData} 
+                  margin={{ top: 30, right: 30, left: 20, bottom: 5 }}
+                >
                   <defs>
                     <filter id="barChartShadow" x="-10%" y="0" width="120%" height="100%">
                       <feDropShadow dx="3" dy="2" stdDeviation="0" floodColor="black" />
@@ -174,12 +186,11 @@ const DashboardPage = () => {
                     allowDecimals={false} // Ensure no decimals
                   />
                   <Tooltip />
-                  <Legend />
                   <Bar 
                     dataKey="count" 
-                    name="Nombre d'entrées" 
+                    name="Nombre d'entrées"
                     stroke="black" 
-                    strokeWidth={2} 
+                    strokeWidth={2}
                     radius={[5, 5, 0, 0]} // Reverted to original corner radius
                     filter="url(#barChartShadow)" // Apply the custom SVG filter here
                   >
@@ -197,14 +208,17 @@ const DashboardPage = () => {
             )}
           </CardContent>
         </EntryCardWrapper>
+
         <EntryCardWrapper>
           <CardHeader>
             <CardTitle>Répartition du Chokbaromètre</CardTitle>
           </CardHeader>
           <CardContent>
             {chokbarometerData.length > 0 ? (
-              <div className="flex flex-col items-center gap-8"> {/* Centered the pie chart */}
-                <div className="w-full max-w-[300px]"> {/* Constrained width for better centering */}
+              <div className="flex flex-col items-center gap-8">
+                {/* Centered the pie chart */}
+                <div className="w-full max-w-[300px]">
+                  {/* Constrained width for better centering */}
                   <ResponsiveContainer width="100%" height={300}>
                     <PieChart>
                       <defs>
@@ -221,8 +235,8 @@ const DashboardPage = () => {
                         fill="#8884d8"
                         dataKey="count"
                         label={CustomPieChartLabel} // Use the custom label component here
-                        stroke="black"  // Add solid black border
-                        strokeWidth={2}  // Border width to match card borders
+                        stroke="black" // Add solid black border
+                        strokeWidth={2} // Border width to match card borders
                         cornerRadius={5} // Changed to 5px corner radius
                       >
                         {chokbarometerData.map((entry, index) => (
