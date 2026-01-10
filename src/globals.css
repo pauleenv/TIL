@@ -88,9 +88,14 @@
     font-weight: 700;
   }
   
-  /* Make card titles and entry titles even bolder */
-  .card-title, .entry-title {
-    font-weight: 900;
+  /* Make card titles and entry titles even bolder - more specific selectors */
+  .card-title, .entry-title, [class*="card-title"], [class*="entry-title"] {
+    font-weight: 900 !important;
+  }
+  
+  /* Target shadcn CardTitle components specifically */
+  .card-title, .text-lg.font-semibold, .text-xl.font-semibold {
+    font-weight: 900 !important;
   }
 }
 
