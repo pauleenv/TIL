@@ -121,7 +121,7 @@ const DashboardPage = () => {
         level: level
       }))
       .filter(item => item.count > 0); // Only include levels that have entries
-    setChokbarometerData(chokbarometerChartData);
+    setChokbarometerData(chokbarometerData);
   };
 
   if (loading) {
@@ -159,7 +159,7 @@ const DashboardPage = () => {
           <CardContent>
             {subjectsData.length > 0 ? (
               <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={subjectsData} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+                <BarChart data={subjectsData} margin={{ top: 30, right: 30, left: 20, bottom: 5 }}>
                   <defs>
                     <filter id="barChartShadow" x="-10%" y="0" width="120%" height="100%">
                       <feDropShadow dx="3" dy="2" stdDeviation="0" floodColor="black" />
@@ -180,7 +180,7 @@ const DashboardPage = () => {
                     name="Nombre d'entrées" 
                     stroke="black" 
                     strokeWidth={2} 
-                    radius={[5, 5, 0, 0]} // Apply corner radius to top corners
+                    radius={[2, 2, 0, 0]} // Reduced corner radius for better visual
                     filter="url(#barChartShadow)" // Apply the custom SVG filter here
                   >
                     {subjectsData.map((entry, index) => (
