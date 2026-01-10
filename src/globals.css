@@ -102,6 +102,11 @@
   [data-testid="card-title"], h3[data-testid="card-title"] {
     font-weight: 900 !important;
   }
+  
+  /* Make page titles bolder */
+  .page-title, .text-3xl.font-bold, .text-2xl.font-bold, [class*="text-3xl"][class*="font-bold"], [class*="text-2xl"][class*="font-bold"] {
+    font-weight: 900 !important;
+  }
 }
 
 @layer base {
